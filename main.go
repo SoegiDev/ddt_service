@@ -3,6 +3,7 @@ package main
 import (
 	"ddtservice_agri/controller"
 	"ddtservice_agri/database"
+	"ddtservice_agri/middleware"
 	"ddtservice_agri/schema"
 	"fmt"
 	"log"
@@ -33,6 +34,7 @@ func loadDatabase() {
 	database.Database.AutoMigrate(&schema.Division{})
 	database.Database.AutoMigrate(&schema.UserRole{})
 	database.Database.AutoMigrate(&schema.UserDivision{})
+	database.Database.AutoMigrate(&schema.Articles{})
 }
 
 func serveApplication() {
@@ -41,6 +43,11 @@ func serveApplication() {
 	publicRoutes := router.Group("/auth")
 	publicRoutes.POST("/register", controller.Register)
 	publicRoutes.POST("/login", controller.Login)
+	publicRoutes.GET("/profile/:ID", controller.GetUserProfile)
+
+	protectedRoutes := router.Group("/api")
+	protectedRoutes.Use(middleware.JWTAuthMiddleware())
+	protectedRoutes.POST("/article", controller.AddEntry)
 
 	router.Run(":8000")
 	fmt.Println("Server running on port 8000")

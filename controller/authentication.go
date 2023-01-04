@@ -71,3 +71,13 @@ func Login(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"token": jwt})
 }
+
+func GetUserProfile(context *gin.Context) { // Get model if exist
+	id := context.Param("ID")
+	user, err := model.FindUserById(id)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"data": user})
+}

@@ -16,9 +16,9 @@ type Employee struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt
-	Deleted     bool `gorm:"type:bool;default:false" json:"deleted"`
-	UserId      string
-	IsActive    bool `gorm:"type:bool;default:true" json:"status"`
+	Deleted     bool   `gorm:"type:bool;default:false" json:"deleted"`
+	UserId      string `json:"user_id" gorm:"primaryKey;type:varchar(100)"`
+	IsActive    bool   `gorm:"type:bool;default:true" json:"status"`
 }
 
 func (Employee) TableName() string {

@@ -39,6 +39,6 @@ func FindUserByUsername(username string) (User, error) {
 
 func FindUserById(id string) (User, error) {
 	var user User
-	err := database.Database.Preload("Employee").Preload("Division").Preload("Role").Where("id=?", id).First(&user).Error
+	err := database.Database.Preload("Articles").Preload("Employees").Preload("Divisions").Preload("Roles").Where("id=?", id).First(&user).Error
 	return user, err
 }

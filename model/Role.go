@@ -20,9 +20,9 @@ func FindRoleByName(name string) (Role, error) {
 	return role, err
 }
 
-func FindRoleById(params []string) ([]Role, error) {
-	var role []Role
-	err := database.Database.Where("id IN ?", params).Find(&role).Error
+func FindRoleById(id string) (Role, error) {
+	var role Role
+	err := database.Database.Where("id=?", id).First(&role).Error
 	fmt.Println(role)
 	return role, err
 }
