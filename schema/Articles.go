@@ -9,7 +9,7 @@ import (
 type Articles struct {
 	Id        string `json:"id" gorm:"primaryKey;type:varchar(20)"`
 	Title     string `gorm:"size:50;" json:"title"`
-	UserID    string `json:"user_id" gorm:"primaryKey;type:varchar(100)"`
+	UserId    string `json:"user_id"`
 	Content   string `gorm:"size:255;type:text" json:"content"`
 	CreatedAt time.Time
 	UpdatedAt time.Time

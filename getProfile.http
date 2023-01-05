@@ -1,2 +1,2 @@
-GET http://localhost:8000/auth/profile/7d0477866f19eb5a43a9 HTTP/1.1
+GET http://localhost:8000/auth/profile/0d2a071549ab7b255ea4 HTTP/1.1
 content-type: application/json

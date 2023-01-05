@@ -3,14 +3,22 @@ package model
 import (
 	"ddtservice_agri/database"
 	"ddtservice_agri/schema"
+	"fmt"
 	"html"
 	"strings"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type User schema.User
+type UserDvisions schema.UserDivision
+
+func (user_division *UserDvisions) SaveDivisions() (*UserDvisions, error) {
+	err := database.Database.Create(&user_division).Error
+	return user_division, err
+}
 
 func (user *User) Save() (*User, error) {
 	err := database.Database.Create(&user).Error
@@ -39,6 +47,16 @@ func FindUserByUsername(username string) (User, error) {
 
 func FindUserById(id string) (User, error) {
 	var user User
-	err := database.Database.Preload("Articles").Preload("Employees").Preload("Divisions").Preload("Roles").Where("id=?", id).First(&user).Error
+	err := database.Database.Preload("Divisions.Estate").Preload(clause.Associations).Where("id=?", id).Preload("Employees", "is_active NOT IN (?)", false).First(&user).Error
 	return user, err
+}
+
+func (user *User) UpdateDivision(id string, divisionUpdate []schema.Division) (User, error) {
+	fmt.Println(divisionUpdate)
+	err := database.Database.Model(&user).Where("id = ? ", id).Association("Divisions").Append(divisionUpdate)
+	if err != nil {
+		return *user, err
+	}
+	res, _ := FindUserById(id)
+	return res, nil
 }

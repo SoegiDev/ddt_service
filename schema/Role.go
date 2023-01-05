@@ -16,11 +16,6 @@ type Role struct {
 	IsActive    bool `gorm:"type:bool;default:true" json:"status"`
 }
 
-type RoleMap struct {
-	Id   string `json:"id" gorm:"primaryKey;type:varchar(20)"`
-	Name string `gorm:"size:50;" json:"name"`
-}
-
 func (Role) TableName() string {
 	return "roles"
 }

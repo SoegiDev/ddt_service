@@ -13,8 +13,8 @@ type Estate struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt
-	IsActive    bool `gorm:"type:bool;default:true" json:"status"`
-	Divisions   []Division
+	IsActive    bool       `gorm:"type:bool;default:true" json:"status"`
+	Divisions   []Division `gorm:"foreignKey:EstateId"`
 }
 
 func (Estate) TableName() string {

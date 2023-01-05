@@ -1,0 +1,11 @@
+POST http://localhost:8000/api/employee HTTP/1.1
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzI5MTAyODEsImlkIjoiMGQyYTA3MTU0OWFiN2IyNTVlYTQifQ._u6gPoQMFRH914nyb8BD3uYdWuA56LTo2TzCNQ48aUM
+
+{
+    "phone_number": "article 4",
+    "nickname":"FajarSoegi",
+    "fullname":"Dwi Fajar Bagus S",
+    "address":"Rawamangun",
+    "user_id":"0d2a071549ab7b255ea4"
+}

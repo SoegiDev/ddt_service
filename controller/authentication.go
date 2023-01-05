@@ -21,7 +21,7 @@ func Register(context *gin.Context) {
 		return
 	}
 	input_roles := input.Role
-	data_roles, err := model.FindRoleByIdMap(input_roles)
+	data_roles, err := model.FindRoleMapById(input_roles)
 	userID := helper.GenerateSecureToken(10)
 	roleMap := []schema.Role{}
 	for _, element := range data_roles {

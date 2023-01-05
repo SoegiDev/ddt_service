@@ -1,8 +1,8 @@
 POST http://localhost:8000/api/article HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzI4Mjk3NzQsImlkIjoiN2QwNDc3ODY2ZjE5ZWI1YTQzYTkifQ.2bQVF9XgJcf7PGMBajhZEfoN4ycS5uScPnQgV1HqPGI
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzI5MTAyODEsImlkIjoiMGQyYTA3MTU0OWFiN2IyNTVlYTQifQ._u6gPoQMFRH914nyb8BD3uYdWuA56LTo2TzCNQ48aUM
 
 {
-    "title": "article 2",
+    "title": "article 3",
     "content":"Article Content"
 }

@@ -16,12 +16,20 @@ type User struct {
 	DeletedAt gorm.DeletedAt
 	Deleted   bool       `gorm:"type:bool" json:"deleted"`
 	IsActive  bool       `gorm:"type:bool;default:true" json:"status"`
-	Employees []Employee `gorm:"foreignKey:user_id"`
+	Employees []Employee `gorm:"foreignKey:UserId"`
 	Divisions []Division `gorm:"many2many:user_divisions;"`
 	Roles     []Role     `gorm:"many2many:user_roles;"`
-	Articles  []Articles
+	Articles  []Articles `gorm:"foreignKey:UserId"`
 }
 
 func (User) TableName() string {
 	return "users"
+}
+
+type AddDivision struct {
+	Division []string `json:"division"`
+}
+
+type UpdateDivision struct {
+	Divisions []Division `gorm:"many2many:user_divisions;"`
 }

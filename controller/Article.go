@@ -22,7 +22,7 @@ func AddEntry(context *gin.Context) {
 		return
 	}
 
-	input.UserID = user.Id
+	input.UserId = user.Id
 	input.Id = helper.GenerateSecureToken(10)
 	savedEntry, err := input.Save()
 

@@ -7,7 +7,6 @@ import (
 )
 
 type Role schema.Role
-type RoleMap schema.RoleMap
 
 func (role *Role) Save() (*Role, error) {
 	err := database.Database.Create(&role).Error
@@ -27,7 +26,7 @@ func FindRoleById(id string) (Role, error) {
 	return role, err
 }
 
-func FindRoleByIdMap(params []string) ([]Role, error) {
+func FindRoleMapById(params []string) ([]Role, error) {
 	var role []Role
 	err := database.Database.Select("id").Where("id IN ?", params).Find(&role).Error
 	fmt.Println(role)
