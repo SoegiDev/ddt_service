@@ -41,7 +41,7 @@ func serveApplication() {
 	router := gin.Default()
 
 	publicRoutes := router.Group("/auth")
-	publicRoutes.POST("/register", controller.Register)
+	publicRoutes.POST("/register", controller.Register())
 	publicRoutes.POST("/login", controller.Login)
 	publicRoutes.GET("/profile/:ID", controller.GetUserProfile)
 
