@@ -1,6 +1,6 @@
-POST http://localhost:8000/api/user/division/0d2a071549ab7b255ea4 HTTP/1.1
+POST http://localhost:8000/api/user/division/38b48f7559aecfd08079 HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzI5MTAzMzIsImlkIjoiMGQyYTA3MTU0OWFiN2IyNTVlYTQifQ.L1ezTyYeAZaG5BTb00XO4uBwPReorpCgj8jNA0eQLno
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzI5OTMzOTYsImlkIjoiMzhiNDhmNzU1OWFlY2ZkMDgwNzkifQ.8EGMpXSIijj3Ay4WZNbQTcLQCuNlpc__F77NBGOMWdc
 
 {
     "division":["Division1","Division2"]

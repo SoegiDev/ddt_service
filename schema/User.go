@@ -14,12 +14,14 @@ type User struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt
-	Deleted   bool       `gorm:"type:bool" json:"deleted"`
-	IsActive  bool       `gorm:"type:bool;default:true" json:"status"`
-	Employees []Employee `gorm:"foreignKey:UserId"`
-	Divisions []Division `gorm:"many2many:user_divisions;"`
-	Roles     []Role     `gorm:"many2many:user_roles;"`
-	Articles  []Articles `gorm:"foreignKey:UserId"`
+	Deleted   bool         `gorm:"type:bool" json:"deleted"`
+	IsActive  bool         `gorm:"type:bool;default:true" json:"status"`
+	Employees []Employee   `gorm:"foreignKey:UserId"`
+	Divisions []Division   `gorm:"many2many:user_divisions;"`
+	Roles     []Role       `gorm:"many2many:user_roles;"`
+	Articles  []Articles   `gorm:"foreignKey:UserId"`
+	Histories []HistoryLog `gorm:"foreignKey:UserId"`
+	Accounts  []Account    `gorm:"foreignKey:UserId"`
 }
 
 func (User) TableName() string {

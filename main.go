@@ -35,13 +35,20 @@ func loadDatabase() {
 	database.Database.AutoMigrate(&schema.UserRole{})
 	database.Database.AutoMigrate(&schema.UserDivision{})
 	database.Database.AutoMigrate(&schema.Articles{})
+	database.Database.AutoMigrate(&schema.Application{})
+	database.Database.AutoMigrate(&schema.HistoryLog{})
+	database.Database.AutoMigrate(&schema.RoleApplication{})
+	database.Database.AutoMigrate(&schema.Account{})
+	database.Database.AutoMigrate(&schema.Application{})
+	database.Database.AutoMigrate(&schema.AccountRoleApplications{})
+
 }
 
 func serveApplication() {
 	router := gin.Default()
 
 	publicRoutes := router.Group("/auth")
-	publicRoutes.POST("/register", controller.Register())
+	publicRoutes.POST("/register", controller.Register)
 	publicRoutes.POST("/login", controller.Login)
 	publicRoutes.GET("/profile/:ID", controller.GetUserProfile)
 
