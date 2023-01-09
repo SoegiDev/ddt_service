@@ -7,12 +7,13 @@ import (
 )
 
 type Role struct {
-	Id          string `json:"id" gorm:"primaryKey;type:varchar(20)"`
+	Id          uint   `json:"id" gorm:"primaryKey;AUTO_INCREMENT;not_null"`
 	Name        string `gorm:"size:50;" json:"name"`
-	Description string `gorm:"size:255;" json:"description"`
+	Description string `gorm:"type:text;" json:"description"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt
+	IsDeleted   bool `gorm:"type:bool;default:true" json:"delete"`
 	IsActive    bool `gorm:"type:bool;default:true" json:"status"`
 }
 

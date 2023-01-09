@@ -1,0 +1,24 @@
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /auth/register            --> ddtservice_agri/controller.Register (5 handlers)
+[GIN-debug] POST   /auth/login               --> ddtservice_agri/controller.Login (5 handlers)
+[GIN-debug] POST   /auth/corporation         --> ddtservice_agri/controller.CompanyAddNew (5 handlers)
+[GIN-debug] POST   /auth/application         --> ddtservice_agri/controller.ApplicationAddNew (5 handlers)
+[GIN-debug] GET    /api/user/:ID             --> ddtservice_agri/controller.UserGetProfiles (6 handlers)
+[GIN-debug] POST   /api/user/:ID/assign_roles --> ddtservice_agri/controller.UserAssignRole (6 handlers)
+[GIN-debug] POST   /api/user/:ID/assign_role_app --> ddtservice_agri/controller.UserAssignRoleApplication (6 handlers)
+[GIN-debug] POST   /api/user/:ID/assign_division --> ddtservice_agri/controller.UserAssignDivisions (6 handlers)
+[GIN-debug] POST   /api/article              --> ddtservice_agri/controller.ArticleAddNew (6 handlers)
+[GIN-debug] GET    /api/article/:ID          --> ddtservice_agri/controller.ArticleFindById (6 handlers)
+[GIN-debug] GET    /api/article              --> ddtservice_agri/controller.AllArticles (6 handlers)
+[GIN-debug] PATCH  /api/article/:ID/edit     --> ddtservice_agri/controller.ArticleUpdate (6 handlers)
+[GIN-debug] POST   /api/estate               --> ddtservice_agri/controller.EstateAddNew (6 handlers)
+[GIN-debug] POST   /api/division             --> ddtservice_agri/controller.DivisionAddNew (6 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :8000
+[GIN] 2023/01/09 - 16:56:07 | 200 |    3.2007255s |       127.0.0.1 | GET      "/api/user/USR7142391458"

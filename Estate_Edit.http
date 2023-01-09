@@ -1,0 +1,14 @@
+PATCH  http://localhost:8000/api/estate/1231379307/edit HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzMwNzgzNDcsImlkIjoiZjAyODk3MDQtMTgwMC00NjQ5LWJiYjYtZGY3MzY3YWUxYzQyIn0.fmb1JnfbgDTn-0U3-DmsOocxRaZl8yI_vBU7s7JxImU
+
+{
+    "code": "Title Article Edit 1",
+    "name": "Content Article Edit 1",
+    "description": "Title Article Edit 1",
+    "phone_number": "Content Article Edit 1",
+    "fax": "Title Article Edit 1",
+    "sector": "Content Article Edit 1",
+    "domain": "Title Article Edit 1",
+    "address": "Content Article Edit 1"
+}

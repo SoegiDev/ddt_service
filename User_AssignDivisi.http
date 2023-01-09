@@ -1,0 +1,7 @@
+POST http://localhost:8000/api/user/USR7142391458/assign_division HTTP/1.1
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzMyNTU4ODEsImlkIjoiVVNSNzE0MjM5MTQ1OCJ9.kYx4d5-x0G_jDxDBiA5-s9fnuPxjOVn6YNl97bn_7zY
+
+{
+    "Division":["DIV1682391515"]
+}

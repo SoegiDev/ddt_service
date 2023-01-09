@@ -3,7 +3,6 @@ package model
 import (
 	"ddtservice_agri/database"
 	"ddtservice_agri/schema"
-	"fmt"
 	"html"
 	"strings"
 
@@ -13,12 +12,6 @@ import (
 )
 
 type User schema.User
-type UserDvisions schema.UserDivision
-
-func (user_division *UserDvisions) SaveDivisions() (*UserDvisions, error) {
-	err := database.Database.Create(&user_division).Error
-	return user_division, err
-}
 
 func (user *User) Save() (*User, error) {
 	err := database.Database.Create(&user).Error
@@ -47,16 +40,28 @@ func FindUserByUsername(username string) (User, error) {
 
 func FindUserById(id string) (User, error) {
 	var user User
-	err := database.Database.Preload("Divisions.Estate").Preload(clause.Associations).Where("id=?", id).Preload("Employees", "is_active NOT IN (?)", false).First(&user).Error
+	err := database.Database.Preload("ActivityLogs.User").Preload("Divisions.Estate").Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Preload(clause.Associations).Where("id = ?", id).Preload("Employees", "is_active NOT IN (?)", false).First(&user).Error
 	return user, err
 }
 
-func (user *User) UpdateDivision(id string, divisionUpdate []schema.Division) (User, error) {
-	fmt.Println(divisionUpdate)
-	err := database.Database.Model(&user).Where("id = ? ", id).Association("Divisions").Append(divisionUpdate)
+func (user *User) UserAssignRoles(id string, roleUpdates []schema.Role) (User, error) {
+	err := database.Database.Model(&user).Association("Roles").Replace(roleUpdates)
 	if err != nil {
 		return *user, err
 	}
 	res, _ := FindUserById(id)
 	return res, nil
+}
+func (user *User) UserAssignDivision(id string, roleUpdates []schema.Division) (User, error) {
+	err := database.Database.Model(&user).Association("Divisions").Replace(roleUpdates)
+	if err != nil {
+		return *user, err
+	}
+	res, _ := FindUserById(id)
+	return res, nil
+}
+func (user *User) UserGetCount() int64 {
+	var result int64
+	database.Database.Model(&user).Count(&result)
+	return result
 }

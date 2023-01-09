@@ -1,16 +1,8 @@
 package schema
 
-import (
-	"time"
-
-	"gorm.io/gorm"
-)
-
 type UserRole struct {
-	RoleId    string `gorm:"primaryKey"`
-	UserId    string `gorm:"primaryKey"`
-	CreatedAt time.Time
-	DeletedAt gorm.DeletedAt
+	RoleId string `gorm:"primaryKey"`
+	UserId string `gorm:"primaryKey"`
 }
 
 func (UserRole) TableName() string {

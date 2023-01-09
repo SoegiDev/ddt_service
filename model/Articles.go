@@ -5,25 +5,25 @@ import (
 	"ddtservice_agri/schema"
 )
 
-type Articles schema.Articles
+type Article schema.Article
 type UpdateArticle schema.UpdateArticle
 
-func (article *Articles) Save() (*Articles, error) {
-	err := database.Database.Create(&article).Error
-	return article, err
+func (entry *Article) Save() (*Article, error) {
+	err := database.Database.Create(&entry).Error
+	return entry, err
 }
 
-func (update_data *Articles) ChangeData(id string, ud UpdateArticle) (Articles, error) {
-	err := database.Database.Model(Articles{}).Where("id = ?", id).Updates(ud).Error
+func (update_data *Article) ChangeData(id string, ua UpdateArticle) (Article, error) {
+	err := database.Database.Model(Article{}).Where("id = ?", id).Updates(ua).Error
 	if err != nil {
 		return *update_data, err
 	}
-	res, _ := FindEntryById(id)
+	res, _ := ArticleFindById(id)
 	return res, nil
 }
 
-func FindEntryById(id string) (Articles, error) {
-	var article Articles
-	err := database.Database.Where("id=?", id).First(&article).Error
-	return article, err
+func ArticleFindById(id string) (Article, error) {
+	var ar Article
+	err := database.Database.Where("id = ?", id).First(&ar).Error
+	return ar, err
 }

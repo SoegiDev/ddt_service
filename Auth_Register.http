@@ -1,0 +1,11 @@
+POST http://localhost:8000/auth/register HTTP/1.1
+content-type: application/json
+
+{
+    "role":["Administrator"],
+    "application_id":"APP4602391457",
+    "company_id":"COM1232391457",
+    "email":"fajarsoegi@gmail.com",
+    "username": "fajarsoegi",
+    "password": "fajarsoegi1901"
+}

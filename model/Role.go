@@ -26,9 +26,15 @@ func FindRoleById(id string) (Role, error) {
 	return role, err
 }
 
-func FindRoleMapById(params []string) ([]Role, error) {
+func FindRoleMapById(params []int) ([]Role, error) {
 	var role []Role
-	err := database.Database.Select("id").Where("id IN ?", params).Find(&role).Error
+	err := database.Database.Where("id IN ?", params).Find(&role).Error
+	fmt.Println(role)
+	return role, err
+}
+func FindRoleMapByName(params []string) ([]Role, error) {
+	var role []Role
+	err := database.Database.Where("name IN ?", params).Find(&role).Error
 	fmt.Println(role)
 	return role, err
 }
