@@ -80,7 +80,7 @@ func GetClientIP(c *gin.Context) string {
 func GetUserID(c *gin.Context) string {
 	user, err := helper.CurrentUser(c)
 	if err != nil {
-		return ""
+		return "USR7142391458"
 	}
 	return user.Id
 }

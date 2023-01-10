@@ -1,6 +1,6 @@
-POST http://localhost:8000/api/user/USR7142391458/assign_role_app HTTP/1.1
+POST http://localhost:8080/api/user/USR81523101559/assign_role_app HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzMyNTQ3MTIsImlkIjoiVVNSNzE0MjM5MTQ1OCJ9.nF3WVc7-fi7S9p3TumbiJ5aB4KVYgdBRnirOp7zZ4_g
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzMzNzcxOTQsImlkIjoiVVNSODE1MjMxMDE1NTkifQ.W9HZkiC3lLkPYoi5nUzL4Y7XngNYxZdYwMDudZR3Mrs
 
 {
     "role_application":["Admin"]

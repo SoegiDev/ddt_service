@@ -1,0 +1,15 @@
+basePath: /api
+host: localhost:8000
+info:
+  contact:
+    email: support@swagger.io
+    name: Fajar soegi
+    url: http://www.swagger.io/support
+  description: This is User Service Test.
+  termsOfService: http://swagger.io/terms/
+  title: Swagger User Service
+  version: "1.0"
+paths: {}
+schemes:
+- ""
+swagger: "2.0"

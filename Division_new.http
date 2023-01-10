@@ -1,10 +1,9 @@
-POST http://localhost:8000/api/division HTTP/1.1
+POST http://localhost:8080/api/division HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzMyNTQ3MTIsImlkIjoiVVNSNzE0MjM5MTQ1OCJ9.nF3WVc7-fi7S9p3TumbiJ5aB4KVYgdBRnirOp7zZ4_g
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzMzNzc5MzIsImlkIjoiVVNSNDE4MjMxMDE2MTIifQ.vaJZjdq3vUGzbpUzkXTk88xoHJHhY2XLed-R7I5_u4w
 
 {
-    "code":"DIV001",
-    "name":"Divisi 1",
-    "description":"DIVISI ESTATE 1",
-    "estate_id":"EST1772391513"
+    "name":"Divisi 2",
+    "description":"DIVISI ESTATE 2",
+    "estate_id":"EST20023101612"
 }

@@ -1,0 +1,20 @@
+{
+    "schemes": [
+        ""
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "This is User Service Test.",
+        "title": "Swagger User Service",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Fajar soegi",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8000",
+    "basePath": "/api",
+    "paths": {}
+}

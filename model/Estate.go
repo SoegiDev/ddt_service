@@ -37,6 +37,12 @@ func FindEstateMapById(params []string) ([]Estate, error) {
 	return div, err
 }
 
+func FindEstateMapWithDivisionById(params []string) ([]Estate, error) {
+	var div []Estate
+	err := database.Database.Preload("Divisions").Where("id IN ?", params).Find(&div).Error
+	return div, err
+}
+
 func (est *Estate) EstateAssignDivision(id string, divUpdates []schema.Division) (Estate, error) {
 	err := database.Database.Model(&est).Association("Divisions").Replace(divUpdates)
 	if err != nil {

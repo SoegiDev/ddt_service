@@ -8,7 +8,6 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 )
 
 type User schema.User
@@ -40,7 +39,12 @@ func FindUserByUsername(username string) (User, error) {
 
 func FindUserById(id string) (User, error) {
 	var user User
-	err := database.Database.Preload("ActivityLogs.User").Preload("Divisions.Estate").Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Preload(clause.Associations).Where("id = ?", id).Preload("Employees", "is_active NOT IN (?)", false).First(&user).Error
+	err := database.Database.Preload("Divisions").Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("id = ?", id).Preload("Employees", "is_active NOT IN (?)", false).First(&user).Error
+	return user, err
+}
+func FindUserSimpleById(id string) (User, error) {
+	var user User
+	err := database.Database.Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("id = ?", id).Preload("Employees", "is_active NOT IN (?)", false).First(&user).Error
 	return user, err
 }
 
@@ -52,8 +56,8 @@ func (user *User) UserAssignRoles(id string, roleUpdates []schema.Role) (User, e
 	res, _ := FindUserById(id)
 	return res, nil
 }
-func (user *User) UserAssignDivision(id string, roleUpdates []schema.Division) (User, error) {
-	err := database.Database.Model(&user).Association("Divisions").Replace(roleUpdates)
+func (user *User) UserAssignDivision(id string, divisionUpdate []schema.Division) (User, error) {
+	err := database.Database.Model(&user).Association("Divisions").Replace(divisionUpdate)
 	if err != nil {
 		return *user, err
 	}

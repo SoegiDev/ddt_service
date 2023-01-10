@@ -1,0 +1,15 @@
+basePath: /auth
+host: localhost:8000
+info:
+  contact:
+    email: support@swagger.io
+    name: Fajar soegi
+    url: http://www.swagger.io/support
+  description: Authentication User Service.
+  termsOfService: http://swagger.io/terms/
+  title: Authentication User
+  version: "1.0"
+paths: {}
+schemes:
+- ""
+swagger: "2.0"

@@ -13,6 +13,12 @@ import (
 type RegisterSchema schema.Register
 type LoginSchema schema.Login
 
+// @Summary Get a list of books in the the store
+// @Description get string by ID
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} Book "ok"
+// @Router /books [get]
 func Register(context *gin.Context) {
 	var input RegisterSchema
 	if err := context.ShouldBindJSON(&input); err != nil {

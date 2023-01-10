@@ -44,12 +44,27 @@ func UserAssignRole(context *gin.Context) {
 func UserGetProfiles(context *gin.Context) { // Get model if exist
 	id := context.Param("ID")
 	user, err := model.FindUserById(id)
-	fmt.Println(user)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"data": user})
+	getDivisiEstate := []string{}
+	for _, element := range user.Divisions {
+		getDivisiEstate = append(getDivisiEstate, element.EstateId)
+	}
+	fmt.Println(getDivisiEstate)
+	data_estate, err := model.FindEstateMapWithDivisionById(getDivisiEstate)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	fmt.Println(data_estate)
+	user_simple, err := model.FindUserSimpleById(id)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"data": user_simple, "estate": data_estate})
 }
 
 func UserAssignRoleApplication(context *gin.Context) { // Get model if exist
@@ -109,6 +124,10 @@ func UserAssignDivisions(context *gin.Context) {
 		divisionMap = append(divisionMap, schema.Division{Id: element.Id})
 	}
 	users, err := model.FindUserById(id)
+	if err != nil {
+		context.JSON(http.StatusNotFound, gin.H{"msg": "User Not Found"})
+		return
+	}
 	if err != nil {
 		context.JSON(http.StatusNotFound, gin.H{"msg": "User Not Found"})
 		return
