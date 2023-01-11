@@ -1,7 +1,7 @@
-POST http://localhost:8000/api/user/USR7592381855/assign_roles HTTP/1.1
+POST http://localhost:8080/api/user/USR50723111116/assign_roles HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzMxODM2MzcsImlkIjoiVVNSNzU5MjM4MTg1NSJ9.9lchzc7nNKVv_dzajkocnfSDsvHfZpuLgBrPKcS9Wd4
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzM0MTQyNTAsImlkIjoiVVNSNTA3MjMxMTExMTYifQ.XtdW8l4kOcy6LQN3ePiR1fr3zbnhjJ9ruNLO8W58cfg
 
 {
-    "role":["Administrator","Contributor","Editor","Subscriber"]
+    "role":["Administrator"]
 }

@@ -3,38 +3,44 @@ package model
 import (
 	"ddtservice_agri/database"
 	"ddtservice_agri/schema"
-	"fmt"
 )
 
 type RoleApplication schema.RoleApplication
+type UpdateRoleApplication schema.UpdateRoleApplication
 
-func (role *RoleApplication) Save() (*RoleApplication, error) {
-	err := database.Database.Create(&role).Error
-	return role, err
+func (data *RoleApplication) Save() (*RoleApplication, error) {
+	err := database.Database.Create(&data).Error
+	return data, err
 }
 
-func FindRoleApplicationByName(name string) (RoleApplication, error) {
-	var role RoleApplication
-	err := database.Database.Where("name=?", name).First(&role).Error
-	return role, err
+func RoleAppAll(name string) (RoleApplication, error) {
+	var data RoleApplication
+	err := database.Database.Where("name=?", name).First(&data).Error
+	return data, err
 }
 
-func FindRoleApplicationById(id string) (RoleApplication, error) {
-	var role RoleApplication
-	err := database.Database.Where("id=?", id).First(&role).Error
-	fmt.Println(role)
-	return role, err
+func RoleAppFindById(id string) (RoleApplication, error) {
+	var data RoleApplication
+	err := database.Database.Where("id=?", id).First(&data).Error
+	return data, err
 }
 
-func FindRoleApplicationMapById(params []int) ([]RoleApplication, error) {
-	var role []RoleApplication
-	err := database.Database.Where("id IN ?", params).Find(&role).Error
-	fmt.Println(role)
-	return role, err
+func RoleAppMapById(params []int) ([]RoleApplication, error) {
+	var data []RoleApplication
+	err := database.Database.Where("id IN ?", params).Find(&data).Error
+	return data, err
 }
-func FindRoleApplicationMapByName(params []string) ([]RoleApplication, error) {
-	var role []RoleApplication
-	err := database.Database.Where("name IN ?", params).Find(&role).Error
-	fmt.Println(role)
-	return role, err
+func RoleAppMapByName(params []string) ([]RoleApplication, error) {
+	var data []RoleApplication
+	err := database.Database.Where("name IN ?", params).Find(&data).Error
+	return data, err
+}
+
+func (data RoleApplication) RoleAppChangeData(id string, ua UpdateRoleApplication) (RoleApplication, error) {
+	err := database.Database.Model(Role{}).Where("id = ?", id).Updates(ua).Error
+	if err != nil {
+		return data, err
+	}
+	res, _ := RoleAppFindById(id)
+	return res, nil
 }

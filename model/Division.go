@@ -6,38 +6,60 @@ import (
 )
 
 type Division schema.Division
+type UpdateDivision schema.UpdateDivision
 
-func (emp *Division) Save() (*Division, error) {
-	err := database.Database.Create(&emp).Error
-	return emp, err
+func (data *Division) Save() (*Division, error) {
+	err := database.Database.Create(&data).Error
+	return data, err
 }
 
-func FindDivisiAll() ([]Division, error) {
-	var emp []Division
-	err := database.Database.Find(&emp).Error
-	return emp, err
+func DivisionFindAll() ([]Division, error) {
+	var data []Division
+	err := database.Database.Find(&data).Error
+	return data, err
 }
 
-func FindDivisiByName(name string) (Division, error) {
-	var div Division
-	err := database.Database.Where("name=?", name).First(&div).Error
-	return div, err
+func DivisionFindByName(name string) (Division, error) {
+	var data Division
+	err := database.Database.Where("name=?", name).First(&data).Error
+	return data, err
 }
 
-func FindDivisiById(id string) (Division, error) {
-	var div Division
-	err := database.Database.Where("id=?", id).First(&div).Error
-	return div, err
+func DivisionFindById(id string) (Division, error) {
+	var data Division
+	err := database.Database.Where("id=?", id).First(&data).Error
+	return data, err
 }
 
-func FindDivisionMapById(params []string) ([]Division, error) {
-	var div []Division
-	err := database.Database.Where("id IN ?", params).Find(&div).Error
-	return div, err
+func DivisionFindByCode(code string) (Division, error) {
+	var data Division
+	err := database.Database.Where("code=?", code).First(&data).Error
+	return data, err
 }
 
-func FindDivisionMapByName(params []string) ([]Division, error) {
-	var div []Division
-	err := database.Database.Where("name IN ?", params).Find(&div).Error
-	return div, err
+func DivisonFindMapById(params []string) ([]Division, error) {
+	var data []Division
+	err := database.Database.Where("id IN ?", params).Find(&data).Error
+	return data, err
+}
+
+func DivisonFindMapByName(params []string) ([]Division, error) {
+	var data []Division
+	err := database.Database.Where("name IN ?", params).Find(&data).Error
+	return data, err
+}
+
+func DivisonFindMapByCode(params []string) ([]Division, error) {
+	var data []Division
+	err := database.Database.Where("code IN ?", params).Find(&data).Error
+	return data, err
+}
+
+func (data Division) DivisionChangeData(id string, ua UpdateDivision) (Division, error) {
+	err := database.Database.Model(Article{}).Where("id = ?", id).Updates(ua).Error
+	if err != nil {
+		return data, err
+	}
+	res, _ := DivisionFindById(id)
+	return res, nil
 }

@@ -37,4 +37,5 @@ type UpdateApplication struct {
 	AppPackageClass string `gorm:"size:100;" json:"app_package_class"`
 	AssetApk        string `gorm:"size:100;" json:"asset_apk"`
 	AssetIcon       string `gorm:"size:100;" json:"asset_icon"`
+	UpdatedAt       time.Time
 }

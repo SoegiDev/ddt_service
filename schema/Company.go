@@ -38,4 +38,5 @@ type UpdateCompany struct {
 	Sector      string `json:"sector"`
 	Domain      string `json:"domain"`
 	Address     string `json:"address"`
+	UpdatedAt   time.Time
 }

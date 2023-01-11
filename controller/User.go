@@ -1,9 +1,9 @@
 package controller
 
 import (
+	"ddtservice_agri/helper"
 	"ddtservice_agri/model"
 	"ddtservice_agri/schema"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,7 +11,7 @@ import (
 
 func UserAssignRole(context *gin.Context) {
 	id := context.Param("ID")
-	var input schema.AssignRole
+	var input schema.AssignUserRole
 
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -28,7 +28,7 @@ func UserAssignRole(context *gin.Context) {
 	for _, element := range data_roles {
 		roleMap = append(roleMap, schema.Role{Id: element.Id})
 	}
-	users, err := model.FindUserById(id)
+	users, err := model.UserFindById(id)
 	if err != nil {
 		context.JSON(http.StatusNotFound, gin.H{"msg": "User Not Found"})
 		return
@@ -43,28 +43,12 @@ func UserAssignRole(context *gin.Context) {
 
 func UserGetProfiles(context *gin.Context) { // Get model if exist
 	id := context.Param("ID")
-	user, err := model.FindUserById(id)
+	user, err := model.UserFindById(id)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	getDivisiEstate := []string{}
-	for _, element := range user.Divisions {
-		getDivisiEstate = append(getDivisiEstate, element.EstateId)
-	}
-	fmt.Println(getDivisiEstate)
-	data_estate, err := model.FindEstateMapWithDivisionById(getDivisiEstate)
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	fmt.Println(data_estate)
-	user_simple, err := model.FindUserSimpleById(id)
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	context.JSON(http.StatusOK, gin.H{"data": user_simple, "estate": data_estate})
+	helper.Metauser(context, user.Id)
 }
 
 func UserAssignRoleApplication(context *gin.Context) { // Get model if exist
@@ -77,7 +61,7 @@ func UserAssignRoleApplication(context *gin.Context) { // Get model if exist
 	}
 
 	input_role_application := input.RoleApplication
-	data_roles, err := model.FindRoleApplicationMapByName(input_role_application)
+	data_roles, err := model.RoleAppMapByName(input_role_application)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -86,17 +70,17 @@ func UserAssignRoleApplication(context *gin.Context) { // Get model if exist
 	for _, element := range data_roles {
 		roleMap = append(roleMap, schema.RoleApplication{Id: element.Id})
 	}
-	accounts, err := model.FindAccountByUserId(id)
+	accounts, err := model.AccountFindById(id, true)
 	if err != nil {
 		context.JSON(http.StatusNotFound, gin.H{"msg": "User Not Found"})
 		return
 	}
-	updateRoleApplication, err := accounts.AccountAssignRoleApplication(accounts.Id, roleMap)
+	updateRoleApplication, err := accounts.AccountSignRoleApp(accounts.Id, roleMap)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	users, err := model.FindUserById(updateRoleApplication.UserId)
+	users, err := model.UserFindById(updateRoleApplication.UserId)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -106,7 +90,7 @@ func UserAssignRoleApplication(context *gin.Context) { // Get model if exist
 
 func UserAssignDivisions(context *gin.Context) {
 	id := context.Param("ID")
-	var input schema.AddDivision
+	var input schema.AddUserDivision
 
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -114,7 +98,7 @@ func UserAssignDivisions(context *gin.Context) {
 	}
 
 	input_division := input.Division
-	data_divisions, err := model.FindDivisionMapById(input_division)
+	data_divisions, err := model.DivisonFindMapById(input_division)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -123,7 +107,7 @@ func UserAssignDivisions(context *gin.Context) {
 	for _, element := range data_divisions {
 		divisionMap = append(divisionMap, schema.Division{Id: element.Id})
 	}
-	users, err := model.FindUserById(id)
+	users, err := model.UserFindById(id)
 	if err != nil {
 		context.JSON(http.StatusNotFound, gin.H{"msg": "User Not Found"})
 		return
@@ -143,7 +127,7 @@ func UserAssignDivisions(context *gin.Context) {
 func UserAccountUpdate(context *gin.Context) {
 	// Get model if exist
 	id := context.Param("ID")
-	data_entries, err := model.FindAccountById(id)
+	data_entries, err := model.AccountFindById(id, true)
 	if err != nil {
 		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
@@ -156,7 +140,7 @@ func UserAccountUpdate(context *gin.Context) {
 		return
 	}
 
-	updatedEntry, err := data_entries.ChangeData(id, input)
+	updatedEntry, err := data_entries.AccountChangeData(id, input)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

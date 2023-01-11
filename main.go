@@ -54,7 +54,7 @@ func loadEnv() {
 }
 
 func loadDatabase() {
-	database.Connect()
+	database.Connect_PGSQL()
 	database.Database.AutoMigrate(&schema.User{})
 	database.Database.AutoMigrate(&schema.Role{})
 	database.Database.AutoMigrate(&schema.Employee{})

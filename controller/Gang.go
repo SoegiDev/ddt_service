@@ -1,22 +1,18 @@
 package controller
 
 import (
-	"ddtservice_agri/helper"
 	"ddtservice_agri/model"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func DivisionAddNew(context *gin.Context) {
-	var input model.Division
+func GangAddNew(context *gin.Context) {
+	var input model.Gang
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	unique, _ := helper.GenerateDivisionId(3)
-	input.Id = unique
 
 	savedEntry, err := input.Save()
 	if err != nil {
@@ -26,25 +22,23 @@ func DivisionAddNew(context *gin.Context) {
 	context.JSON(http.StatusCreated, gin.H{"data": savedEntry})
 }
 
-func DivisionUpdate(context *gin.Context) {
+func GangUpdate(context *gin.Context) {
 	// Get model if exist
 	id := context.Param("ID")
-	data_entries, err := model.DivisionFindById(id)
+	data_entries, err := model.EstateFindById(id)
 	if err != nil {
 		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
+
 	// Validate input
-	var input model.UpdateDivision
+	var input model.UpdateEstate
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// ddt := model.Entry{Content: input.Content}
-	// database.Database.Model(&entryContent).Updates(ddt)
-
-	updatedEntry, err := data_entries.DivisionChangeData(id, input)
+	updatedEntry, err := data_entries.EstateChangeData(id, input)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

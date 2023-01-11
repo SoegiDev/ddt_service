@@ -13,9 +13,9 @@ type Account struct {
 	CreatedAt        time.Time
 	UpdatedAt        time.Time
 	DeletedAt        gorm.DeletedAt
-	IsDeleted        bool               `gorm:"type:bool;default:false" json:"delete"`
-	IsActive         bool               `gorm:"type:bool;default:true" json:"status"`
-	RoleApplications []*RoleApplication `gorm:"many2many:account_role_applications;"`
+	IsDeleted        bool              `gorm:"type:bool;default:false" json:"delete"`
+	IsActive         bool              `gorm:"type:bool;default:true" json:"status"`
+	RoleApplications []RoleApplication `gorm:"many2many:account_role_applications;"`
 	Application      Application
 }
 
@@ -29,4 +29,5 @@ type AssignRoleApplication struct {
 
 type UpdateAccount struct {
 	ApplicationId string `json:"application_id"`
+	UpdatedAt     time.Time
 }

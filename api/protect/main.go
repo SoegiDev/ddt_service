@@ -27,9 +27,9 @@ func Protected(router *gin.Engine) {
 	//User
 	protectedRoutes.GET("/user/:ID", controller.UserGetProfiles)
 	protectedRoutes.POST("/user/:ID/assign_roles", controller.UserAssignRole)
-	protectedRoutes.POST("/user/:ID/assign_role_app", controller.UserAssignRoleApplication)
+	protectedRoutes.POST("/user/account/:ID/assign_role_app", controller.UserAssignRoleApplication)
 	protectedRoutes.POST("/user/:ID/assign_division", controller.UserAssignDivisions)
-	protectedRoutes.PATCH("/user/:ID/account_edit", controller.UserAccountUpdate)
+	protectedRoutes.PATCH("/user/account/:ID/account_edit", controller.UserAccountUpdate)
 	// Article
 	protectedRoutes.POST("/article", controller.ArticleAddNew)
 	protectedRoutes.GET("/article/:ID", controller.ArticleFindById)
@@ -39,6 +39,9 @@ func Protected(router *gin.Engine) {
 	// Estate
 	protectedRoutes.POST("/estate", controller.EstateAddNew)
 	protectedRoutes.PATCH("/estate/:ID/edit", controller.EstateUpdate)
+
+	// Gang
+	protectedRoutes.POST("/gang", controller.GangAddNew)
 
 	// Division
 	protectedRoutes.POST("/division", controller.DivisionAddNew)

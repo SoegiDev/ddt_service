@@ -12,7 +12,7 @@ import (
 
 func GenerateUserId(length int) (string, error) {
 	prefix := "USR"
-	genNumber, _ := GenerateRandomSecureToken(3)
+	genNumber, _ := GenerateRandomSecureToken(length)
 	genYear, _ := getYear()
 	genTime, _ := getTime()
 	getDay, _ := getDate()
@@ -23,7 +23,7 @@ func GenerateUserId(length int) (string, error) {
 }
 func GenerateArticleId(length int) (string, error) {
 	prefix := "ACL"
-	genNumber, _ := GenerateRandomSecureToken(3)
+	genNumber, _ := GenerateRandomSecureToken(length)
 	genYear, _ := getYear()
 	genTime, _ := getTime()
 	getDay, _ := getDate()
@@ -36,7 +36,7 @@ func GenerateArticleId(length int) (string, error) {
 
 func GenerateAppId(length int) (string, error) {
 	prefix := "APP"
-	genNumber, _ := GenerateRandomSecureToken(3)
+	genNumber, _ := GenerateRandomSecureToken(length)
 	genYear, _ := getYear()
 	genTime, _ := getTime()
 	getDay, _ := getDate()
@@ -48,7 +48,7 @@ func GenerateAppId(length int) (string, error) {
 
 func GenerateAddressId(length int) (string, error) {
 	prefix := "ADD"
-	genNumber, _ := GenerateRandomSecureToken(3)
+	genNumber, _ := GenerateRandomSecureToken(length)
 	genYear, _ := getYear()
 	genTime, _ := getTime()
 	getDay, _ := getDate()
@@ -60,7 +60,7 @@ func GenerateAddressId(length int) (string, error) {
 
 func GenerateProfileId(length int) (string, error) {
 	prefix := "EMP"
-	genNumber, _ := GenerateRandomSecureToken(3)
+	genNumber, _ := GenerateRandomSecureToken(length)
 	genYear, _ := getYear()
 	genTime, _ := getTime()
 	getDay, _ := getDate()
@@ -72,7 +72,7 @@ func GenerateProfileId(length int) (string, error) {
 
 func GenerateAccountId(length int) (string, error) {
 	prefix := "ACC"
-	genNumber, _ := GenerateRandomSecureToken(3)
+	genNumber, _ := GenerateRandomSecureToken(length)
 	genYear, _ := getYear()
 	genTime, _ := getTime()
 	getDay, _ := getDate()
@@ -84,7 +84,7 @@ func GenerateAccountId(length int) (string, error) {
 
 func GenerateCorporationId(length int) (string, error) {
 	prefix := "COM"
-	genNumber, _ := GenerateRandomSecureToken(3)
+	genNumber, _ := GenerateRandomSecureToken(length)
 	genYear, _ := getYear()
 	genTime, _ := getTime()
 	getDay, _ := getDate()
@@ -96,7 +96,7 @@ func GenerateCorporationId(length int) (string, error) {
 
 func GenerateEstateId(length int) (string, error) {
 	prefix := "EST"
-	genNumber, _ := GenerateRandomSecureToken(3)
+	genNumber, _ := GenerateRandomSecureToken(length)
 	genYear, _ := getYear()
 	genTime, _ := getTime()
 	getDay, _ := getDate()
@@ -108,7 +108,19 @@ func GenerateEstateId(length int) (string, error) {
 
 func GenerateDivisionId(length int) (string, error) {
 	prefix := "DIV"
-	genNumber, _ := GenerateRandomSecureToken(3)
+	genNumber, _ := GenerateRandomSecureToken(length)
+	genYear, _ := getYear()
+	genTime, _ := getTime()
+	getDay, _ := getDate()
+	unique_number := strconv.Itoa(genNumber)
+	unique_year := strconv.Itoa(genYear)
+	generate := prefix + unique_number + unique_year + getDay + genTime
+	return generate, nil
+}
+
+func GenerateGangId(length int) (string, error) {
+	prefix := "GNG"
+	genNumber, _ := GenerateRandomSecureToken(length)
 	genYear, _ := getYear()
 	genTime, _ := getTime()
 	getDay, _ := getDate()

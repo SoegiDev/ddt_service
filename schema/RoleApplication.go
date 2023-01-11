@@ -20,3 +20,9 @@ type RoleApplication struct {
 func (RoleApplication) TableName() string {
 	return "role_applications"
 }
+
+type UpdateRoleApplication struct {
+	Name        string `gorm:"size:50;" json:"name"`
+	Description string `gorm:"type:text;" json:"description"`
+	UpdatedAt   time.Time
+}

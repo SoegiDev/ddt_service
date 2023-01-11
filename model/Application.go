@@ -8,22 +8,22 @@ import (
 type Applications schema.Application
 type UpdateApplication schema.UpdateApplication
 
-func (entry *Applications) Save() (*Applications, error) {
-	err := database.Database.Create(&entry).Error
-	return entry, err
+func (data *Applications) Save() (*Applications, error) {
+	err := database.Database.Create(&data).Error
+	return data, err
 }
 
-func (update_data *Applications) ChangeData(id string, ua UpdateApplication) (Applications, error) {
-	err := database.Database.Model(Applications{}).Where("id = ?", id).Updates(ua).Error
+func (update_data Applications) AppsChangeData(id string, ua UpdateApplication) (Applications, error) {
+	err := database.Database.Model(&update_data).Where("id = ?", id).Updates(ua).Error
 	if err != nil {
-		return *update_data, err
+		return update_data, err
 	}
-	res, _ := ApplicationFindById(id)
+	res, _ := AppsFindById(id)
 	return res, nil
 }
 
-func ApplicationFindById(id string) (Applications, error) {
-	var ar Applications
-	err := database.Database.Where("id = ?", id).First(&ar).Error
-	return ar, err
+func AppsFindById(id string) (Applications, error) {
+	var data Applications
+	err := database.Database.Where("id = ?", id).First(&data).Error
+	return data, err
 }

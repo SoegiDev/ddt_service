@@ -3,8 +3,8 @@ content-type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzMyNDIwMTgsImlkIjoiVVNSODE5MjM5MTEyNSJ9.x3deOL4vSA8O7Z5x4y0laNCzpAsvZ_bRq6jCRw3HmHs
 
 {
-    "name":"Aplikasi Sales Visit",
-    "description":"Aplikasi Sales Visit",
+    "name":"Aplikasi Portal Android",
+    "description":"Aplikasi Portal",
     "updated_note":"",
     "version":"1",
     "app_package":"com.android.salesvisit",

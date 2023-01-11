@@ -3,7 +3,6 @@ package model
 import (
 	"ddtservice_agri/database"
 	"ddtservice_agri/schema"
-	"fmt"
 )
 
 type Account schema.Account
@@ -14,39 +13,38 @@ func (emp *Account) Save() (*Account, error) {
 	return emp, err
 }
 
-func FindAccountAll() ([]Account, error) {
-	var emp []Account
-	err := database.Database.Find(&emp).Error
-	fmt.Println(emp)
-	return emp, err
+func AccountFindAll() ([]Account, error) {
+	var data []Account
+	err := database.Database.Find(&data).Error
+	return data, err
 }
 
-func FindAccountByUserId(id string) (Account, error) {
-	var emp Account
-	err := database.Database.Where("user_id=?", id).Where("is_active=?", true).First(&emp).Error
-	return emp, err
+func AccountFindById(id string, active bool) (Account, error) {
+	var data Account
+	err := database.Database.Where("id=?", id).Where("is_active=?", active).First(&data).Error
+	return data, err
 }
 
-func FindAccountById(id string) (Account, error) {
-	var emp Account
-	err := database.Database.Where("id=?", id).First(&emp).Error
-	return emp, err
+func AccountFindByUserId(id string) ([]Account, error) {
+	var data []Account
+	err := database.Database.Where("user_id=?", id).Find(&data).Error
+	return data, err
 }
 
-func (account *Account) AccountAssignRoleApplication(id string, corps []schema.RoleApplication) (Account, error) {
+func (account Account) AccountSignRoleApp(id string, corps []schema.RoleApplication) (Account, error) {
 	err := database.Database.Model(&account).Association("RoleApplications").Replace(corps)
 	if err != nil {
-		return *account, err
+		return account, err
 	}
-	res, _ := FindAccountById(id)
+	res, _ := AccountFindById(id, true)
 	return res, nil
 }
 
-func (update_data *Account) ChangeData(id string, ua UpdateAccount) (Account, error) {
-	err := database.Database.Model(Account{}).Where("id = ?", id).Updates(ua).Error
+func (update_data Account) AccountChangeData(id string, ua UpdateAccount) (Account, error) {
+	err := database.Database.Model(&update_data).Where("id = ?", id).Updates(ua).Error
 	if err != nil {
-		return *update_data, err
+		return update_data, err
 	}
-	res, _ := FindAccountById(id)
+	res, _ := AccountFindById(id, true)
 	return res, nil
 }

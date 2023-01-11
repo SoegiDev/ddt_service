@@ -29,7 +29,7 @@ func ApplicationAddNew(context *gin.Context) {
 func ApplicationUpdate(context *gin.Context) {
 	// Get model if exist
 	id := context.Param("ID")
-	data_entries, err := model.ApplicationFindById(id)
+	data_entries, err := model.AppsFindById(id)
 	if err != nil {
 		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
@@ -42,7 +42,7 @@ func ApplicationUpdate(context *gin.Context) {
 		return
 	}
 
-	updatedEntry, err := data_entries.ChangeData(id, input)
+	updatedEntry, err := data_entries.AppsChangeData(id, input)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

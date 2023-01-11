@@ -28,3 +28,10 @@ type DivisionMap struct {
 func (Division) TableName() string {
 	return "divisions"
 }
+
+type UpdateDivision struct {
+	Code        string `gorm:"size:50;" json:"code"`
+	Name        string `gorm:"size:50;" json:"name"`
+	Description string `gorm:"size:255;" json:"description"`
+	UpdatedAt   time.Time
+}

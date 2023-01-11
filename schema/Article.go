@@ -22,7 +22,8 @@ func (Article) TableName() string {
 }
 
 type UpdateArticle struct {
-	Title   string `json:"title"`
-	Content string `json:"content"`
-	UserID  string `json:"user_id"`
+	Title     string `json:"title"`
+	Content   string `json:"content"`
+	UserID    string `json:"user_id"`
+	UpdatedAt time.Time
 }

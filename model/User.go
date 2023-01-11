@@ -8,64 +8,78 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type User schema.User
 
-func (user *User) Save() (*User, error) {
-	err := database.Database.Create(&user).Error
-	return user, err
+func (data *User) Save() (*User, error) {
+	err := database.Database.Create(&data).Error
+	return data, err
 }
 
-func (user *User) BeforeSave(*gorm.DB) error {
-	passwordHash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+func (data *User) BeforeSave(*gorm.DB) error {
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
-	user.Password = string(passwordHash)
-	user.Username = html.EscapeString(strings.TrimSpace(user.Username))
+	data.Password = string(passwordHash)
+	data.Username = html.EscapeString(strings.TrimSpace(data.Username))
 	return nil
 }
 
-func (user *User) ValidatePassword(password string) error {
-	return bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+func (data *User) ValidatePassword(password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(data.Password), []byte(password))
 }
 
-func FindUserByUsername(username string) (User, error) {
-	var user User
-	err := database.Database.Where("username=?", username).First(&user).Error
-	return user, err
+func UserFindByUsername(username string) (User, error) {
+	var data User
+	err := database.Database.Preload("Divisions").Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("username = ?", username).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
+	return data, err
 }
 
-func FindUserById(id string) (User, error) {
-	var user User
-	err := database.Database.Preload("Divisions").Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("id = ?", id).Preload("Employees", "is_active NOT IN (?)", false).First(&user).Error
-	return user, err
-}
-func FindUserSimpleById(id string) (User, error) {
-	var user User
-	err := database.Database.Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("id = ?", id).Preload("Employees", "is_active NOT IN (?)", false).First(&user).Error
-	return user, err
+func UserFindById(id string) (User, error) {
+	var data User
+	err := database.Database.Preload("Divisions").Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("id = ?", id).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
+	return data, err
 }
 
-func (user *User) UserAssignRoles(id string, roleUpdates []schema.Role) (User, error) {
-	err := database.Database.Model(&user).Association("Roles").Replace(roleUpdates)
+func UserFindByCode(code string) (User, error) {
+	var data User
+	err := database.Database.Preload("Divisions").Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("code = ?", code).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
+	return data, err
+}
+
+func UserFindByIdLogin(id string) (User, error) {
+	var data User
+	err := database.Database.Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("id = ?", id).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
+	return data, err
+}
+
+func UserMetaFindById(id string) (User, error) {
+	var data User
+	err := database.Database.Where("id = ?", id).Preload("Accounts.RoleApplications").Preload("Accounts.Application").Preload("Employees.Company").Preload("Employees", "is_active NOT IN (?)", false).Preload(clause.Associations).First(&data).Error
+	return data, err
+}
+
+func (data *User) UserAssignRoles(id string, roleUpdates []schema.Role) (User, error) {
+	err := database.Database.Model(&data).Association("Roles").Replace(roleUpdates)
 	if err != nil {
-		return *user, err
+		return *data, err
 	}
-	res, _ := FindUserById(id)
+	res, _ := UserFindByIdLogin(id)
 	return res, nil
 }
-func (user *User) UserAssignDivision(id string, divisionUpdate []schema.Division) (User, error) {
-	err := database.Database.Model(&user).Association("Divisions").Replace(divisionUpdate)
+func (data *User) UserAssignDivision(id string, divisionUpdate []schema.Division) (User, error) {
+	err := database.Database.Model(&data).Association("Divisions").Replace(divisionUpdate)
 	if err != nil {
-		return *user, err
+		return *data, err
 	}
-	res, _ := FindUserById(id)
+	res, _ := UserFindByIdLogin(id)
 	return res, nil
 }
-func (user *User) UserGetCount() int64 {
+func (data *User) UserGetCount() int64 {
 	var result int64
-	database.Database.Model(&user).Count(&result)
+	database.Database.Model(&data).Count(&result)
 	return result
 }

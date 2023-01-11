@@ -28,7 +28,7 @@ func CompanyAddNew(context *gin.Context) {
 func CompanyUpdate(context *gin.Context) {
 	// Get model if exist
 	id := context.Param("ID")
-	data_entries, err := model.FindCompanyById(id)
+	data_entries, err := model.CompanyFindById(id)
 	if err != nil {
 		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
@@ -41,7 +41,7 @@ func CompanyUpdate(context *gin.Context) {
 		return
 	}
 
-	updatedEntry, err := data_entries.ChangeData(id, input)
+	updatedEntry, err := data_entries.CompanyChangeData(id, input)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

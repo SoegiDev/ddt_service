@@ -13,10 +13,10 @@ func (entry *Article) Save() (*Article, error) {
 	return entry, err
 }
 
-func (update_data *Article) ChangeData(id string, ua UpdateArticle) (Article, error) {
+func (data Article) ArticleChangeData(id string, ua UpdateArticle) (Article, error) {
 	err := database.Database.Model(Article{}).Where("id = ?", id).Updates(ua).Error
 	if err != nil {
-		return *update_data, err
+		return data, err
 	}
 	res, _ := ArticleFindById(id)
 	return res, nil

@@ -13,10 +13,16 @@ type Role struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt
-	IsDeleted   bool `gorm:"type:bool;default:true" json:"delete"`
+	IsDeleted   bool `gorm:"type:bool;default:false" json:"delete"`
 	IsActive    bool `gorm:"type:bool;default:true" json:"status"`
 }
 
 func (Role) TableName() string {
 	return "roles"
+}
+
+type UpdateRole struct {
+	Name        string `gorm:"size:50;" json:"name"`
+	Description string `gorm:"type:text;" json:"description"`
+	UpdatedAt   time.Time
 }

@@ -8,60 +8,73 @@ import (
 type Estate schema.Estate
 type UpdateEstate schema.UpdateEstate
 
-func (emp *Estate) Save() (*Estate, error) {
-	err := database.Database.Create(&emp).Error
-	return emp, err
+func (data *Estate) Save() (*Estate, error) {
+	err := database.Database.Create(&data).Error
+	return data, err
 }
 
-func FindEstateAll() ([]Estate, error) {
-	var emp []Estate
-	err := database.Database.Find(&emp).Error
-	return emp, err
+func EstateFindAll() ([]Estate, error) {
+	var data []Estate
+	err := database.Database.Find(&data).Error
+	return data, err
 }
 
-func FindEstateByName(name string) (Estate, error) {
-	var div Estate
-	err := database.Database.Where("name=?", name).First(&div).Error
-	return div, err
+func EstateFindByName(name string) (Estate, error) {
+	var data Estate
+	err := database.Database.Where("name=?", name).First(&data).Error
+	return data, err
 }
 
-func FindEstateById(id string) (Estate, error) {
-	var div Estate
-	err := database.Database.Where("id=?", id).First(&div).Error
-	return div, err
+func EstateFindById(id string) (Estate, error) {
+	var data Estate
+	err := database.Database.Where("id=?", id).First(&data).Error
+	return data, err
 }
 
-func FindEstateMapById(params []string) ([]Estate, error) {
-	var div []Estate
-	err := database.Database.Where("id IN ?", params).Find(&div).Error
-	return div, err
+func EstateFindByCode(id string) (Estate, error) {
+	var data Estate
+	err := database.Database.Where("code=?", id).First(&data).Error
+	return data, err
 }
 
-func FindEstateMapWithDivisionById(params []string) ([]Estate, error) {
-	var div []Estate
-	err := database.Database.Preload("Divisions").Where("id IN ?", params).Find(&div).Error
-	return div, err
+func EstateFindMapById(params []string) ([]Estate, error) {
+	var data []Estate
+	err := database.Database.Where("id IN ?", params).Find(&data).Error
+	return data, err
 }
 
-func (est *Estate) EstateAssignDivision(id string, divUpdates []schema.Division) (Estate, error) {
-	err := database.Database.Model(&est).Association("Divisions").Replace(divUpdates)
-	if err != nil {
-		return *est, err
-	}
-	res, _ := FindEstateById(id)
-	return res, nil
+func EstateFindMapByCode(params []string) ([]Estate, error) {
+	var data []Estate
+	err := database.Database.Where("code IN ?", params).Find(&data).Error
+	return data, err
 }
-func FindEstateMapByName(params []string) ([]Estate, error) {
+
+func EstateFindMapByName(params []string) ([]Estate, error) {
 	var div []Estate
 	err := database.Database.Where("name IN ?", params).Find(&div).Error
 	return div, err
 }
 
-func (update_data *Estate) ChangeData(id string, ua UpdateEstate) (Estate, error) {
+func EstateFindDivisionById(params []string) ([]Estate, error) {
+	var div []Estate
+	err := database.Database.Preload("Company").Preload("Divisions").Preload("Divisions.Gangs").Where("id IN ?", params).Find(&div).Error
+	return div, err
+}
+
+func (est *Estate) EstateSignDivision(id string, divUpdates []schema.Division) (Estate, error) {
+	err := database.Database.Model(&est).Association("Divisions").Replace(divUpdates)
+	if err != nil {
+		return *est, err
+	}
+	res, _ := EstateFindById(id)
+	return res, nil
+}
+
+func (update_data *Estate) EstateChangeData(id string, ua UpdateEstate) (Estate, error) {
 	err := database.Database.Model(Estate{}).Where("id = ?", id).Updates(ua).Error
 	if err != nil {
 		return *update_data, err
 	}
-	res, _ := FindEstateById(id)
+	res, _ := EstateFindById(id)
 	return res, nil
 }

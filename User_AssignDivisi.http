@@ -1,7 +1,7 @@
-POST http://localhost:8080/api/user/USR41823101612/assign_division HTTP/1.1
+POST http://localhost:8080/api/user/USR50723111116/assign_division HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzMzNzc5MzIsImlkIjoiVVNSNDE4MjMxMDE2MTIifQ.vaJZjdq3vUGzbpUzkXTk88xoHJHhY2XLed-R7I5_u4w
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzM0MTQyNTAsImlkIjoiVVNSNTA3MjMxMTExMTYifQ.XtdW8l4kOcy6LQN3ePiR1fr3zbnhjJ9ruNLO8W58cfg
 
 {
-    "Division":["DIV15323101613","DIV17723101613"]
+    "Division":["DIV29223111119"]
 }

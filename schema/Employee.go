@@ -8,6 +8,7 @@ import (
 
 type Employee struct {
 	Id           string `json:"id" gorm:"primaryKey;size:50;"`
+	Code         string `gorm:"size:20;" json:"code"`
 	Email        string `gorm:"size:255;not null;unique" json:"email"`
 	Username     string `gorm:"size:255;not null;unique" json:"username"`
 	Nik          string `gorm:"size:20;" json:"nik"`
@@ -39,6 +40,7 @@ type EmployeeAdd struct {
 	Picture     string `json:"picture"`
 	Address     string `json:"address"`
 	UserId      string `json:"user_id"`
+	UpdatedAt   time.Time
 }
 
 func (Employee) TableName() string {
