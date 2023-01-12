@@ -121,3 +121,11 @@ type MetaGang struct {
 	Code string
 	Name string
 }
+
+type LoginResponse struct {
+	Token string
+}
+
+type MsgResponse struct {
+	Msg string
+}

@@ -1,3 +1,3 @@
-GET http://localhost:8080/api/user/USR50723111116 HTTP/1.1
+GET http://localhost:8080/api/user/USR1212312197 HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzM0MTc5MTgsImlkIjoiVVNSNTA3MjMxMTExMTYifQ.xq9aRJIN10dRpKQkFUrSjlH_zmwSw7rhv3mZ6o2Udnk
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzM1MzY1NzQsImlkIjoiVVNSMTIxMjMxMjE5NyJ9.QM1XdFYO47qr-FmDoFhaNVja5Y2ivNJcDhqMxUBCjOk

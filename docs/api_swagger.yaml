@@ -1,5 +1,237 @@
 basePath: /api
-host: localhost:8000
+definitions:
+  schema.AssignUserRole:
+    properties:
+      role:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.MetaAccount:
+    properties:
+      application:
+        $ref: '#/definitions/schema.MetaApp'
+      id:
+        type: string
+      roleApplication:
+        items:
+          $ref: '#/definitions/schema.MetaRoleApp'
+        type: array
+      userId:
+        type: string
+    type: object
+  schema.MetaActivities:
+    properties:
+      application:
+        type: string
+      client:
+        type: string
+      createdAt:
+        type: string
+      duration:
+        type: string
+      id:
+        type: integer
+      method:
+        type: string
+      path:
+        type: string
+      pathOp:
+        type: string
+      referrer:
+        type: string
+      reqBody:
+        type: string
+      requestId:
+        type: string
+      source:
+        type: string
+      status:
+        type: string
+      userId:
+        type: string
+    type: object
+  schema.MetaApp:
+    properties:
+      appPackage:
+        type: string
+      appPackageClass:
+        type: string
+      assetApk:
+        type: string
+      assetIcon:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      isActive:
+        type: boolean
+      name:
+        type: string
+      updatedNote:
+        type: string
+      version:
+        type: string
+    type: object
+  schema.MetaCompany:
+    properties:
+      address:
+        type: string
+      code:
+        type: string
+      description:
+        type: string
+      domain:
+        type: string
+      fax:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      phoneNumber:
+        type: string
+      sector:
+        type: string
+    type: object
+  schema.MetaDivision:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      gang:
+        items:
+          $ref: '#/definitions/schema.MetaGang'
+        type: array
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  schema.MetaEmployee:
+    properties:
+      address:
+        type: string
+      code:
+        type: string
+      company:
+        $ref: '#/definitions/schema.MetaCompany'
+      companyId:
+        type: string
+      department:
+        type: string
+      email:
+        type: string
+      expired:
+        type: integer
+      fullName:
+        type: string
+      id:
+        type: string
+      nickName:
+        type: string
+      nik:
+        type: string
+      officeNumber:
+        type: string
+      phoneNumber:
+        type: string
+      picture:
+        type: string
+      username:
+        type: string
+    type: object
+  schema.MetaEstate:
+    properties:
+      code:
+        type: string
+      company:
+        $ref: '#/definitions/schema.MetaCompany'
+      description:
+        type: string
+      division:
+        items:
+          $ref: '#/definitions/schema.MetaDivision'
+        type: array
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  schema.MetaGang:
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  schema.MetaRoleApp:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  schema.MetaRoles:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  schema.MetaUser:
+    properties:
+      accounts:
+        items:
+          $ref: '#/definitions/schema.MetaAccount'
+        type: array
+      activityLogs:
+        items:
+          $ref: '#/definitions/schema.MetaActivities'
+        type: array
+      code:
+        type: string
+      createdAt:
+        type: string
+      email:
+        type: string
+      employees:
+        items:
+          $ref: '#/definitions/schema.MetaEmployee'
+        type: array
+      estates:
+        items:
+          $ref: '#/definitions/schema.MetaEstate'
+        type: array
+      id:
+        type: string
+      isActive:
+        type: boolean
+      password:
+        type: string
+      roles:
+        items:
+          $ref: '#/definitions/schema.MetaRoles'
+        type: array
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+  schema.MsgResponse:
+    properties:
+      msg:
+        type: string
+    type: object
+host: localhost:8080
 info:
   contact:
     email: support@swagger.io
@@ -9,7 +241,61 @@ info:
   termsOfService: http://swagger.io/terms/
   title: Swagger User Service
   version: "1.0"
-paths: {}
-schemes:
-- ""
+paths:
+  /user/:ID:
+    get:
+      consumes:
+      - application/json
+      description: Profile Meta User
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Search User By ID
+        in: path
+        name: ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MetaUser'
+      summary: Get Profile
+  /user/:ID/assign_roles:
+    get:
+      consumes:
+      - application/json
+      description: User Assign Role User
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Assign User By ID
+        in: path
+        name: ID
+        required: true
+        type: string
+      - description: 'Assign User Schema '
+        in: body
+        name: Register
+        required: true
+        schema:
+          $ref: '#/definitions/schema.AssignUserRole'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: User Assign Role
 swagger: "2.0"

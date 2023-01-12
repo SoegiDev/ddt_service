@@ -13,3 +13,5 @@ INSERT INTO role_applications (name, description)VALUES ('Contributor', 'Contibu
 INSERT INTO role_applications (name, description)VALUES ('Subscriber', 'Subscriber Desc');
 INSERT INTO role_applications (name, description)VALUES ('User', 'User Desc');
 
+INSERT INTO companies (id, description)VALUES ('User', 'User Desc');
+

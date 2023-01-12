@@ -7,8 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Host localhost:8000
-// @Schemes
+// @Host localhost:8080
 
 // @Title Swagger User Service
 // @Version 1.0

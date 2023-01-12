@@ -1,15 +1,52 @@
 basePath: /auth
-host: localhost:8000
+definitions:
+  schema.Login:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  schema.LoginResponse:
+    properties:
+      token:
+        type: string
+    type: object
+host: localhost:8080
 info:
   contact:
     email: support@swagger.io
-    name: Fajar soegi
+    name: API Support
     url: http://www.swagger.io/support
-  description: Authentication User Service.
+  description: This is a sample server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Authentication User
-  version: "1.0"
-paths: {}
-schemes:
-- ""
+  title: Swagger Example API
+  version: "2.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: 'Login Schema '
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/schema.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.LoginResponse'
+      summary: Login
 swagger: "2.0"

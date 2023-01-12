@@ -1,4 +1,4 @@
-package controller
+package public
 
 import (
 	"ddtservice_agri/helper"
@@ -10,17 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type RegisterSchema schema.Register
-type LoginSchema schema.Login
-
-// @Summary Get a list of books in the the store
-// @Description get string by ID
-// @Accept  json
-// @Produce  json
-// @Success 200 {array} Book "ok"
-// @Router /books [get]
 func Register(context *gin.Context) {
-	var input RegisterSchema
+	var input schema.Register
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -33,7 +24,7 @@ func Register(context *gin.Context) {
 	}
 	userID, _ := helper.GenerateUserId(3)
 	profileId, _ := helper.GenerateProfileId(3)
-	accountId, _ := helper.GenerateAccountId(3)
+
 	roleMap := []schema.Role{}
 	for _, element := range data_roles {
 		roleMap = append(roleMap, schema.Role{Id: element.Id})
@@ -59,59 +50,54 @@ func Register(context *gin.Context) {
 		Username:  input.Username,
 		Email:     input.Email,
 		UserId:    savedUser.Id,
-		CompanyId: input.CompanyId,
-	}
+		CompanyId: input.CompanyId}
 
 	savedProfile, err := emp.Save()
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	account := model.Account{
-		Id:            accountId,
-		UserId:        savedUser.Id,
-		ApplicationId: input.ApplicationId,
-	}
-
-	savedAccount, err := account.Save()
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	fmt.Println(savedUser)
 	fmt.Println(savedProfile)
-	fmt.Println(savedAccount)
-	context.JSON(http.StatusCreated, gin.H{"msg": "Registration is Completed"})
+	fmt.Println(savedUser)
+	context.JSON(http.StatusCreated, schema.MsgResponse{Msg: "Register Completed"})
 }
 
+//
+// @Summary Login
+// @Description Login
+// @Accept  json
+// @Param login body schema.Login true "Login Schema "
+// @Produce  json
+// @Success 200 {object}  schema.LoginResponse
+// @Router /login [post]
 func Login(context *gin.Context) {
-	var input LoginSchema
-
+	var input schema.Login
 	if err := context.ShouldBindJSON(&input); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err.Error()})
 		return
 	}
+	if input.Username != "" {
+		fmt.Println("Username tidak kosong")
+	}
 	user, err := model.UserFindByUsername(input.Username)
+
 	fmt.Println(&user, err)
 	if err != nil {
-		context.JSON(http.StatusNotFound, gin.H{"msg": "User Not Found"})
+		context.JSON(http.StatusNotFound, schema.MsgResponse{Msg: "User Not Found"})
 		return
 	}
 
 	err = user.ValidatePassword(input.Password)
 
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"msg": "Wrong Password"})
+		context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: "Wrong Password"})
 		return
 	}
 
 	jwt, err := helper.GenerateJWT(user)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err.Error()})
 		return
 	}
-
-	context.JSON(http.StatusOK, gin.H{"token": jwt})
+	context.JSON(http.StatusOK, schema.LoginResponse{Token: jwt})
 }

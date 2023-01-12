@@ -32,15 +32,25 @@ type Employee struct {
 	IsActive     bool `gorm:"type:bool;default:true" json:"status"`
 }
 
-type EmployeeAdd struct {
-	Id          string `json:"id"`
-	NickName    string `json:"nickname"`
-	FullName    string `json:"fullname"`
-	PhoneNumber string `json:"phone_number"`
-	Picture     string `json:"picture"`
-	Address     string `json:"address"`
-	UserId      string `json:"user_id"`
-	UpdatedAt   time.Time
+type JsonEmployeeCreate struct {
+	Code            string   `json:"code" binding:"required"`
+	Username        string   `json:"username" binding:"required"`
+	Email           string   `json:"email" binding:"required"`
+	Password        string   `json:"password" binding:"required"`
+	Roles           []string `json:"role" binding:"required"`
+	RoleApplication []string `json:"role_application"`
+	CompanyId       string   `json:"company_id" binding:"required"`
+	Divisions       []string `json:"divisi" binding:"required"`
+	Nik             string   `json:"nik"`
+	NickName        string   `json:"nickname"`
+	FullName        string   `json:"fullname"`
+	Picture         string   `json:"picture"`
+	PhoneNumber     string   `json:"phone_number"`
+	Address         string   `json:"address"`
+	Department      string   `gorm:"type:text;" json:"department"`
+	OfficeNumber    string   `gorm:"type:text;" json:"office_number"`
+	UpdatedAt       time.Time
+	CreatedAt       time.Time
 }
 
 func (Employee) TableName() string {

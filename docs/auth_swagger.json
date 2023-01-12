@@ -1,20 +1,78 @@
 {
-    "schemes": [
-        ""
-    ],
     "swagger": "2.0",
     "info": {
-        "description": "Authentication User Service.",
-        "title": "Authentication User",
+        "description": "This is a sample server.",
+        "title": "Swagger Example API",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
-            "name": "Fajar soegi",
+            "name": "API Support",
             "url": "http://www.swagger.io/support",
             "email": "support@swagger.io"
         },
-        "version": "1.0"
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "2.0"
     },
-    "host": "localhost:8000",
+    "host": "localhost:8080",
     "basePath": "/auth",
-    "paths": {}
+    "paths": {
+        "/login": {
+            "post": {
+                "description": "Login",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Login",
+                "parameters": [
+                    {
+                        "description": "Login Schema ",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.LoginResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "schema.Login": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }

@@ -3,6 +3,7 @@ package model
 import (
 	"ddtservice_agri/database"
 	"ddtservice_agri/schema"
+	"fmt"
 	"html"
 	"strings"
 
@@ -34,7 +35,7 @@ func (data *User) ValidatePassword(password string) error {
 
 func UserFindByUsername(username string) (User, error) {
 	var data User
-	err := database.Database.Preload("Divisions").Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("username = ?", username).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
+	err := database.Database.Preload("Roles").Preload("Divisions").Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("username = ?", username).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
 	return data, err
 }
 
@@ -82,4 +83,29 @@ func (data *User) UserGetCount() int64 {
 	var result int64
 	database.Database.Model(&data).Count(&result)
 	return result
+}
+
+func (data *User) IsAdmin() bool {
+	fmt.Println(data.Roles)
+	result := database.Database.Where("name IN (?)", "Subscriber").Find(&data.Roles)
+	fmt.Println(result.RowsAffected)
+	return false
+}
+
+func (data *User) CheckADMIN() bool {
+	for _, n := range data.Roles {
+		if "Subscriber" == n.Name {
+			return true
+		}
+	}
+	return false
+}
+func (data *User) IsSubscribe() bool {
+	var count int64
+	database.Database.Debug().Preload("Roles", "name IN (?)", "Administrator").Count(&count).First(&data)
+	if count > 0 {
+		fmt.Println("TOTAL", count)
+		return true
+	}
+	return false
 }

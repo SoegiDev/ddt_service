@@ -1,7 +1,4 @@
 {
-    "schemes": [
-        ""
-    ],
     "swagger": "2.0",
     "info": {
         "description": "This is User Service Test.",
@@ -14,7 +11,446 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8000",
+    "host": "localhost:8080",
     "basePath": "/api",
-    "paths": {}
+    "paths": {
+        "/user/:ID": {
+            "get": {
+                "description": "Profile Meta User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Profile",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search User By ID",
+                        "name": "ID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MetaUser"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/:ID/assign_roles": {
+            "get": {
+                "description": "User Assign Role User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "User Assign Role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Assign User By ID",
+                        "name": "ID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Assign User Schema ",
+                        "name": "Register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.AssignUserRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "schema.AssignUserRole": {
+            "type": "object",
+            "properties": {
+                "role": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.MetaAccount": {
+            "type": "object",
+            "properties": {
+                "application": {
+                    "$ref": "#/definitions/schema.MetaApp"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "roleApplication": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.MetaRoleApp"
+                    }
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MetaActivities": {
+            "type": "object",
+            "properties": {
+                "application": {
+                    "type": "string"
+                },
+                "client": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "pathOp": {
+                    "type": "string"
+                },
+                "referrer": {
+                    "type": "string"
+                },
+                "reqBody": {
+                    "type": "string"
+                },
+                "requestId": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MetaApp": {
+            "type": "object",
+            "properties": {
+                "appPackage": {
+                    "type": "string"
+                },
+                "appPackageClass": {
+                    "type": "string"
+                },
+                "assetApk": {
+                    "type": "string"
+                },
+                "assetIcon": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedNote": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MetaCompany": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "fax": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "sector": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MetaDivision": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "gang": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.MetaGang"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MetaEmployee": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "company": {
+                    "$ref": "#/definitions/schema.MetaCompany"
+                },
+                "companyId": {
+                    "type": "string"
+                },
+                "department": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "expired": {
+                    "type": "integer"
+                },
+                "fullName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "nickName": {
+                    "type": "string"
+                },
+                "nik": {
+                    "type": "string"
+                },
+                "officeNumber": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "picture": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MetaEstate": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "company": {
+                    "$ref": "#/definitions/schema.MetaCompany"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "division": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.MetaDivision"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MetaGang": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MetaRoleApp": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MetaRoles": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MetaUser": {
+            "type": "object",
+            "properties": {
+                "accounts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.MetaAccount"
+                    }
+                },
+                "activityLogs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.MetaActivities"
+                    }
+                },
+                "code": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "employees": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.MetaEmployee"
+                    }
+                },
+                "estates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.MetaEstate"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.MetaRoles"
+                    }
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MsgResponse": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }
