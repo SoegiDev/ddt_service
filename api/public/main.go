@@ -5,12 +5,12 @@ import (
 )
 
 // @Host localhost:8080
-// @title Swagger Example API
-// @version 2.0
-// @description This is a sample server.
+// @title Authentication User Service
+// @version 1.0.0
+// @description User Service OPEN API.
 // @termsOfService http://swagger.io/terms/
 
-// @contact.name API Support
+// @contact.name ICT INDOAGRI
 // @contact.url http://www.swagger.io/support
 // @contact.email support@swagger.io
 
@@ -19,15 +19,7 @@ import (
 
 func Authentication(router *gin.Engine) {
 	auth := router.Group("auth")
-
-	auth.POST("/register", Register)
 	// @BasePath /auth
-	auth.POST("/login", Login)
-	// //Corporation
-	// auth.POST("/company", controller.CompanyAddNew)
-	// auth.PATCH("/company/:ID/edit", controller.CompanyUpdate)
-
-	// //Application
-	// auth.POST("/application", controller.ApplicationAddNew)
-	// auth.PATCH("/application/:ID/edit", controller.ApplicationUpdate)
+	auth.POST("/sign_up", SignUp)
+	auth.POST("/sign_in", SignIn)
 }

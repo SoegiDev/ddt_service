@@ -7,6 +7,69 @@ definitions:
           type: string
         type: array
     type: object
+  schema.JsonEmployeeCreate:
+    properties:
+      address:
+        type: string
+      application:
+        items:
+          type: string
+        type: array
+      code:
+        type: string
+      company_id:
+        type: string
+      department:
+        type: string
+      division:
+        items:
+          type: string
+        type: array
+      email:
+        type: string
+      fullname:
+        type: string
+      nickname:
+        type: string
+      nik:
+        type: string
+      office_number:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+      picture:
+        type: string
+      role:
+        items:
+          type: string
+        type: array
+      role_application:
+        items:
+          type: string
+        type: array
+      username:
+        type: string
+    required:
+    - address
+    - application
+    - code
+    - company_id
+    - department
+    - division
+    - email
+    - fullname
+    - nickname
+    - nik
+    - office_number
+    - password
+    - phone_number
+    - picture
+    - role
+    - role_application
+    - username
+    type: object
   schema.MetaAccount:
     properties:
       application:
@@ -266,7 +329,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schema.MetaUser'
-      summary: Get Profile
+      summary: API SERVICE
   /user/:ID/assign_roles:
     get:
       consumes:
@@ -298,4 +361,30 @@ paths:
           schema:
             $ref: '#/definitions/schema.MsgResponse'
       summary: User Assign Role
+  /user/employee:
+    post:
+      consumes:
+      - application/json
+      description: Employee Create New
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 'Employee Add New Schema '
+        in: body
+        name: Register
+        required: true
+        schema:
+          $ref: '#/definitions/schema.JsonEmployeeCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: Employee Add New
 swagger: "2.0"

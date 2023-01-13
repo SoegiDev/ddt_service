@@ -1,10 +1,10 @@
 POST http://localhost:8080/api/estate HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzM0MTQyNTAsImlkIjoiVVNSNTA3MjMxMTExMTYifQ.XtdW8l4kOcy6LQN3ePiR1fr3zbnhjJ9ruNLO8W58cfg
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzM2MzEzOTAsImlkIjoiVVNSNTgzMjMxMzgyNSJ9.zks7j-2OVIqo8oeA0YHeNpdNp5j5G7OkaXcCQw4JGh8
 
 {
     "code":"EST001",
     "name":"Estate 1",
     "description":"Description Estate 1",
-    "company_id":"COM85823111115"
+    "company_id":"COMP120131231"
 }

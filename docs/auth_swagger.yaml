@@ -1,6 +1,16 @@
 basePath: /auth
 definitions:
-  schema.Login:
+  schema.LoginResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  schema.MsgResponse:
+    properties:
+      msg:
+        type: string
+    type: object
+  schema.SignInJsonSchema:
     properties:
       password:
         type: string
@@ -10,37 +20,53 @@ definitions:
     - password
     - username
     type: object
-  schema.LoginResponse:
+  schema.SignUpJsonSchema:
     properties:
-      token:
+      company_id:
         type: string
+      email:
+        type: string
+      password:
+        type: string
+      role:
+        items:
+          type: string
+        type: array
+      username:
+        type: string
+    required:
+    - company_id
+    - email
+    - password
+    - role
+    - username
     type: object
 host: localhost:8080
 info:
   contact:
     email: support@swagger.io
-    name: API Support
+    name: ICT INDOAGRI
     url: http://www.swagger.io/support
-  description: This is a sample server.
+  description: User Service OPEN API.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Swagger Example API
-  version: "2.0"
+  title: Authentication User Service
+  version: 1.0.0
 paths:
-  /login:
+  /sign_in:
     post:
       consumes:
       - application/json
-      description: Login
+      description: Sign In User
       parameters:
       - description: 'Login Schema '
         in: body
         name: login
         required: true
         schema:
-          $ref: '#/definitions/schema.Login'
+          $ref: '#/definitions/schema.SignInJsonSchema'
       produces:
       - application/json
       responses:
@@ -48,5 +74,25 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schema.LoginResponse'
-      summary: Login
+      summary: Sign In
+  /sign_up:
+    post:
+      consumes:
+      - application/json
+      description: Sign Up User
+      parameters:
+      - description: 'Login Schema '
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/schema.SignUpJsonSchema'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: Sign Up
 swagger: "2.0"

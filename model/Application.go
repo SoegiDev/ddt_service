@@ -27,3 +27,15 @@ func AppsFindById(id string) (Applications, error) {
 	err := database.Database.Where("id = ?", id).First(&data).Error
 	return data, err
 }
+
+func AppsFindMapById(params []string) ([]Applications, error) {
+	var data []Applications
+	err := database.Database.Where("id IN ?", params).Find(&data).Error
+	return data, err
+}
+
+func AppsFindMapByName(params []string) ([]Applications, error) {
+	var data []Applications
+	err := database.Database.Where("name IN ?", params).Find(&data).Error
+	return data, err
+}

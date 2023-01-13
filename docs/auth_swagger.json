@@ -1,11 +1,11 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server.",
-        "title": "Swagger Example API",
+        "description": "User Service OPEN API.",
+        "title": "Authentication User Service",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
-            "name": "API Support",
+            "name": "ICT INDOAGRI",
             "url": "http://www.swagger.io/support",
             "email": "support@swagger.io"
         },
@@ -13,21 +13,21 @@
             "name": "Apache 2.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
-        "version": "2.0"
+        "version": "1.0.0"
     },
     "host": "localhost:8080",
     "basePath": "/auth",
     "paths": {
-        "/login": {
+        "/sign_in": {
             "post": {
-                "description": "Login",
+                "description": "Sign In User",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Login",
+                "summary": "Sign In",
                 "parameters": [
                     {
                         "description": "Login Schema ",
@@ -35,7 +35,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schema.Login"
+                            "$ref": "#/definitions/schema.SignInJsonSchema"
                         }
                     }
                 ],
@@ -48,10 +48,57 @@
                     }
                 }
             }
+        },
+        "/sign_up": {
+            "post": {
+                "description": "Sign Up User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Sign Up",
+                "parameters": [
+                    {
+                        "description": "Login Schema ",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.SignUpJsonSchema"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "schema.Login": {
+        "schema.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MsgResponse": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.SignInJsonSchema": {
             "type": "object",
             "required": [
                 "password",
@@ -66,10 +113,32 @@
                 }
             }
         },
-        "schema.LoginResponse": {
+        "schema.SignUpJsonSchema": {
             "type": "object",
+            "required": [
+                "company_id",
+                "email",
+                "password",
+                "role",
+                "username"
+            ],
             "properties": {
-                "token": {
+                "company_id": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "username": {
                     "type": "string"
                 }
             }

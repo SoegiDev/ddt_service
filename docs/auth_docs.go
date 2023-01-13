@@ -12,7 +12,7 @@ const docTemplateauth = `{
         "title": "{{.Title}}",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
-            "name": "API Support",
+            "name": "ICT INDOAGRI",
             "url": "http://www.swagger.io/support",
             "email": "support@swagger.io"
         },
@@ -25,16 +25,16 @@ const docTemplateauth = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/login": {
+        "/sign_in": {
             "post": {
-                "description": "Login",
+                "description": "Sign In User",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Login",
+                "summary": "Sign In",
                 "parameters": [
                     {
                         "description": "Login Schema ",
@@ -42,7 +42,7 @@ const docTemplateauth = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schema.Login"
+                            "$ref": "#/definitions/schema.SignInJsonSchema"
                         }
                     }
                 ],
@@ -55,10 +55,57 @@ const docTemplateauth = `{
                     }
                 }
             }
+        },
+        "/sign_up": {
+            "post": {
+                "description": "Sign Up User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Sign Up",
+                "parameters": [
+                    {
+                        "description": "Login Schema ",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.SignUpJsonSchema"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "schema.Login": {
+        "schema.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.MsgResponse": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.SignInJsonSchema": {
             "type": "object",
             "required": [
                 "password",
@@ -73,10 +120,32 @@ const docTemplateauth = `{
                 }
             }
         },
-        "schema.LoginResponse": {
+        "schema.SignUpJsonSchema": {
             "type": "object",
+            "required": [
+                "company_id",
+                "email",
+                "password",
+                "role",
+                "username"
+            ],
             "properties": {
-                "token": {
+                "company_id": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "username": {
                     "type": "string"
                 }
             }
@@ -86,12 +155,12 @@ const docTemplateauth = `{
 
 // SwaggerInfoauth holds exported Swagger Info so clients can modify it
 var SwaggerInfoauth = &swag.Spec{
-	Version:          "2.0",
+	Version:          "1.0.0",
 	Host:             "localhost:8080",
 	BasePath:         "/auth",
 	Schemes:          []string{},
-	Title:            "Swagger Example API",
-	Description:      "This is a sample server.",
+	Title:            "Authentication User Service",
+	Description:      "User Service OPEN API.",
 	InfoInstanceName: "auth",
 	SwaggerTemplate:  docTemplateauth,
 }

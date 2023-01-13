@@ -23,12 +23,10 @@ func Protected(router *gin.Engine) {
 	protectedRoutes := router.Group("/api")
 
 	protectedRoutes.Use(middleware.JWTAuthMiddleware())
+
 	//User
+	protectedRoutes.POST("/user/employee", controller.EmployeeAddNew)
 	protectedRoutes.GET("/user/:ID", controller.UserGetProfiles)
-	protectedRoutes.POST("/user/:ID/assign_roles", controller.UserAssignRole)
-	protectedRoutes.POST("/user/account/:ID/assign_role_app", controller.UserAssignRoleApplication)
-	protectedRoutes.POST("/user/:ID/assign_division", controller.UserAssignDivisions)
-	protectedRoutes.PATCH("/user/account/:ID/account_edit", controller.UserAccountUpdate)
 	// Article
 	protectedRoutes.POST("/article", controller.ArticleAddNew)
 	protectedRoutes.GET("/article/:ID", controller.ArticleFindById)
@@ -38,6 +36,10 @@ func Protected(router *gin.Engine) {
 	// Estate
 	protectedRoutes.POST("/estate", controller.EstateAddNew)
 	protectedRoutes.PATCH("/estate/:ID/edit", controller.EstateUpdate)
+
+	// Estate
+	protectedRoutes.POST("/application", controller.ApplicationAddNew)
+	protectedRoutes.PATCH("/application/:ID/edit", controller.ApplicationUpdate)
 
 	// Gang
 	protectedRoutes.POST("/gang", controller.GangAddNew)

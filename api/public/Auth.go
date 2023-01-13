@@ -10,8 +10,55 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Register(context *gin.Context) {
-	var input schema.Register
+// @Summary Sign In
+// @Description Sign In User
+// @Accept  json
+// @Param login body schema.SignInJsonSchema true "Login Schema "
+// @Produce  json
+// @Success 200 {object}  schema.LoginResponse
+// @Router /sign_in [post]
+func SignIn(context *gin.Context) {
+	var input schema.SignInJsonSchema
+	if err := context.ShouldBindJSON(&input); err != nil {
+		context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err.Error()})
+		return
+	}
+	if input.Username != "" {
+		fmt.Println("Username tidak kosong")
+	}
+	user, err := model.UserFindByUsername(input.Username)
+
+	fmt.Println(&user, err)
+	if err != nil {
+		context.JSON(http.StatusNotFound, schema.MsgResponse{Msg: "User Not Found"})
+		return
+	}
+
+	err = user.ValidatePassword(input.Password)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: "Wrong Password"})
+		return
+	}
+
+	jwt, err := helper.GenerateJWT(user)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, schema.LoginResponse{Token: jwt})
+}
+
+//
+// @Summary Sign Up
+// @Description Sign Up User
+// @Accept  json
+// @Param login body schema.SignUpJsonSchema true "Login Schema "
+// @Produce  json
+// @Success 200 {object}  schema.MsgResponse
+// @Router /sign_up [post]
+func SignUp(context *gin.Context) {
+	var input schema.SignUpJsonSchema
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -60,44 +107,4 @@ func Register(context *gin.Context) {
 	fmt.Println(savedProfile)
 	fmt.Println(savedUser)
 	context.JSON(http.StatusCreated, schema.MsgResponse{Msg: "Register Completed"})
-}
-
-//
-// @Summary Login
-// @Description Login
-// @Accept  json
-// @Param login body schema.Login true "Login Schema "
-// @Produce  json
-// @Success 200 {object}  schema.LoginResponse
-// @Router /login [post]
-func Login(context *gin.Context) {
-	var input schema.Login
-	if err := context.ShouldBindJSON(&input); err != nil {
-		context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err.Error()})
-		return
-	}
-	if input.Username != "" {
-		fmt.Println("Username tidak kosong")
-	}
-	user, err := model.UserFindByUsername(input.Username)
-
-	fmt.Println(&user, err)
-	if err != nil {
-		context.JSON(http.StatusNotFound, schema.MsgResponse{Msg: "User Not Found"})
-		return
-	}
-
-	err = user.ValidatePassword(input.Password)
-
-	if err != nil {
-		context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: "Wrong Password"})
-		return
-	}
-
-	jwt, err := helper.GenerateJWT(user)
-	if err != nil {
-		context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err.Error()})
-		return
-	}
-	context.JSON(http.StatusOK, schema.LoginResponse{Token: jwt})
 }

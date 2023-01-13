@@ -32,27 +32,26 @@ type Employee struct {
 	IsActive     bool `gorm:"type:bool;default:true" json:"status"`
 }
 
+func (Employee) TableName() string {
+	return "employees"
+}
+
 type JsonEmployeeCreate struct {
 	Code            string   `json:"code" binding:"required"`
 	Username        string   `json:"username" binding:"required"`
 	Email           string   `json:"email" binding:"required"`
 	Password        string   `json:"password" binding:"required"`
 	Roles           []string `json:"role" binding:"required"`
-	RoleApplication []string `json:"role_application"`
+	RoleApplication []string `json:"role_application" binding:"required"`
 	CompanyId       string   `json:"company_id" binding:"required"`
-	Divisions       []string `json:"divisi" binding:"required"`
-	Nik             string   `json:"nik"`
-	NickName        string   `json:"nickname"`
-	FullName        string   `json:"fullname"`
-	Picture         string   `json:"picture"`
-	PhoneNumber     string   `json:"phone_number"`
-	Address         string   `json:"address"`
-	Department      string   `gorm:"type:text;" json:"department"`
-	OfficeNumber    string   `gorm:"type:text;" json:"office_number"`
-	UpdatedAt       time.Time
-	CreatedAt       time.Time
-}
-
-func (Employee) TableName() string {
-	return "employees"
+	Divisions       []string `json:"division" binding:"required"`
+	Application     []string `json:"application" binding:"required"`
+	Nik             string   `json:"nik" binding:"required"`
+	NickName        string   `json:"nickname" binding:"required"`
+	FullName        string   `json:"fullname" binding:"required"`
+	Picture         string   `json:"picture" binding:"required"`
+	PhoneNumber     string   `json:"phone_number" binding:"required"`
+	Address         string   `json:"address" binding:"required"`
+	Department      string   `json:"department" binding:"required"`
+	OfficeNumber    string   `json:"office_number" binding:"required"`
 }
