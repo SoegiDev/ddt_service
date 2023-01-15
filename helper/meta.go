@@ -5,6 +5,7 @@ import (
 	"ddtservice_agri/schema"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -104,7 +105,7 @@ func Metauser(context *gin.Context, id string) {
 			map_gang := []schema.MetaGang{}
 			for _, gg := range division.Gangs {
 				map_gang = append(map_gang, schema.MetaGang{
-					Id:   gg.Id,
+					Id:   strconv.Itoa(int(gg.Id)),
 					Code: gg.Code,
 					Name: gg.Name})
 			}

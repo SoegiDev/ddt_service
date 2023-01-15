@@ -35,31 +35,25 @@ func (data *User) ValidatePassword(password string) error {
 
 func UserFindByUsername(username string) (User, error) {
 	var data User
-	err := database.Database.Preload("Roles").Preload("Divisions").Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("username = ?", username).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
+	err := database.Database.Preload(clause.Associations).Preload("Divisions.Gangs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("name = ? AND is_deleted = ? AND is_active = ?", username, false, true).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
+	return data, err
+}
+
+func UserFindAll(username string) ([]User, error) {
+	var data []User
+	err := database.Database.Where("is_deleted = ? AND is_active = ?", false, true).Find(&data).Error
 	return data, err
 }
 
 func UserFindById(id string) (User, error) {
 	var data User
-	err := database.Database.Preload("Divisions").Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("id = ?", id).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
-	return data, err
-}
-
-func UserFindByCode(code string) (User, error) {
-	var data User
-	err := database.Database.Preload("Divisions").Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("code = ?", code).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
-	return data, err
-}
-
-func UserFindByIdLogin(id string) (User, error) {
-	var data User
-	err := database.Database.Preload("ActivityLogs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("id = ?", id).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
+	err := database.Database.Preload(clause.Associations).Preload("Divisions.Gangs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("id = ? AND is_deleted = ? AND is_active = ?", id, false, true).Or("code = ? AND is_deleted = ? AND is_active = ?", id, false, true).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
 	return data, err
 }
 
 func UserMetaFindById(id string) (User, error) {
 	var data User
-	err := database.Database.Where("id = ?", id).Preload("Accounts.RoleApplications").Preload("Accounts.Application").Preload("Employees.Company").Preload("Employees", "is_active NOT IN (?)", false).Preload(clause.Associations).First(&data).Error
+	err := database.Database.Preload(clause.Associations).Preload("Divisions.Gangs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("id = ? AND is_deleted = ? AND is_active = ?", id, false, true).Or("code = ? AND is_deleted = ? AND is_active = ?", id, false, true).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
 	return data, err
 }
 
@@ -68,7 +62,7 @@ func (data *User) UserAssignRoles(id string, roleUpdates []schema.Role) (User, e
 	if err != nil {
 		return *data, err
 	}
-	res, _ := UserFindByIdLogin(id)
+	res, _ := UserFindById(id)
 	return res, nil
 }
 func (data *User) UserAssignDivision(id string, divisionUpdate []schema.Division) (User, error) {
@@ -76,7 +70,7 @@ func (data *User) UserAssignDivision(id string, divisionUpdate []schema.Division
 	if err != nil {
 		return *data, err
 	}
-	res, _ := UserFindByIdLogin(id)
+	res, _ := UserFindById(id)
 	return res, nil
 }
 func (data *User) UserGetCount() int64 {

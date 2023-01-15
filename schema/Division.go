@@ -17,7 +17,7 @@ type Division struct {
 	IsDeleted   bool   `gorm:"type:bool;default:false" json:"delete"`
 	IsActive    bool   `gorm:"type:bool;default:true" json:"status"`
 	EstateId    string `gorm:"size:50;" json:"estate_id"`
-	Gangs       []Gang `gorm:"foreignKey:DivisionId"`
+	Gangs       []Gang `gorm:"foreignKey:DivisionId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 type DivisionMap struct {

@@ -14,16 +14,19 @@
     "host": "localhost:8080",
     "basePath": "/api",
     "paths": {
-        "/user/:ID": {
+        "/application": {
             "get": {
-                "description": "Profile Meta User",
+                "description": "Get Application All",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "API SERVICE",
+                "tags": [
+                    "(E) Application"
+                ],
+                "summary": "Get All Application",
                 "parameters": [
                     {
                         "type": "string",
@@ -31,13 +34,6 @@
                         "description": "Insert your access token",
                         "name": "Authorization",
                         "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Search User By ID",
-                        "name": "ID",
-                        "in": "path",
                         "required": true
                     }
                 ],
@@ -45,22 +41,26 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schema.MetaUser"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.ApplicationResponse"
+                            }
                         }
                     }
                 }
-            }
-        },
-        "/user/:ID/assign_roles": {
-            "get": {
-                "description": "User Assign Role User",
+            },
+            "post": {
+                "description": "Create Application",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "User Assign Role",
+                "tags": [
+                    "(E) Application"
+                ],
+                "summary": "Create Application",
                 "parameters": [
                     {
                         "type": "string",
@@ -71,19 +71,52 @@
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "Assign User By ID",
-                        "name": "ID",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Assign User Schema ",
-                        "name": "Register",
+                        "description": "Estate Schema ",
+                        "name": "Estate",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schema.AssignUserRole"
+                            "$ref": "#/definitions/schema.RequestApplication"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Application",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(E) Application"
+                ],
+                "summary": "Update Application",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Application Schema ",
+                        "name": "Estate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.RequestApplicationUpdate"
                         }
                     }
                 ],
@@ -97,7 +130,319 @@
                 }
             }
         },
-        "/user/employee": {
+        "/application/{id}": {
+            "get": {
+                "description": "Get Application ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(E) Application"
+                ],
+                "summary": "Get Application By ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID OR Application Code",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.ApplicationResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/company": {
+            "get": {
+                "description": "Get Company All",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(A) Company"
+                ],
+                "summary": "Get All Company",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.CompanyResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Company",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(A) Company"
+                ],
+                "summary": "Create Company",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Estate Schema ",
+                        "name": "Estate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.RequestCompany"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/company/{id}": {
+            "get": {
+                "description": "Get Company ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(A) Company"
+                ],
+                "summary": "Get Company By ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Company ID OR Company Code",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.CompanyResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/division": {
+            "get": {
+                "description": "Get Division All",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(C) Division"
+                ],
+                "summary": "Get All Division",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.DivisionResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Division",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(C) Division"
+                ],
+                "summary": "Create Division",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Estate Schema ",
+                        "name": "Estate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.RequestDivision"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Division",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(C) Division"
+                ],
+                "summary": "Update Division",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Company Schema ",
+                        "name": "Estate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.RequestDivisionUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/division/{id}": {
+            "get": {
+                "description": "Get Division ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(C) Division"
+                ],
+                "summary": "Get Division By ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Division ID OR Division Code",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.DivisionResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/employee": {
             "post": {
                 "description": "Employee Create New",
                 "consumes": [
@@ -105,6 +450,9 @@
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Employee"
                 ],
                 "summary": "Employee Add New",
                 "parameters": [
@@ -135,17 +483,909 @@
                     }
                 }
             }
+        },
+        "/employee/{id}": {
+            "get": {
+                "description": "Get Meta User By ID or Code",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Employee"
+                ],
+                "summary": "Get Meta User By ID or Code",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "USER ID OR USER Code",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MetaUser"
+                        }
+                    }
+                }
+            }
+        },
+        "/employee/{id}/edit": {
+            "patch": {
+                "description": "Employee Update Field",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Employee"
+                ],
+                "summary": "Employee Update",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Employee Update ",
+                        "name": "Register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.JsonEmployeeCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/estate": {
+            "get": {
+                "description": "Get Estate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(B) Estate"
+                ],
+                "summary": "Get Estate",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.EstateResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Estate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(B) Estate"
+                ],
+                "summary": "Create Estate",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Estate Schema ",
+                        "name": "Estate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.RequestEstate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Company",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(A) Company"
+                ],
+                "summary": "Update Company",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Company Schema ",
+                        "name": "Estate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.RequestCompanyUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/estate/{id}": {
+            "get": {
+                "description": "Get Estate ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(B) Estate"
+                ],
+                "summary": "Get Estate By ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Estate ID OR Estate Code",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.EstateResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/estate/{id}/edit": {
+            "patch": {
+                "description": "Update Estate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(B) Estate"
+                ],
+                "summary": "Update Field Estate",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Estate ID OR Estate Code",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Estate Schema ",
+                        "name": "Estate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.RequestEstateUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gang": {
+            "get": {
+                "description": "Get Gang All",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(D) Gang"
+                ],
+                "summary": "Get All Gang",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.GangResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Gang",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(D) Gang"
+                ],
+                "summary": "Create Gang",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Estate Schema ",
+                        "name": "Estate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.RequestGang"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Gang",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(D) Gang"
+                ],
+                "summary": "Update Gang",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Company Schema ",
+                        "name": "Estate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.RequestGangUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gang/{id}": {
+            "get": {
+                "description": "Get Gang ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "(D) Gang"
+                ],
+                "summary": "Get Gang By ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Division ID OR Division Code",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.GangResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user_new": {
+            "post": {
+                "description": "User New",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User Credential"
+                ],
+                "summary": "User New",
+                "parameters": [
+                    {
+                        "description": "Login Schema ",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.SignUpJsonSchema"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.MsgResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "schema.AssignUserRole": {
+        "gorm.DeletedAt": {
             "type": "object",
             "properties": {
-                "role": {
+                "time": {
+                    "type": "string"
+                },
+                "valid": {
+                    "description": "Valid is true if Time is not NULL",
+                    "type": "boolean"
+                }
+            }
+        },
+        "schema.ApplicationResponse": {
+            "type": "object",
+            "properties": {
+                "app_package": {
+                    "type": "string"
+                },
+                "app_package_class": {
+                    "type": "string"
+                },
+                "asset_apk": {
+                    "type": "string"
+                },
+                "asset_icon": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_note": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.Company": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "employees": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/schema.Employee"
                     }
+                },
+                "estates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Estate"
+                    }
+                },
+                "fax": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "sector": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.CompanyResponse": {
+            "type": "object",
+            "required": [
+                "address",
+                "code",
+                "description",
+                "domain",
+                "fax",
+                "name",
+                "phone_number",
+                "sector"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "employees": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Employee"
+                    }
+                },
+                "estates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Estate"
+                    }
+                },
+                "fax": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "sector": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.Division": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "estate_id": {
+                    "type": "string"
+                },
+                "gangs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Gang"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.DivisionResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "estate_id": {
+                    "type": "string"
+                },
+                "gang": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Gang"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "schema.Employee": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "company": {
+                    "$ref": "#/definitions/schema.Company"
+                },
+                "company_id": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "deleted": {
+                    "type": "boolean"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "department": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "expiredAt": {
+                    "type": "string"
+                },
+                "expired_time": {
+                    "type": "integer"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "nik": {
+                    "type": "string"
+                },
+                "office_number": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "picture": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.Estate": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "company": {
+                    "$ref": "#/definitions/schema.Company"
+                },
+                "company_id": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "divisions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Division"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.EstateResponse": {
+            "type": "object",
+            "properties": {
+                "Division": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Division"
+                    }
+                },
+                "code": {
+                    "type": "string"
+                },
+                "company": {
+                    "$ref": "#/definitions/schema.Company"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "schema.Gang": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "division": {
+                    "$ref": "#/definitions/schema.Division"
+                },
+                "division_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "schema.GangResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "division_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },
@@ -476,7 +1716,7 @@
                     "type": "string"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
@@ -574,6 +1814,356 @@
             "type": "object",
             "properties": {
                 "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.RequestApplication": {
+            "type": "object",
+            "required": [
+                "app_package",
+                "app_package_class",
+                "asset_apk",
+                "asset_icon",
+                "description",
+                "name",
+                "updated_note",
+                "version"
+            ],
+            "properties": {
+                "app_package": {
+                    "type": "string"
+                },
+                "app_package_class": {
+                    "type": "string"
+                },
+                "asset_apk": {
+                    "type": "string"
+                },
+                "asset_icon": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_note": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.RequestApplicationUpdate": {
+            "type": "object",
+            "required": [
+                "app_package",
+                "app_package_class",
+                "asset_apk",
+                "asset_icon",
+                "delete",
+                "description",
+                "name",
+                "status",
+                "updated_note",
+                "version"
+            ],
+            "properties": {
+                "app_package": {
+                    "type": "string"
+                },
+                "app_package_class": {
+                    "type": "string"
+                },
+                "asset_apk": {
+                    "type": "string"
+                },
+                "asset_icon": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updated_note": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.RequestCompany": {
+            "type": "object",
+            "required": [
+                "address",
+                "code",
+                "description",
+                "domain",
+                "fax",
+                "name",
+                "phone_number",
+                "sector"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "fax": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "sector": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.RequestCompanyUpdate": {
+            "type": "object",
+            "required": [
+                "address",
+                "code",
+                "delete",
+                "description",
+                "domain",
+                "fax",
+                "name",
+                "phone_number",
+                "sector",
+                "status"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "fax": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "sector": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "schema.RequestDivision": {
+            "type": "object",
+            "required": [
+                "code",
+                "description",
+                "name"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "estate_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.RequestDivisionUpdate": {
+            "type": "object",
+            "required": [
+                "code",
+                "delete",
+                "description",
+                "name",
+                "status"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "estate_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "schema.RequestEstate": {
+            "type": "object",
+            "required": [
+                "code",
+                "company_id",
+                "description",
+                "name"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "company_id": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.RequestEstateUpdate": {
+            "type": "object",
+            "required": [
+                "code",
+                "company_id",
+                "delete",
+                "description",
+                "name",
+                "status"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "company_id": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "schema.RequestGang": {
+            "type": "object",
+            "required": [
+                "code",
+                "division_id",
+                "name"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "division_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.RequestGangUpdate": {
+            "type": "object",
+            "required": [
+                "code",
+                "delete",
+                "division_id",
+                "name",
+                "status"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "division_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "schema.SignUpJsonSchema": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "role",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "username": {
                     "type": "string"
                 }
             }

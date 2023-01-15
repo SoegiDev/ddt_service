@@ -19,10 +19,10 @@ type Company struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt
-	IsDeleted   bool `gorm:"type:bool;default:false" json:"delete"`
-	IsActive    bool `gorm:"type:bool;default:true" json:"status"`
-	Employees   []Employee
-	Estates     []Estate
+	IsDeleted   bool       `gorm:"type:bool;default:false" json:"delete"`
+	IsActive    bool       `gorm:"type:bool;default:true" json:"status"`
+	Employees   []Employee `gorm:"foreignKey:CompanyId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Estates     []Estate   `gorm:"foreignKey:CompanyId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 func (Company) TableName() string {

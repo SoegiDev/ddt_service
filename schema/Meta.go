@@ -117,7 +117,7 @@ type MetaDivision struct {
 }
 
 type MetaGang struct {
-	Id   uint
+	Id   string
 	Code string
 	Name string
 }

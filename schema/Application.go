@@ -21,7 +21,7 @@ type Application struct {
 	DeletedAt       gorm.DeletedAt
 	IsDeleted       bool      `gorm:"type:bool;default:false" json:"delete"`
 	IsActive        bool      `gorm:"type:bool;default:true" json:"status"`
-	Accounts        []Account `gorm:"foreignKey:ApplicationId"`
+	Accounts        []Account `gorm:"foreignKey:ApplicationId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 func (Application) TableName() string {

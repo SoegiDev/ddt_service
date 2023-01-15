@@ -3,7 +3,7 @@ package model
 import (
 	"ddtservice_agri/database"
 	"ddtservice_agri/schema"
-	"fmt"
+	"strconv"
 )
 
 type Role schema.Role
@@ -26,16 +26,14 @@ func FindRoleById(id string) (Role, error) {
 	return data, err
 }
 
-func FindRoleMapById(params []int) ([]Role, error) {
+func FindRoleMapById(params []string) ([]Role, error) {
+	dtParams := []int{}
+	for _, element := range params {
+		intVar, _ := strconv.Atoi(element)
+		dtParams = append(dtParams, intVar)
+	}
 	var data []Role
-	err := database.Database.Where("id IN ?", params).Find(&data).Error
-	return data, err
-}
-
-func FindRoleMapByName(params []string) ([]Role, error) {
-	var data []Role
-	err := database.Database.Where("name IN ?", params).Find(&data).Error
-	fmt.Println(data)
+	err := database.Database.Where("id IN ?", dtParams).Or("name IN ?", params).Find(&data).Error
 	return data, err
 }
 

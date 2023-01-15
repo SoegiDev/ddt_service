@@ -22,8 +22,6 @@ definitions:
     type: object
   schema.SignUpJsonSchema:
     properties:
-      company_id:
-        type: string
       email:
         type: string
       password:
@@ -35,7 +33,6 @@ definitions:
       username:
         type: string
     required:
-    - company_id
     - email
     - password
     - role

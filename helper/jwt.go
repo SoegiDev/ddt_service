@@ -49,7 +49,7 @@ func CurrentUser(context *gin.Context) (model.User, error) {
 	claims, _ := token.Claims.(jwt.MapClaims)
 	userId := claims["id"].(string)
 
-	user, err := model.UserFindByIdLogin(userId)
+	user, err := model.UserFindById(userId)
 	return user, err
 }
 

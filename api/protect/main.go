@@ -25,26 +25,46 @@ func Protected(router *gin.Engine) {
 	protectedRoutes.Use(middleware.JWTAuthMiddleware())
 
 	//User
-	protectedRoutes.POST("/user/employee", controller.EmployeeAddNew)
-	protectedRoutes.GET("/user/:ID", controller.UserGetProfiles)
+	protectedRoutes.POST("/user", controller.UserAddNew)
+
+	//Employee
+	protectedRoutes.POST("/employee", controller.EmployeeAddNew)
+	protectedRoutes.PATCH("/employee/:ID/edit", controller.EmployeeUpdate)
+	protectedRoutes.GET("/employee/:ID", controller.EmployeeMeta)
+
+	// Company
+	protectedRoutes.POST("/company", controller.CompanyAddNew)
+	protectedRoutes.PATCH("/company/:ID/edit", controller.CompanyUpdate)
+	protectedRoutes.GET("/company/:ID", controller.CompanyById)
+	protectedRoutes.GET("/company", controller.CompanyByAll)
+
+	// Estate
+	protectedRoutes.POST("/estate", controller.EstateAddNew)
+	protectedRoutes.PATCH("/estate/:ID/edit", controller.EstateUpdate)
+	protectedRoutes.GET("/estate/:ID", controller.EstateById)
+	protectedRoutes.GET("/estate", controller.EstateByAll)
+
+	// Division
+	protectedRoutes.POST("/division", controller.DivisionAddNew)
+	protectedRoutes.PATCH("/division/:ID/edit", controller.DivisionUpdate)
+	protectedRoutes.GET("/division/:ID", controller.DivisionById)
+	protectedRoutes.GET("/division", controller.DivisionByAll)
+
+	// Gang
+	protectedRoutes.POST("/gang", controller.GangAddNew)
+	protectedRoutes.PATCH("/gang/:ID/edit", controller.GangUpdate)
+	protectedRoutes.GET("/gang/:ID", controller.GangById)
+	protectedRoutes.GET("/gang", controller.GangByAll)
+
 	// Article
 	protectedRoutes.POST("/article", controller.ArticleAddNew)
 	protectedRoutes.GET("/article/:ID", controller.ArticleFindById)
 	protectedRoutes.GET("/article", controller.AllArticles)
 	protectedRoutes.PATCH("/article/:ID/edit", controller.ArticleUpdate)
 
-	// Estate
-	protectedRoutes.POST("/estate", controller.EstateAddNew)
-	protectedRoutes.PATCH("/estate/:ID/edit", controller.EstateUpdate)
-
-	// Estate
+	// Application
 	protectedRoutes.POST("/application", controller.ApplicationAddNew)
 	protectedRoutes.PATCH("/application/:ID/edit", controller.ApplicationUpdate)
-
-	// Gang
-	protectedRoutes.POST("/gang", controller.GangAddNew)
-
-	// Division
-	protectedRoutes.POST("/division", controller.DivisionAddNew)
-
+	protectedRoutes.GET("/application/:ID", controller.ApplicationById)
+	protectedRoutes.GET("/application", controller.ApplicationByAll)
 }

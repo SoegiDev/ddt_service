@@ -3,51 +3,124 @@ package controller
 import (
 	"ddtservice_agri/helper"
 	"ddtservice_agri/model"
+	"ddtservice_agri/schema"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Create Division
+// @Description Create Division
+// @Accept  json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param Estate body schema.RequestDivision true "Estate Schema "
+// @Produce  json
+// @Success 200 {object}  schema.MsgResponse
+// @Router /division [post]
+// @Tags (C) Division
 func DivisionAddNew(context *gin.Context) {
-	var input model.Division
+	var input schema.RequestDivision
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	unique, _ := helper.GenerateDivisionId(3)
-	input.Id = unique
-
-	savedEntry, err := input.Save()
+	newData := model.Division{
+		Id:          unique,
+		Code:        input.Code,
+		Name:        input.Name,
+		Description: input.Description,
+		EstateId:    input.EstateId}
+	savedEntry, err := newData.Save()
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	context.JSON(http.StatusCreated, gin.H{"data": savedEntry})
+	fmt.Println(savedEntry)
+	context.JSON(http.StatusCreated, schema.MsgResponse{Msg: "Division Completed"})
 }
 
+// @Summary Update Division
+// @Description Update Division
+// @Accept  json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param Estate body schema.RequestDivisionUpdate true "Company Schema "
+// @Produce  json
+// @Success 200 {object}  schema.MsgResponse
+// @Router /division [patch]
+// @Tags (C) Division
 func DivisionUpdate(context *gin.Context) {
-	// Get model if exist
 	id := context.Param("ID")
 	data_entries, err := model.DivisionFindById(id)
 	if err != nil {
 		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
-	// Validate input
-	var input model.UpdateDivision
+
+	var input schema.RequestDivisionUpdate
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	// ddt := model.Entry{Content: input.Content}
-	// database.Database.Model(&entryContent).Updates(ddt)
-
 	updatedEntry, err := data_entries.DivisionChangeData(id, input)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"data": updatedEntry})
+	fmt.Println(updatedEntry)
+	context.JSON(http.StatusOK, schema.MsgResponse{Msg: "DIvision Update Completed"})
+}
+
+// @Summary Get Division By ID
+// @Description Get Division ID
+// @Accept  json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param id   path string  true  "Division ID OR Division Code"
+// @Produce  json
+// @Success 200 {object}  schema.DivisionResponse
+// @Router /division/{id} [get]
+// @Tags (C) Division
+func DivisionById(context *gin.Context) {
+	id := context.Param("ID")
+	get, err := model.DivisionFindById(id)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+	dtResponse := schema.DivisionResponse{
+		Id:          get.Id,
+		Code:        get.Code,
+		Name:        get.Name,
+		Description: get.Description,
+		EstateId:    get.EstateId,
+		Gangs:       get.Gangs}
+	context.JSON(http.StatusOK, gin.H{"data": dtResponse})
+}
+
+// @Summary Get All Division
+// @Description Get Division All
+// @Accept  json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Produce  json
+// @Success 200 {array}  schema.DivisionResponse
+// @Router /division [get]
+// @Tags (C) Division
+func DivisionByAll(context *gin.Context) {
+	getData, err := model.DivisionFindAll()
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+	allDivision := []schema.DivisionResponse{}
+	for _, get := range getData {
+		allDivision = append(allDivision, schema.DivisionResponse{
+			Id:          get.Id,
+			Code:        get.Code,
+			Name:        get.Name,
+			Description: get.Description,
+			EstateId:    get.EstateId,
+			Gangs:       get.Gangs})
+	}
+	context.JSON(http.StatusOK, gin.H{"data": allDivision})
 }

@@ -1,11 +1,287 @@
 basePath: /api
 definitions:
-  schema.AssignUserRole:
+  gorm.DeletedAt:
     properties:
-      role:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  schema.ApplicationResponse:
+    properties:
+      app_package:
+        type: string
+      app_package_class:
+        type: string
+      asset_apk:
+        type: string
+      asset_icon:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updated_note:
+        type: string
+      version:
+        type: string
+    type: object
+  schema.Company:
+    properties:
+      address:
+        type: string
+      code:
+        type: string
+      createdAt:
+        type: string
+      delete:
+        type: boolean
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      domain:
+        type: string
+      employees:
         items:
-          type: string
+          $ref: '#/definitions/schema.Employee'
         type: array
+      estates:
+        items:
+          $ref: '#/definitions/schema.Estate'
+        type: array
+      fax:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      phone_number:
+        type: string
+      sector:
+        type: string
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+    type: object
+  schema.CompanyResponse:
+    properties:
+      address:
+        type: string
+      code:
+        type: string
+      description:
+        type: string
+      domain:
+        type: string
+      employees:
+        items:
+          $ref: '#/definitions/schema.Employee'
+        type: array
+      estates:
+        items:
+          $ref: '#/definitions/schema.Estate'
+        type: array
+      fax:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      phone_number:
+        type: string
+      sector:
+        type: string
+    required:
+    - address
+    - code
+    - description
+    - domain
+    - fax
+    - name
+    - phone_number
+    - sector
+    type: object
+  schema.Division:
+    properties:
+      code:
+        type: string
+      createdAt:
+        type: string
+      delete:
+        type: boolean
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      estate_id:
+        type: string
+      gangs:
+        items:
+          $ref: '#/definitions/schema.Gang'
+        type: array
+      id:
+        type: string
+      name:
+        type: string
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+    type: object
+  schema.DivisionResponse:
+    properties:
+      code:
+        type: string
+      delete:
+        type: boolean
+      description:
+        type: string
+      estate_id:
+        type: string
+      gang:
+        items:
+          $ref: '#/definitions/schema.Gang'
+        type: array
+      id:
+        type: string
+      name:
+        type: string
+      status:
+        type: boolean
+    type: object
+  schema.Employee:
+    properties:
+      address:
+        type: string
+      code:
+        type: string
+      company:
+        $ref: '#/definitions/schema.Company'
+      company_id:
+        type: string
+      created_by:
+        type: string
+      createdAt:
+        type: string
+      deleted:
+        type: boolean
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      department:
+        type: string
+      email:
+        type: string
+      expired_time:
+        type: integer
+      expiredAt:
+        type: string
+      fullname:
+        type: string
+      id:
+        type: string
+      nickname:
+        type: string
+      nik:
+        type: string
+      office_number:
+        type: string
+      phone_number:
+        type: string
+      picture:
+        type: string
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+      userId:
+        type: string
+      username:
+        type: string
+    type: object
+  schema.Estate:
+    properties:
+      code:
+        type: string
+      company:
+        $ref: '#/definitions/schema.Company'
+      company_id:
+        type: string
+      createdAt:
+        type: string
+      delete:
+        type: boolean
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      divisions:
+        items:
+          $ref: '#/definitions/schema.Division'
+        type: array
+      id:
+        type: string
+      name:
+        type: string
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+    type: object
+  schema.EstateResponse:
+    properties:
+      Division:
+        items:
+          $ref: '#/definitions/schema.Division'
+        type: array
+      code:
+        type: string
+      company:
+        $ref: '#/definitions/schema.Company'
+      delete:
+        type: boolean
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      status:
+        type: boolean
+    type: object
+  schema.Gang:
+    properties:
+      code:
+        type: string
+      delete:
+        type: boolean
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      division:
+        $ref: '#/definitions/schema.Division'
+      division_id:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: boolean
+    type: object
+  schema.GangResponse:
+    properties:
+      code:
+        type: string
+      division_id:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
     type: object
   schema.JsonEmployeeCreate:
     properties:
@@ -228,7 +504,7 @@ definitions:
       code:
         type: string
       id:
-        type: integer
+        type: string
       name:
         type: string
     type: object
@@ -294,6 +570,254 @@ definitions:
       msg:
         type: string
     type: object
+  schema.RequestApplication:
+    properties:
+      app_package:
+        type: string
+      app_package_class:
+        type: string
+      asset_apk:
+        type: string
+      asset_icon:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      updated_note:
+        type: string
+      version:
+        type: string
+    required:
+    - app_package
+    - app_package_class
+    - asset_apk
+    - asset_icon
+    - description
+    - name
+    - updated_note
+    - version
+    type: object
+  schema.RequestApplicationUpdate:
+    properties:
+      app_package:
+        type: string
+      app_package_class:
+        type: string
+      asset_apk:
+        type: string
+      asset_icon:
+        type: string
+      delete:
+        type: boolean
+      description:
+        type: string
+      name:
+        type: string
+      status:
+        type: boolean
+      updated_note:
+        type: string
+      version:
+        type: string
+    required:
+    - app_package
+    - app_package_class
+    - asset_apk
+    - asset_icon
+    - delete
+    - description
+    - name
+    - status
+    - updated_note
+    - version
+    type: object
+  schema.RequestCompany:
+    properties:
+      address:
+        type: string
+      code:
+        type: string
+      description:
+        type: string
+      domain:
+        type: string
+      fax:
+        type: string
+      name:
+        type: string
+      phone_number:
+        type: string
+      sector:
+        type: string
+    required:
+    - address
+    - code
+    - description
+    - domain
+    - fax
+    - name
+    - phone_number
+    - sector
+    type: object
+  schema.RequestCompanyUpdate:
+    properties:
+      address:
+        type: string
+      code:
+        type: string
+      delete:
+        type: boolean
+      description:
+        type: string
+      domain:
+        type: string
+      fax:
+        type: string
+      name:
+        type: string
+      phone_number:
+        type: string
+      sector:
+        type: string
+      status:
+        type: boolean
+    required:
+    - address
+    - code
+    - delete
+    - description
+    - domain
+    - fax
+    - name
+    - phone_number
+    - sector
+    - status
+    type: object
+  schema.RequestDivision:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      estate_id:
+        type: string
+      name:
+        type: string
+    required:
+    - code
+    - description
+    - name
+    type: object
+  schema.RequestDivisionUpdate:
+    properties:
+      code:
+        type: string
+      delete:
+        type: boolean
+      description:
+        type: string
+      estate_id:
+        type: string
+      name:
+        type: string
+      status:
+        type: boolean
+    required:
+    - code
+    - delete
+    - description
+    - name
+    - status
+    type: object
+  schema.RequestEstate:
+    properties:
+      code:
+        type: string
+      company_id:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - code
+    - company_id
+    - description
+    - name
+    type: object
+  schema.RequestEstateUpdate:
+    properties:
+      code:
+        type: string
+      company_id:
+        type: string
+      delete:
+        type: boolean
+      description:
+        type: string
+      name:
+        type: string
+      status:
+        type: boolean
+    required:
+    - code
+    - company_id
+    - delete
+    - description
+    - name
+    - status
+    type: object
+  schema.RequestGang:
+    properties:
+      code:
+        type: string
+      division_id:
+        type: string
+      name:
+        type: string
+    required:
+    - code
+    - division_id
+    - name
+    type: object
+  schema.RequestGangUpdate:
+    properties:
+      code:
+        type: string
+      delete:
+        type: boolean
+      division_id:
+        type: string
+      name:
+        type: string
+      status:
+        type: boolean
+    required:
+    - code
+    - delete
+    - division_id
+    - name
+    - status
+    type: object
+  schema.SignUpJsonSchema:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      role:
+        items:
+          type: string
+        type: array
+      username:
+        type: string
+    required:
+    - email
+    - password
+    - role
+    - username
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -305,21 +829,16 @@ info:
   title: Swagger User Service
   version: "1.0"
 paths:
-  /user/:ID:
+  /application:
     get:
       consumes:
       - application/json
-      description: Profile Meta User
+      description: Get Application All
       parameters:
       - default: Bearer <Add access token here>
         description: Insert your access token
         in: header
         name: Authorization
-        required: true
-        type: string
-      - description: Search User By ID
-        in: path
-        name: ID
         required: true
         type: string
       produces:
@@ -328,13 +847,16 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schema.MetaUser'
-      summary: API SERVICE
-  /user/:ID/assign_roles:
-    get:
+            items:
+              $ref: '#/definitions/schema.ApplicationResponse'
+            type: array
+      summary: Get All Application
+      tags:
+      - (E) Application
+    patch:
       consumes:
       - application/json
-      description: User Assign Role User
+      description: Update Application
       parameters:
       - default: Bearer <Add access token here>
         description: Insert your access token
@@ -342,17 +864,12 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: Assign User By ID
-        in: path
-        name: ID
-        required: true
-        type: string
-      - description: 'Assign User Schema '
+      - description: 'Application Schema '
         in: body
-        name: Register
+        name: Estate
         required: true
         schema:
-          $ref: '#/definitions/schema.AssignUserRole'
+          $ref: '#/definitions/schema.RequestApplicationUpdate'
       produces:
       - application/json
       responses:
@@ -360,8 +877,247 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schema.MsgResponse'
-      summary: User Assign Role
-  /user/employee:
+      summary: Update Application
+      tags:
+      - (E) Application
+    post:
+      consumes:
+      - application/json
+      description: Create Application
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 'Estate Schema '
+        in: body
+        name: Estate
+        required: true
+        schema:
+          $ref: '#/definitions/schema.RequestApplication'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: Create Application
+      tags:
+      - (E) Application
+  /application/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Application ID
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Application ID OR Application Code
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.ApplicationResponse'
+      summary: Get Application By ID
+      tags:
+      - (E) Application
+  /company:
+    get:
+      consumes:
+      - application/json
+      description: Get Company All
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/schema.CompanyResponse'
+            type: array
+      summary: Get All Company
+      tags:
+      - (A) Company
+    post:
+      consumes:
+      - application/json
+      description: Create Company
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 'Estate Schema '
+        in: body
+        name: Estate
+        required: true
+        schema:
+          $ref: '#/definitions/schema.RequestCompany'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: Create Company
+      tags:
+      - (A) Company
+  /company/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Company ID
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Company ID OR Company Code
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.CompanyResponse'
+      summary: Get Company By ID
+      tags:
+      - (A) Company
+  /division:
+    get:
+      consumes:
+      - application/json
+      description: Get Division All
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/schema.DivisionResponse'
+            type: array
+      summary: Get All Division
+      tags:
+      - (C) Division
+    patch:
+      consumes:
+      - application/json
+      description: Update Division
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 'Company Schema '
+        in: body
+        name: Estate
+        required: true
+        schema:
+          $ref: '#/definitions/schema.RequestDivisionUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: Update Division
+      tags:
+      - (C) Division
+    post:
+      consumes:
+      - application/json
+      description: Create Division
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 'Estate Schema '
+        in: body
+        name: Estate
+        required: true
+        schema:
+          $ref: '#/definitions/schema.RequestDivision'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: Create Division
+      tags:
+      - (C) Division
+  /division/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Division ID
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Division ID OR Division Code
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.DivisionResponse'
+      summary: Get Division By ID
+      tags:
+      - (C) Division
+  /employee:
     post:
       consumes:
       - application/json
@@ -387,4 +1143,326 @@ paths:
           schema:
             $ref: '#/definitions/schema.MsgResponse'
       summary: Employee Add New
+      tags:
+      - Employee
+  /employee/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Meta User By ID or Code
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: USER ID OR USER Code
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MetaUser'
+      summary: Get Meta User By ID or Code
+      tags:
+      - Employee
+  /employee/{id}/edit:
+    patch:
+      consumes:
+      - application/json
+      description: Employee Update Field
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 'Employee Update '
+        in: body
+        name: Register
+        required: true
+        schema:
+          $ref: '#/definitions/schema.JsonEmployeeCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: Employee Update
+      tags:
+      - Employee
+  /estate:
+    get:
+      consumes:
+      - application/json
+      description: Get Estate
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/schema.EstateResponse'
+            type: array
+      summary: Get Estate
+      tags:
+      - (B) Estate
+    patch:
+      consumes:
+      - application/json
+      description: Update Company
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 'Company Schema '
+        in: body
+        name: Estate
+        required: true
+        schema:
+          $ref: '#/definitions/schema.RequestCompanyUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: Update Company
+      tags:
+      - (A) Company
+    post:
+      consumes:
+      - application/json
+      description: Create Estate
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 'Estate Schema '
+        in: body
+        name: Estate
+        required: true
+        schema:
+          $ref: '#/definitions/schema.RequestEstate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: Create Estate
+      tags:
+      - (B) Estate
+  /estate/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Estate ID
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Estate ID OR Estate Code
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.EstateResponse'
+      summary: Get Estate By ID
+      tags:
+      - (B) Estate
+  /estate/{id}/edit:
+    patch:
+      consumes:
+      - application/json
+      description: Update Estate
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Estate ID OR Estate Code
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 'Estate Schema '
+        in: body
+        name: Estate
+        required: true
+        schema:
+          $ref: '#/definitions/schema.RequestEstateUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: Update Field Estate
+      tags:
+      - (B) Estate
+  /gang:
+    get:
+      consumes:
+      - application/json
+      description: Get Gang All
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/schema.GangResponse'
+            type: array
+      summary: Get All Gang
+      tags:
+      - (D) Gang
+    patch:
+      consumes:
+      - application/json
+      description: Update Gang
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 'Company Schema '
+        in: body
+        name: Estate
+        required: true
+        schema:
+          $ref: '#/definitions/schema.RequestGangUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: Update Gang
+      tags:
+      - (D) Gang
+    post:
+      consumes:
+      - application/json
+      description: Create Gang
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 'Estate Schema '
+        in: body
+        name: Estate
+        required: true
+        schema:
+          $ref: '#/definitions/schema.RequestGang'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: Create Gang
+      tags:
+      - (D) Gang
+  /gang/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Gang ID
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Division ID OR Division Code
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.GangResponse'
+      summary: Get Gang By ID
+      tags:
+      - (D) Gang
+  /user_new:
+    post:
+      consumes:
+      - application/json
+      description: User New
+      parameters:
+      - description: 'Login Schema '
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/schema.SignUpJsonSchema'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.MsgResponse'
+      summary: User New
+      tags:
+      - User Credential
 swagger: "2.0"

@@ -1,9 +1,0 @@
-POST http://localhost:8080/api/gang HTTP/1.1
-content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzM0MjAzMjUsImlkIjoiVVNSNTA3MjMxMTExMTYifQ.57W0pJ4yAvt2Ig9EBdEm8BLQqwR04CWkrfy2nKzMakU
-
-{
-    "code":"01001",
-    "name":"Gang 1",
-    "division_id":"DIV29223111119"
-}

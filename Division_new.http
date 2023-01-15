@@ -1,9 +1,0 @@
-POST http://localhost:8080/api/division HTTP/1.1
-content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzM2MzEzOTAsImlkIjoiVVNSNTgzMjMxMzgyNSJ9.zks7j-2OVIqo8oeA0YHeNpdNp5j5G7OkaXcCQw4JGh8
-
-{
-    "name":"Divisi 1",
-    "description":"DIVISI ESTATE 1",
-    "estate_id":"EST14423131447"
-}

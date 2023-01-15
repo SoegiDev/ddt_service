@@ -1,8 +1,0 @@
-PATCH  http://localhost:8080/api/article/ACL25523102216/edit HTTP/1.1
-content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzMzNjczNjcsImlkIjoiVVNSMTU0MjMxMDIyMTYifQ.i0QVQR_JhdGm_W60eKKDWQNxAT16hoelVb3zAoP8EEk
-
-{
-    "title": "Title Article Edit 1",
-    "content": "Content Article Edit 1"
-}

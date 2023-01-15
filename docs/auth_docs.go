@@ -123,16 +123,12 @@ const docTemplateauth = `{
         "schema.SignUpJsonSchema": {
             "type": "object",
             "required": [
-                "company_id",
                 "email",
                 "password",
                 "role",
                 "username"
             ],
             "properties": {
-                "company_id": {
-                    "type": "string"
-                },
                 "email": {
                     "type": "string"
                 },

@@ -17,12 +17,12 @@ type User struct {
 	DeletedAt    gorm.DeletedAt
 	IsDeleted    bool          `gorm:"type:bool;default:false" json:"delete"`
 	IsActive     bool          `gorm:"type:bool;default:true" json:"status"`
-	Employees    []Employee    `gorm:"foreignKey:UserId"`
+	Employees    []Employee    `gorm:"foreignKey:UserId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Divisions    []Division    `gorm:"many2many:user_divisions;"`
 	Roles        []Role        `gorm:"many2many:user_roles;"`
-	Articles     []Article     `gorm:"foreignKey:UserId"`
-	Accounts     []Account     `gorm:"foreignKey:UserId"`
-	ActivityLogs []ActivityLog `gorm:"foreignKey:UserId"`
+	Articles     []Article     `gorm:"foreignKey:UserId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Accounts     []Account     `gorm:"foreignKey:UserId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	ActivityLogs []ActivityLog `gorm:"foreignKey:UserId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 func (User) TableName() string {

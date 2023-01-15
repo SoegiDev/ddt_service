@@ -3,10 +3,11 @@ package model
 import (
 	"ddtservice_agri/database"
 	"ddtservice_agri/schema"
+
+	"gorm.io/gorm/clause"
 )
 
 type Division schema.Division
-type UpdateDivision schema.UpdateDivision
 
 func (data *Division) Save() (*Division, error) {
 	err := database.Database.Create(&data).Error
@@ -15,47 +16,29 @@ func (data *Division) Save() (*Division, error) {
 
 func DivisionFindAll() ([]Division, error) {
 	var data []Division
-	err := database.Database.Find(&data).Error
+	err := database.Database.Preload(clause.Associations).Where("is_deleted = ? AND is_active = ?", false, true).Find(&data).Find(&data).Error
 	return data, err
 }
 
-func DivisionFindByName(name string) (Division, error) {
+func DivisionFindByName(param string) (Division, error) {
 	var data Division
-	err := database.Database.Where("name=?", name).First(&data).Error
+	err := database.Database.Preload(clause.Associations).Where("name=? AND is_deleted = ? AND is_active = ?", param, false, true).Find(&data).First(&data).Error
 	return data, err
 }
 
-func DivisionFindById(id string) (Division, error) {
+func DivisionFindById(param string) (Division, error) {
 	var data Division
-	err := database.Database.Where("id=?", id).First(&data).Error
-	return data, err
-}
-
-func DivisionFindByCode(code string) (Division, error) {
-	var data Division
-	err := database.Database.Where("code=?", code).First(&data).Error
+	err := database.Database.Preload(clause.Associations).Where("id=? AND is_deleted = ? AND is_active = ?", param, false, true).Or("code=? AND is_deleted = ? AND is_active = ?", param, false, true).Find(&data).First(&data).Error
 	return data, err
 }
 
 func DivisonFindMapById(params []string) ([]Division, error) {
 	var data []Division
-	err := database.Database.Where("id IN ?", params).Find(&data).Error
+	err := database.Database.Where("id IN ?", params).Or("code IN ?", params).Or("name IN ?", params).Find(&data).Error
 	return data, err
 }
 
-func DivisonFindMapByName(params []string) ([]Division, error) {
-	var data []Division
-	err := database.Database.Where("name IN ?", params).Find(&data).Error
-	return data, err
-}
-
-func DivisonFindMapByCode(params []string) ([]Division, error) {
-	var data []Division
-	err := database.Database.Where("code IN ?", params).Find(&data).Error
-	return data, err
-}
-
-func (data Division) DivisionChangeData(id string, ua UpdateDivision) (Division, error) {
+func (data Division) DivisionChangeData(id string, ua schema.RequestDivisionUpdate) (Division, error) {
 	err := database.Database.Model(Article{}).Where("id = ?", id).Updates(ua).Error
 	if err != nil {
 		return data, err

@@ -18,7 +18,7 @@ type Estate struct {
 	DeletedAt   gorm.DeletedAt
 	IsDeleted   bool       `gorm:"type:bool;default:false" json:"delete"`
 	IsActive    bool       `gorm:"type:bool;default:true" json:"status"`
-	Divisions   []Division `gorm:"foreignKey:EstateId"`
+	Divisions   []Division `gorm:"foreignKey:EstateId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 func (Estate) TableName() string {
