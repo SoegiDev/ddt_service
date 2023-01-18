@@ -8,6 +8,7 @@ import (
 
 type Application struct {
 	Id              string `json:"id" gorm:"primaryKey;size:50;"`
+	Code            string `gorm:"size:20;unique" json:"code"`
 	Name            string `gorm:"size:100;" json:"name"`
 	Description     string `gorm:"type:text;" json:"description"`
 	UpdatedNote     string `gorm:"type:text;" json:"updated_note"`

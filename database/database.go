@@ -19,7 +19,7 @@ func Connect() {
 	databaseName := os.Getenv("DB_NAME")
 
 	//dsn: = "sqlserver://<user>:<password>@<server_host>?database=<database_name>"
-	dsn := fmt.Sprintf("sqlserver://%s:%s@%s?database=%s&encrypt=disable&connection+timeout=30", username, password, host, databaseName)
+	dsn := fmt.Sprintf("sqlserver://%s:%s@%s?database=%s&encrypt=disable&connection+timeout=60", username, password, host, databaseName)
 	fmt.Println(dsn)
 	Database, err = gorm.Open(sqlserver.Open(dsn), &gorm.Config{})
 

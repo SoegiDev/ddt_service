@@ -31,7 +31,7 @@ func EstateAddNew(context *gin.Context) {
 		Code:        input.Code,
 		Name:        input.Name,
 		Description: input.Description,
-		CompanyId:   input.CompanyId}
+		CompanyCode: input.CompanyCode}
 	savedEntry, err := newEstate.Save()
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -86,7 +86,7 @@ func EstateById(context *gin.Context) {
 	id := context.Param("ID")
 	get, err := model.EstateFindById(id)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
 	estResponse := schema.EstateResponse{
@@ -112,7 +112,7 @@ func EstateById(context *gin.Context) {
 func EstateByAll(context *gin.Context) {
 	getData, err := model.EstateFindAll()
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
 	allEstate := []schema.EstateResponse{}

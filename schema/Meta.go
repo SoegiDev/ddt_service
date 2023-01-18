@@ -39,7 +39,7 @@ type MetaActivities struct {
 
 type MetaAccount struct {
 	Id              string
-	UserId          string
+	UserCode        string
 	RoleApplication []MetaRoleApp
 	Application     MetaApp
 }
@@ -80,7 +80,7 @@ type MetaEmployee struct {
 	Picture      string
 	PhoneNumber  string
 	Address      string
-	CompanyId    string
+	CompanyCode  string
 	Department   string
 	OfficeNumber string
 	Expired      int

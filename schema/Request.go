@@ -3,14 +3,14 @@ package schema
 type RequestEstate struct {
 	Code        string `json:"code" binding:"required"`
 	Name        string `json:"name" binding:"required"`
-	CompanyId   string `json:"company_id" binding:"required"`
+	CompanyCode string `json:"company_code" binding:"required"`
 	Description string `json:"description" binding:"required"`
 }
 
 type RequestEstateUpdate struct {
 	Code        string `json:"code" binding:"required"`
 	Name        string `json:"name" binding:"required"`
-	CompanyId   string `json:"company_id" binding:"required"`
+	CompanyCode string `json:"company_code" binding:"required"`
 	Description string `json:"description" binding:"required"`
 	IsDeleted   bool   `json:"delete" binding:"required"`
 	IsActive    bool   `json:"status" binding:"required"`
@@ -44,30 +44,30 @@ type RequestDivision struct {
 	Code        string `json:"code" binding:"required"`
 	Name        string `json:"name" binding:"required"`
 	Description string `json:"description" binding:"required"`
-	EstateId    string `json:"estate_id"`
+	EstateCode  string `json:"estate_code"`
 }
 
 type RequestDivisionUpdate struct {
 	Code        string `json:"code" binding:"required"`
 	Name        string `json:"name" binding:"required"`
 	Description string `json:"description" binding:"required"`
-	EstateId    string `json:"estate_id"`
+	EstateCode  string `json:"estate_code"`
 	IsDeleted   bool   `json:"delete" binding:"required"`
 	IsActive    bool   `json:"status" binding:"required"`
 }
 
 type RequestGang struct {
-	Code       string `json:"code" binding:"required"`
-	Name       string `json:"name" binding:"required"`
-	DivisionId string `json:"division_id" binding:"required"`
+	Code         string `json:"code" binding:"required"`
+	Name         string `json:"name" binding:"required"`
+	DivisionCode string `json:"division_code" binding:"required"`
 }
 
 type RequestGangUpdate struct {
-	Code       string `json:"code" binding:"required"`
-	Name       string `json:"name" binding:"required"`
-	DivisionId string `json:"division_id" binding:"required"`
-	IsDeleted  bool   `json:"delete" binding:"required"`
-	IsActive   bool   `json:"status" binding:"required"`
+	Code         string `json:"code" binding:"required"`
+	Name         string `json:"name" binding:"required"`
+	DivisionCode string `json:"division_code" binding:"required"`
+	IsDeleted    bool   `json:"delete" binding:"required"`
+	IsActive     bool   `json:"status" binding:"required"`
 }
 
 type RequestApplication struct {

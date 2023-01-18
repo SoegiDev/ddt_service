@@ -26,9 +26,9 @@ func GangAddNew(context *gin.Context) {
 		return
 	}
 	newData := model.Gang{
-		Code:       input.Code,
-		Name:       input.Name,
-		DivisionId: input.DivisionId}
+		Code:         input.Code,
+		Name:         input.Name,
+		DivisionCode: input.DivisionCode}
 	savedEntry, err := newData.Save()
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -82,14 +82,14 @@ func GangById(context *gin.Context) {
 	id := context.Param("ID")
 	get, err := model.GangFindById(id)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
 	dtResponse := schema.GangResponse{
-		Id:         strconv.Itoa(int(get.Id)),
-		Code:       get.Code,
-		Name:       get.Name,
-		DivisionId: get.DivisionId}
+		Id:           strconv.Itoa(int(get.Id)),
+		Code:         get.Code,
+		Name:         get.Name,
+		DivisionCode: get.DivisionCode}
 	context.JSON(http.StatusOK, gin.H{"data": dtResponse})
 }
 
@@ -104,16 +104,16 @@ func GangById(context *gin.Context) {
 func GangByAll(context *gin.Context) {
 	getData, err := model.GangFindAll()
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
 	allGang := []schema.GangResponse{}
 	for _, get := range getData {
 		allGang = append(allGang, schema.GangResponse{
-			Id:         strconv.Itoa(int(get.Id)),
-			Code:       get.Code,
-			Name:       get.Name,
-			DivisionId: get.DivisionId})
+			Id:           strconv.Itoa(int(get.Id)),
+			Code:         get.Code,
+			Name:         get.Name,
+			DivisionCode: get.DivisionCode})
 	}
 	context.JSON(http.StatusOK, gin.H{"data": allGang})
 }

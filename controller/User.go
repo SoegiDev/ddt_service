@@ -14,6 +14,7 @@ import (
 // @Summary User New
 // @Description User New
 // @Accept  json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Param login body schema.SignUpJsonSchema true "Login Schema "
 // @Produce  json
 // @Success 200 {object}  schema.MsgResponse
@@ -58,7 +59,7 @@ func UserAddNew(context *gin.Context) {
 		Id:       profileId,
 		Username: input.Username,
 		Email:    input.Email,
-		UserId:   savedUser.Id}
+		UserCode: savedUser.Code}
 
 	savedProfile, err := emp.Save()
 	if err != nil {
@@ -68,4 +69,24 @@ func UserAddNew(context *gin.Context) {
 	fmt.Println(savedProfile)
 	fmt.Println(savedUser)
 	context.JSON(http.StatusCreated, schema.MsgResponse{Msg: "Register Completed"})
+}
+
+//
+// @Summary User New
+// @Description User New
+// @Accept  json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param id   path string  true  "USER ID OR USER Code"
+// @Produce  json
+// @Success 200 {object}  schema.User
+// @Router /user_profile/{id} [get]
+// @Tags User Credential
+func User_Profile(context *gin.Context) { // Get model if exist
+	id := context.Param("ID")
+	user, err := model.UserFindById(id)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"data": user})
 }

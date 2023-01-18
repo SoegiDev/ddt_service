@@ -8,7 +8,7 @@ import (
 
 type User struct {
 	Id           string `json:"id" gorm:"primaryKey;size:50;"`
-	Code         string `gorm:"size:20;" json:"code"`
+	Code         string `gorm:"size:20;unique" json:"code"`
 	Username     string `gorm:"size:255;not null;unique" json:"username"`
 	Email        string `gorm:"size:255;not null;unique" json:"email"`
 	Password     string `gorm:"size:255;not null;" json:"-"`
@@ -17,11 +17,11 @@ type User struct {
 	DeletedAt    gorm.DeletedAt
 	IsDeleted    bool          `gorm:"type:bool;default:false" json:"delete"`
 	IsActive     bool          `gorm:"type:bool;default:true" json:"status"`
-	Employees    []Employee    `gorm:"foreignKey:UserId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Divisions    []Division    `gorm:"many2many:user_divisions;"`
-	Roles        []Role        `gorm:"many2many:user_roles;"`
+	Employees    []Employee    `gorm:"foreignKey:UserCode;references:Code;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Divisions    []Division    `gorm:"many2many:user_divisions;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Roles        []Role        `gorm:"many2many:user_roles;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Articles     []Article     `gorm:"foreignKey:UserId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Accounts     []Account     `gorm:"foreignKey:UserId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Accounts     []Account     `gorm:"foreignKey:UserCode;references:Code;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	ActivityLogs []ActivityLog `gorm:"foreignKey:UserId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 

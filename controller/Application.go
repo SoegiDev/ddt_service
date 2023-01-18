@@ -89,7 +89,7 @@ func ApplicationById(context *gin.Context) {
 	id := context.Param("ID")
 	get, err := model.AppsFindById(id)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
 	dtResponse := schema.ApplicationResponse{
@@ -116,7 +116,7 @@ func ApplicationById(context *gin.Context) {
 func ApplicationByAll(context *gin.Context) {
 	getData, err := model.AppsFindByAll()
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
 	allApplication := []schema.ApplicationResponse{}

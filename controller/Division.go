@@ -31,7 +31,7 @@ func DivisionAddNew(context *gin.Context) {
 		Code:        input.Code,
 		Name:        input.Name,
 		Description: input.Description,
-		EstateId:    input.EstateId}
+		EstateCode:  input.EstateCode}
 	savedEntry, err := newData.Save()
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -85,7 +85,7 @@ func DivisionById(context *gin.Context) {
 	id := context.Param("ID")
 	get, err := model.DivisionFindById(id)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
 	dtResponse := schema.DivisionResponse{
@@ -93,7 +93,7 @@ func DivisionById(context *gin.Context) {
 		Code:        get.Code,
 		Name:        get.Name,
 		Description: get.Description,
-		EstateId:    get.EstateId,
+		EstateCode:  get.EstateCode,
 		Gangs:       get.Gangs}
 	context.JSON(http.StatusOK, gin.H{"data": dtResponse})
 }
@@ -109,7 +109,7 @@ func DivisionById(context *gin.Context) {
 func DivisionByAll(context *gin.Context) {
 	getData, err := model.DivisionFindAll()
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
 	allDivision := []schema.DivisionResponse{}
@@ -119,7 +119,7 @@ func DivisionByAll(context *gin.Context) {
 			Code:        get.Code,
 			Name:        get.Name,
 			Description: get.Description,
-			EstateId:    get.EstateId,
+			EstateCode:  get.EstateCode,
 			Gangs:       get.Gangs})
 	}
 	context.JSON(http.StatusOK, gin.H{"data": allDivision})

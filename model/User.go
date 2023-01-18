@@ -35,7 +35,7 @@ func (data *User) ValidatePassword(password string) error {
 
 func UserFindByUsername(username string) (User, error) {
 	var data User
-	err := database.Database.Preload(clause.Associations).Preload("Divisions.Gangs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("name = ? AND is_deleted = ? AND is_active = ?", username, false, true).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
+	err := database.Database.Preload(clause.Associations).Preload("Divisions.Gangs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("username = ? AND is_deleted = ? AND is_active = ?", username, false, true).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
 	return data, err
 }
 

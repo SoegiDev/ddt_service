@@ -949,6 +949,14 @@ const docTemplateapi = `{
                 "summary": "User New",
                 "parameters": [
                     {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "Login Schema ",
                         "name": "login",
                         "in": "body",
@@ -967,6 +975,46 @@ const docTemplateapi = `{
                     }
                 }
             }
+        },
+        "/user_profile/{id}": {
+            "get": {
+                "description": "User New",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User Credential"
+                ],
+                "summary": "User New",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "USER ID OR USER Code",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.User"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -979,6 +1027,150 @@ const docTemplateapi = `{
                 "valid": {
                     "description": "Valid is true if Time is not NULL",
                     "type": "boolean"
+                }
+            }
+        },
+        "schema.Account": {
+            "type": "object",
+            "properties": {
+                "application": {
+                    "$ref": "#/definitions/schema.Application"
+                },
+                "application_id": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "roleApplications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.RoleApplication"
+                    }
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "user_code": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.ActivityLog": {
+            "type": "object",
+            "properties": {
+                "application": {
+                    "type": "string"
+                },
+                "body": {
+                    "type": "string"
+                },
+                "client": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "path_op": {
+                    "type": "string"
+                },
+                "referrer": {
+                    "type": "string"
+                },
+                "request_id": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/schema.User"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.Application": {
+            "type": "object",
+            "properties": {
+                "accounts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Account"
+                    }
+                },
+                "app_package": {
+                    "type": "string"
+                },
+                "app_package_class": {
+                    "type": "string"
+                },
+                "asset_apk": {
+                    "type": "string"
+                },
+                "asset_icon": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "updated_note": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
                 }
             }
         },
@@ -1014,6 +1206,35 @@ const docTemplateapi = `{
                 }
             }
         },
+        "schema.Article": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
         "schema.Company": {
             "type": "object",
             "properties": {
@@ -1037,18 +1258,6 @@ const docTemplateapi = `{
                 },
                 "domain": {
                     "type": "string"
-                },
-                "employees": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schema.Employee"
-                    }
-                },
-                "estates": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schema.Estate"
-                    }
                 },
                 "fax": {
                     "type": "string"
@@ -1145,7 +1354,10 @@ const docTemplateapi = `{
                 "description": {
                     "type": "string"
                 },
-                "estate_id": {
+                "estate": {
+                    "$ref": "#/definitions/schema.Estate"
+                },
+                "estate_code": {
                     "type": "string"
                 },
                 "gangs": {
@@ -1212,7 +1424,7 @@ const docTemplateapi = `{
                 "company": {
                     "$ref": "#/definitions/schema.Company"
                 },
-                "company_id": {
+                "company_code": {
                     "type": "string"
                 },
                 "createdAt": {
@@ -1266,7 +1478,10 @@ const docTemplateapi = `{
                 "updatedAt": {
                     "type": "string"
                 },
-                "userId": {
+                "user": {
+                    "$ref": "#/definitions/schema.User"
+                },
+                "user_code": {
                     "type": "string"
                 },
                 "username": {
@@ -1283,7 +1498,7 @@ const docTemplateapi = `{
                 "company": {
                     "$ref": "#/definitions/schema.Company"
                 },
-                "company_id": {
+                "company_code": {
                     "type": "string"
                 },
                 "createdAt": {
@@ -1365,7 +1580,7 @@ const docTemplateapi = `{
                 "division": {
                     "$ref": "#/definitions/schema.Division"
                 },
-                "division_id": {
+                "division_code": {
                     "type": "string"
                 },
                 "id": {
@@ -1385,7 +1600,7 @@ const docTemplateapi = `{
                 "code": {
                     "type": "string"
                 },
-                "division_id": {
+                "division_code": {
                     "type": "string"
                 },
                 "id": {
@@ -1498,7 +1713,7 @@ const docTemplateapi = `{
                         "$ref": "#/definitions/schema.MetaRoleApp"
                     }
                 },
-                "userId": {
+                "userCode": {
                     "type": "string"
                 }
             }
@@ -1652,7 +1867,7 @@ const docTemplateapi = `{
                 "company": {
                     "$ref": "#/definitions/schema.MetaCompany"
                 },
-                "companyId": {
+                "companyCode": {
                     "type": "string"
                 },
                 "department": {
@@ -2011,7 +2226,7 @@ const docTemplateapi = `{
                 "description": {
                     "type": "string"
                 },
-                "estate_id": {
+                "estate_code": {
                     "type": "string"
                 },
                 "name": {
@@ -2038,7 +2253,7 @@ const docTemplateapi = `{
                 "description": {
                     "type": "string"
                 },
-                "estate_id": {
+                "estate_code": {
                     "type": "string"
                 },
                 "name": {
@@ -2053,7 +2268,7 @@ const docTemplateapi = `{
             "type": "object",
             "required": [
                 "code",
-                "company_id",
+                "company_code",
                 "description",
                 "name"
             ],
@@ -2061,7 +2276,7 @@ const docTemplateapi = `{
                 "code": {
                     "type": "string"
                 },
-                "company_id": {
+                "company_code": {
                     "type": "string"
                 },
                 "description": {
@@ -2076,7 +2291,7 @@ const docTemplateapi = `{
             "type": "object",
             "required": [
                 "code",
-                "company_id",
+                "company_code",
                 "delete",
                 "description",
                 "name",
@@ -2086,7 +2301,7 @@ const docTemplateapi = `{
                 "code": {
                     "type": "string"
                 },
-                "company_id": {
+                "company_code": {
                     "type": "string"
                 },
                 "delete": {
@@ -2107,14 +2322,14 @@ const docTemplateapi = `{
             "type": "object",
             "required": [
                 "code",
-                "division_id",
+                "division_code",
                 "name"
             ],
             "properties": {
                 "code": {
                     "type": "string"
                 },
-                "division_id": {
+                "division_code": {
                     "type": "string"
                 },
                 "name": {
@@ -2127,7 +2342,7 @@ const docTemplateapi = `{
             "required": [
                 "code",
                 "delete",
-                "division_id",
+                "division_code",
                 "name",
                 "status"
             ],
@@ -2138,7 +2353,7 @@ const docTemplateapi = `{
                 "delete": {
                     "type": "boolean"
                 },
-                "division_id": {
+                "division_code": {
                     "type": "string"
                 },
                 "name": {
@@ -2146,6 +2361,64 @@ const docTemplateapi = `{
                 },
                 "status": {
                     "type": "boolean"
+                }
+            }
+        },
+        "schema.Role": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.RoleApplication": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
                 }
             }
         },
@@ -2169,6 +2442,74 @@ const docTemplateapi = `{
                     "items": {
                         "type": "string"
                     }
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.User": {
+            "type": "object",
+            "properties": {
+                "accounts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Account"
+                    }
+                },
+                "activityLogs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.ActivityLog"
+                    }
+                },
+                "articles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Article"
+                    }
+                },
+                "code": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "divisions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Division"
+                    }
+                },
+                "email": {
+                    "type": "string"
+                },
+                "employees": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Employee"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Role"
+                    }
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
                 },
                 "username": {
                     "type": "string"

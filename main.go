@@ -54,15 +54,15 @@ func loadEnv() {
 }
 
 func loadDatabase() {
-	database.Connect_PGSQL()
+	database.Connect()
 	database.Database.AutoMigrate(&schema.User{})
 	database.Database.AutoMigrate(&schema.Role{})
 	database.Database.AutoMigrate(&schema.Employee{})
+	database.Database.AutoMigrate(&schema.Company{})
 	database.Database.AutoMigrate(&schema.Estate{})
 	database.Database.AutoMigrate(&schema.Division{})
 	database.Database.AutoMigrate(&schema.UserRole{})
 	database.Database.AutoMigrate(&schema.UserDivision{})
-	database.Database.AutoMigrate(&schema.Company{})
 	database.Database.AutoMigrate(&schema.Article{})
 	database.Database.AutoMigrate(&schema.Application{})
 	database.Database.AutoMigrate(&schema.ActivityLog{})
@@ -89,8 +89,19 @@ func serveApplication() {
 	router.GET("/swagger/auth/*any", ginSwagger.WrapHandler(swaggerfiles.NewHandler(), ginSwagger.InstanceName("auth")))
 	protect.Protected(router)
 	router.GET("/swagger/api/*any", ginSwagger.WrapHandler(swaggerfiles.NewHandler(), ginSwagger.InstanceName("api")))
-	router.Run(":8080")
-	fmt.Println("Server running on port 8000")
-	// _ = router.Run()
+
+	/*port := os.Getenv("HTTP_PLATFORM_PORT")
+	if port == "" {
+	    port = "8080"
+	}*/
+
+	port := os.Getenv("HTTP_PLATFORM_PORT")
+
+	// default back to 8080 for local dev
+	if port == "" {
+		port = "8080"
+	}
+
+	router.Run("127.0.0.1:" + port)
 
 }

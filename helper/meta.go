@@ -18,7 +18,7 @@ func Metauser(context *gin.Context, id string) {
 	}
 	getDivisiEstate := []string{}
 	for _, element := range dt.Divisions {
-		getDivisiEstate = append(getDivisiEstate, element.EstateId)
+		getDivisiEstate = append(getDivisiEstate, element.EstateCode)
 	}
 	data_estate, err := model.EstateFindDivisionById(getDivisiEstate)
 	if err != nil {
@@ -54,7 +54,7 @@ func Metauser(context *gin.Context, id string) {
 			IsActive:        element.Application.IsActive}
 		meta_accounts = append(meta_accounts, schema.MetaAccount{
 			Id:              element.Id,
-			UserId:          element.UserId,
+			UserCode:        element.UserCode,
 			RoleApplication: meta_role_app,
 			Application:     map_app})
 	}
@@ -81,7 +81,7 @@ func Metauser(context *gin.Context, id string) {
 			Picture:      element.Picture,
 			PhoneNumber:  element.PhoneNumber,
 			Address:      element.Address,
-			CompanyId:    element.CompanyId,
+			CompanyCode:  element.CompanyCode,
 			Department:   element.Department,
 			OfficeNumber: element.OfficeNumber,
 			Expired:      element.Expired,

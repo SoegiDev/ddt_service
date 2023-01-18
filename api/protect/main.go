@@ -25,7 +25,8 @@ func Protected(router *gin.Engine) {
 	protectedRoutes.Use(middleware.JWTAuthMiddleware())
 
 	//User
-	protectedRoutes.POST("/user", controller.UserAddNew)
+	protectedRoutes.POST("/user_new", controller.UserAddNew)
+	protectedRoutes.GET("/user_profile/:ID", controller.User_Profile)
 
 	//Employee
 	protectedRoutes.POST("/employee", controller.EmployeeAddNew)

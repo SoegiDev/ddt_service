@@ -10,43 +10,43 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Summary Sign In
-// @Description Sign In User
+// @Summary Sign In with LDAP or without LDAP
+// @Description Sign In with LDAP or without LDAP
 // @Accept  json
-// @Param login body schema.SignInJsonSchema true "Login Schema "
+// @Param login body schema.SignInLDAPJsonSchema true "LDAP AUTH Schema "
 // @Produce  json
-// @Success 200 {object}  schema.LoginResponse
+// @Success 200
 // @Router /sign_in [post]
-func SignIn(context *gin.Context) {
-	var input schema.SignInJsonSchema
+func SignIn_ldap(context *gin.Context) {
+	var input schema.SignInLDAPJsonSchema
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err.Error()})
 		return
 	}
-	if input.Username != "" {
-		fmt.Println("Username tidak kosong")
+	if input.Ldap {
+		ldap, err := helper.AuthLDAP(context, input)
+		if err != "" {
+			context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err})
+			return
+		}
+		fmt.Println(ldap)
+		jwt, err := helper.Auth(context, input, ldap)
+		if err != "" {
+			context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err})
+			return
+		}
+		fmt.Println(jwt)
+		context.JSON(http.StatusOK, jwt)
+	} else {
+		var ldap schema.LDAPLOGIN
+		jwt, err := helper.Auth(context, input, ldap)
+		if err != "" {
+			context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err})
+			return
+		}
+		context.JSON(http.StatusOK, jwt)
 	}
-	user, err := model.UserFindByUsername(input.Username)
 
-	fmt.Println(&user, err)
-	if err != nil {
-		context.JSON(http.StatusNotFound, schema.MsgResponse{Msg: "User Not Found"})
-		return
-	}
-
-	err = user.ValidatePassword(input.Password)
-
-	if err != nil {
-		context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: "Wrong Password"})
-		return
-	}
-
-	jwt, err := helper.GenerateJWT(user)
-	if err != nil {
-		context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err.Error()})
-		return
-	}
-	context.JSON(http.StatusOK, schema.LoginResponse{Token: jwt})
 }
 
 //
@@ -70,6 +70,7 @@ func SignUp(context *gin.Context) {
 		return
 	}
 	userID, _ := helper.GenerateUserId(3)
+	userCode, _ := helper.GenerateCodeRandom()
 
 	roleMap := []schema.Role{}
 	for _, element := range data_roles {
@@ -78,6 +79,7 @@ func SignUp(context *gin.Context) {
 
 	user := model.User{
 		Id:       userID,
+		Code:     userCode,
 		Roles:    roleMap,
 		Email:    input.Email,
 		Username: input.Username,

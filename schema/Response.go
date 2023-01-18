@@ -40,15 +40,15 @@ type DivisionResponse struct {
 	Description string `json:"description"`
 	IsDeleted   bool   `json:"delete"`
 	IsActive    bool   `json:"status"`
-	EstateId    string `json:"estate_id"`
+	EstateCode  string `json:"estate_id"`
 	Gangs       []Gang `json:"gang"`
 }
 
 type GangResponse struct {
-	Id         string `json:"id"`
-	Code       string `json:"code"`
-	Name       string `json:"name"`
-	DivisionId string `json:"division_id"`
+	Id           string `json:"id"`
+	Code         string `json:"code"`
+	Name         string `json:"name"`
+	DivisionCode string `json:"division_code"`
 }
 
 type ApplicationResponse struct {

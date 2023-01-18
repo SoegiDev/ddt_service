@@ -8,7 +8,7 @@ import (
 
 type Company struct {
 	Id          string `json:"id" gorm:"primaryKey;size:50;"`
-	Code        string `json:"code" gorm:"size:10;unique"`
+	Code        string `json:"code" gorm:"size:20;unique"`
 	Name        string `gorm:"size:100;" json:"name"`
 	Description string `gorm:"type:text;" json:"description"`
 	PhoneNumber string `gorm:"size:15;" json:"phone_number"`
@@ -19,10 +19,9 @@ type Company struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt
-	IsDeleted   bool       `gorm:"type:bool;default:false" json:"delete"`
-	IsActive    bool       `gorm:"type:bool;default:true" json:"status"`
-	Employees   []Employee `gorm:"foreignKey:CompanyId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Estates     []Estate   `gorm:"foreignKey:CompanyId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	IsDeleted   bool `gorm:"type:bool;default:false" json:"delete"`
+	IsActive    bool `gorm:"type:bool;default:true" json:"status"`
+	
 }
 
 func (Company) TableName() string {

@@ -89,7 +89,7 @@ func CompanyById(context *gin.Context) {
 	id := context.Param("ID")
 	get, err := model.CompanyFindById(id)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
 	dtResponse := schema.CompanyResponse{
@@ -101,9 +101,7 @@ func CompanyById(context *gin.Context) {
 		Fax:         get.Fax,
 		Sector:      get.Sector,
 		Domain:      get.Domain,
-		Address:     get.Address,
-		Employees:   get.Employees,
-		Estates:     get.Estates}
+		Address:     get.Address}
 	context.JSON(http.StatusOK, gin.H{"data": dtResponse})
 }
 
@@ -118,7 +116,7 @@ func CompanyById(context *gin.Context) {
 func CompanyByAll(context *gin.Context) {
 	getData, err := model.CompanyFindAll()
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
 	allCompany := []schema.CompanyResponse{}
@@ -132,9 +130,7 @@ func CompanyByAll(context *gin.Context) {
 			Fax:         get.Fax,
 			Sector:      get.Sector,
 			Domain:      get.Domain,
-			Address:     get.Address,
-			Employees:   get.Employees,
-			Estates:     get.Estates})
+			Address:     get.Address})
 	}
 	context.JSON(http.StatusOK, gin.H{"data": allCompany})
 }

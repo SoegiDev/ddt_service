@@ -21,5 +21,5 @@ func Authentication(router *gin.Engine) {
 	auth := router.Group("auth")
 	// @BasePath /auth
 	auth.POST("/sign_up", SignUp)
-	auth.POST("/sign_in", SignIn)
+	auth.POST("/sign_in", SignIn_ldap)
 }

@@ -8,6 +8,101 @@ definitions:
         description: Valid is true if Time is not NULL
         type: boolean
     type: object
+  schema.Account:
+    properties:
+      application:
+        $ref: '#/definitions/schema.Application'
+      application_id:
+        type: string
+      createdAt:
+        type: string
+      delete:
+        type: boolean
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: string
+      roleApplications:
+        items:
+          $ref: '#/definitions/schema.RoleApplication'
+        type: array
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+      user_code:
+        type: string
+    type: object
+  schema.ActivityLog:
+    properties:
+      application:
+        type: string
+      body:
+        type: string
+      client:
+        type: string
+      createdAt:
+        type: string
+      duration:
+        type: string
+      id:
+        type: integer
+      method:
+        type: string
+      path:
+        type: string
+      path_op:
+        type: string
+      referrer:
+        type: string
+      request_id:
+        type: string
+      source:
+        type: string
+      status:
+        type: string
+      user:
+        $ref: '#/definitions/schema.User'
+      user_id:
+        type: string
+    type: object
+  schema.Application:
+    properties:
+      accounts:
+        items:
+          $ref: '#/definitions/schema.Account'
+        type: array
+      app_package:
+        type: string
+      app_package_class:
+        type: string
+      asset_apk:
+        type: string
+      asset_icon:
+        type: string
+      code:
+        type: string
+      createdAt:
+        type: string
+      delete:
+        type: boolean
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      status:
+        type: boolean
+      updated_note:
+        type: string
+      updatedAt:
+        type: string
+      version:
+        type: string
+    type: object
   schema.ApplicationResponse:
     properties:
       app_package:
@@ -29,6 +124,25 @@ definitions:
       version:
         type: string
     type: object
+  schema.Article:
+    properties:
+      content:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: string
+      status:
+        type: boolean
+      title:
+        type: string
+      updatedAt:
+        type: string
+      user_id:
+        type: string
+    type: object
   schema.Company:
     properties:
       address:
@@ -45,14 +159,6 @@ definitions:
         type: string
       domain:
         type: string
-      employees:
-        items:
-          $ref: '#/definitions/schema.Employee'
-        type: array
-      estates:
-        items:
-          $ref: '#/definitions/schema.Estate'
-        type: array
       fax:
         type: string
       id:
@@ -118,7 +224,9 @@ definitions:
         $ref: '#/definitions/gorm.DeletedAt'
       description:
         type: string
-      estate_id:
+      estate:
+        $ref: '#/definitions/schema.Estate'
+      estate_code:
         type: string
       gangs:
         items:
@@ -162,7 +270,7 @@ definitions:
         type: string
       company:
         $ref: '#/definitions/schema.Company'
-      company_id:
+      company_code:
         type: string
       created_by:
         type: string
@@ -198,7 +306,9 @@ definitions:
         type: boolean
       updatedAt:
         type: string
-      userId:
+      user:
+        $ref: '#/definitions/schema.User'
+      user_code:
         type: string
       username:
         type: string
@@ -209,7 +319,7 @@ definitions:
         type: string
       company:
         $ref: '#/definitions/schema.Company'
-      company_id:
+      company_code:
         type: string
       createdAt:
         type: string
@@ -263,7 +373,7 @@ definitions:
         $ref: '#/definitions/gorm.DeletedAt'
       division:
         $ref: '#/definitions/schema.Division'
-      division_id:
+      division_code:
         type: string
       id:
         type: integer
@@ -276,7 +386,7 @@ definitions:
     properties:
       code:
         type: string
-      division_id:
+      division_code:
         type: string
       id:
         type: string
@@ -356,7 +466,7 @@ definitions:
         items:
           $ref: '#/definitions/schema.MetaRoleApp'
         type: array
-      userId:
+      userCode:
         type: string
     type: object
   schema.MetaActivities:
@@ -457,7 +567,7 @@ definitions:
         type: string
       company:
         $ref: '#/definitions/schema.MetaCompany'
-      companyId:
+      companyCode:
         type: string
       department:
         type: string
@@ -700,7 +810,7 @@ definitions:
         type: string
       description:
         type: string
-      estate_id:
+      estate_code:
         type: string
       name:
         type: string
@@ -717,7 +827,7 @@ definitions:
         type: boolean
       description:
         type: string
-      estate_id:
+      estate_code:
         type: string
       name:
         type: string
@@ -734,7 +844,7 @@ definitions:
     properties:
       code:
         type: string
-      company_id:
+      company_code:
         type: string
       description:
         type: string
@@ -742,7 +852,7 @@ definitions:
         type: string
     required:
     - code
-    - company_id
+    - company_code
     - description
     - name
     type: object
@@ -750,7 +860,7 @@ definitions:
     properties:
       code:
         type: string
-      company_id:
+      company_code:
         type: string
       delete:
         type: boolean
@@ -762,7 +872,7 @@ definitions:
         type: boolean
     required:
     - code
-    - company_id
+    - company_code
     - delete
     - description
     - name
@@ -772,13 +882,13 @@ definitions:
     properties:
       code:
         type: string
-      division_id:
+      division_code:
         type: string
       name:
         type: string
     required:
     - code
-    - division_id
+    - division_code
     - name
     type: object
   schema.RequestGangUpdate:
@@ -787,7 +897,7 @@ definitions:
         type: string
       delete:
         type: boolean
-      division_id:
+      division_code:
         type: string
       name:
         type: string
@@ -796,9 +906,47 @@ definitions:
     required:
     - code
     - delete
-    - division_id
+    - division_code
     - name
     - status
+    type: object
+  schema.Role:
+    properties:
+      createdAt:
+        type: string
+      delete:
+        type: boolean
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+    type: object
+  schema.RoleApplication:
+    properties:
+      createdAt:
+        type: string
+      delete:
+        type: boolean
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: boolean
+      updatedAt:
+        type: string
     type: object
   schema.SignUpJsonSchema:
     properties:
@@ -817,6 +965,51 @@ definitions:
     - password
     - role
     - username
+    type: object
+  schema.User:
+    properties:
+      accounts:
+        items:
+          $ref: '#/definitions/schema.Account'
+        type: array
+      activityLogs:
+        items:
+          $ref: '#/definitions/schema.ActivityLog'
+        type: array
+      articles:
+        items:
+          $ref: '#/definitions/schema.Article'
+        type: array
+      code:
+        type: string
+      createdAt:
+        type: string
+      delete:
+        type: boolean
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      divisions:
+        items:
+          $ref: '#/definitions/schema.Division'
+        type: array
+      email:
+        type: string
+      employees:
+        items:
+          $ref: '#/definitions/schema.Employee'
+        type: array
+      id:
+        type: string
+      roles:
+        items:
+          $ref: '#/definitions/schema.Role'
+        type: array
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+      username:
+        type: string
     type: object
 host: localhost:8080
 info:
@@ -1449,6 +1642,12 @@ paths:
       - application/json
       description: User New
       parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: 'Login Schema '
         in: body
         name: login
@@ -1462,6 +1661,33 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schema.MsgResponse'
+      summary: User New
+      tags:
+      - User Credential
+  /user_profile/{id}:
+    get:
+      consumes:
+      - application/json
+      description: User New
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: USER ID OR USER Code
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.User'
       summary: User New
       tags:
       - User Credential

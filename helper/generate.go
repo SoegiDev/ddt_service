@@ -2,6 +2,7 @@ package helper
 
 import (
 	"crypto/rand"
+	"io"
 	"math"
 	"math/big"
 	"strconv"
@@ -9,6 +10,11 @@ import (
 
 	"github.com/google/uuid"
 )
+
+func GenerateCodeRandom() (string, error) {
+	generateRandom := EncodeToString(6)
+	return generateRandom, nil
+}
 
 func GenerateUserId(length int) (string, error) {
 	prefix := "USR"
@@ -183,3 +189,17 @@ func d(year int) (lastTwo int) {
 	lastTwo = year % 100
 	return
 }
+
+func EncodeToString(max int) string {
+	b := make([]byte, max)
+	n, err := io.ReadAtLeast(rand.Reader, b, max)
+	if n != max {
+		panic(err)
+	}
+	for i := 0; i < len(b); i++ {
+		b[i] = table[int(b[i])%len(table)]
+	}
+	return string(b)
+}
+
+var table = [...]byte{'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}

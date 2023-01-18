@@ -27,31 +27,28 @@ const docTemplateauth = `{
     "paths": {
         "/sign_in": {
             "post": {
-                "description": "Sign In User",
+                "description": "Sign In with LDAP or without LDAP",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Sign In",
+                "summary": "Sign In with LDAP or without LDAP",
                 "parameters": [
                     {
-                        "description": "Login Schema ",
+                        "description": "LDAP AUTH Schema ",
                         "name": "login",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schema.SignInJsonSchema"
+                            "$ref": "#/definitions/schema.SignInLDAPJsonSchema"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schema.LoginResponse"
-                        }
+                        "description": "OK"
                     }
                 }
             }
@@ -89,14 +86,6 @@ const docTemplateauth = `{
         }
     },
     "definitions": {
-        "schema.LoginResponse": {
-            "type": "object",
-            "properties": {
-                "token": {
-                    "type": "string"
-                }
-            }
-        },
         "schema.MsgResponse": {
             "type": "object",
             "properties": {
@@ -105,13 +94,19 @@ const docTemplateauth = `{
                 }
             }
         },
-        "schema.SignInJsonSchema": {
+        "schema.SignInLDAPJsonSchema": {
             "type": "object",
             "required": [
                 "password",
                 "username"
             ],
             "properties": {
+                "domain": {
+                    "type": "string"
+                },
+                "ldap": {
+                    "type": "boolean"
+                },
                 "password": {
                     "type": "string"
                 },

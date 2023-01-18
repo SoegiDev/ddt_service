@@ -8,7 +8,7 @@ import (
 
 type Account struct {
 	Id               string `json:"id" gorm:"primaryKey;size:50;"`
-	UserId           string `json:"user_id"`
+	UserCode         string `json:"user_code"`
 	ApplicationId    string `json:"application_id" gorm:"size:50;"`
 	CreatedAt        time.Time
 	UpdatedAt        time.Time

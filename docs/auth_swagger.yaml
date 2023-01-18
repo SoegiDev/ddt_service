@@ -1,17 +1,16 @@
 basePath: /auth
 definitions:
-  schema.LoginResponse:
-    properties:
-      token:
-        type: string
-    type: object
   schema.MsgResponse:
     properties:
       msg:
         type: string
     type: object
-  schema.SignInJsonSchema:
+  schema.SignInLDAPJsonSchema:
     properties:
+      domain:
+        type: string
+      ldap:
+        type: boolean
       password:
         type: string
       username:
@@ -56,22 +55,20 @@ paths:
     post:
       consumes:
       - application/json
-      description: Sign In User
+      description: Sign In with LDAP or without LDAP
       parameters:
-      - description: 'Login Schema '
+      - description: 'LDAP AUTH Schema '
         in: body
         name: login
         required: true
         schema:
-          $ref: '#/definitions/schema.SignInJsonSchema'
+          $ref: '#/definitions/schema.SignInLDAPJsonSchema'
       produces:
       - application/json
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/schema.LoginResponse'
-      summary: Sign In
+      summary: Sign In with LDAP or without LDAP
   /sign_up:
     post:
       consumes:

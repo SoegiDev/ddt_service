@@ -23,7 +23,7 @@ func EmployeeMeta(context *gin.Context) { // Get model if exist
 	id := context.Param("ID")
 	user, err := model.UserFindById(id)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		context.JSON(http.StatusNotFound, gin.H{"error": "User Not Found"})
 		return
 	}
 	helper.Metauser(context, user.Id)
@@ -99,7 +99,7 @@ func EmployeeAddNew(context *gin.Context) {
 		}
 		account := model.Account{
 			Id:               accountId,
-			UserId:           savedUser.Id,
+			UserCode:         savedUser.Code,
 			ApplicationId:    element.Id,
 			RoleApplications: roleAppMap,
 		}
@@ -122,10 +122,10 @@ func EmployeeAddNew(context *gin.Context) {
 		Picture:      input.Picture,
 		PhoneNumber:  input.PhoneNumber,
 		Address:      input.Address,
-		CompanyId:    input.CompanyId,
+		CompanyCode:  input.CompanyId,
 		Department:   input.Department,
 		OfficeNumber: input.OfficeNumber,
-		UserId:       savedUser.Id}
+		UserCode:     savedUser.Code}
 
 	saveEmployee, err := emp.Save()
 	if err != nil {
@@ -156,7 +156,7 @@ func EmployeeUpdate(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	userID := getData.UserId
+	userID := getData.Code
 	employeeId := getData.Id
 	data_roles, err := model.FindRoleMapById(input.Roles)
 	if err != nil {
@@ -211,7 +211,7 @@ func EmployeeUpdate(context *gin.Context) {
 		}
 		account := model.Account{
 			Id:               accountId,
-			UserId:           savedUser.Id,
+			UserCode:         savedUser.Code,
 			ApplicationId:    element.Id,
 			RoleApplications: roleAppMap,
 		}
@@ -234,10 +234,10 @@ func EmployeeUpdate(context *gin.Context) {
 		Picture:      input.Picture,
 		PhoneNumber:  input.PhoneNumber,
 		Address:      input.Address,
-		CompanyId:    input.CompanyId,
+		CompanyCode:  input.CompanyId,
 		Department:   input.Department,
 		OfficeNumber: input.OfficeNumber,
-		UserId:       savedUser.Id}
+		UserCode:     savedUser.Code}
 
 	saveEmployee, err := emp.Save()
 	if err != nil {
