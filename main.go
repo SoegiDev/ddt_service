@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net/http"
 	"os"
 	"time"
 
@@ -84,6 +85,7 @@ func serveApplication() {
 
 	router.Use(gin.Recovery())
 	router.Use(middleware.JSONLogMiddleware())
+	router.GET("/", GetHome)
 
 	public.Authentication(router)
 	router.GET("/swagger/auth/*any", ginSwagger.WrapHandler(swaggerfiles.NewHandler(), ginSwagger.InstanceName("auth")))
@@ -102,6 +104,12 @@ func serveApplication() {
 		port = "8080"
 	}
 
-	router.Run("127.0.0.1:" + port)
+	router.Run(fmt.Sprintf(":%v", port))
+	fmt.Sprintf(":Server running on port %s", port)
+	// _ = router.Run()
 
+}
+
+func GetHome(context *gin.Context) {
+	context.JSON(http.StatusOK, gin.H{"Oke": "Status Server Don"})
 }
