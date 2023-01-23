@@ -6,12 +6,10 @@ import (
 	"ddtservice_agri/schema"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 
 	protect "ddtservice_agri/api/protect"
 	public "ddtservice_agri/api/public"
@@ -26,43 +24,10 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	loadDatabase()
 	serveApplication()
-	//loadEnv()
-
-	//testGetDateTime()
-}
-
-// func testGetDateTime() {
-// 	current_time := time.Now()
-
-// 	// individual elements of time can
-// 	// also be called to print accordingly
-// 	fmt.Printf("%d-%02d-%02dT%02d:%02d:%02d-00:00\n",
-// 		current_time.Year(), current_time.Month(), current_time.Day(),
-// 		current_time.Hour(), current_time.Minute(), current_time.Second())
-
-// 	// formatting time using
-// 	// custom formats
-// 	fmt.Println(current_time.Format("2006-01-02 15:04:05"))
-// 	fmt.Println(current_time.Format("2006-January-02"))
-// 	fmt.Println(current_time.Format("2006-01-02 3:4:5 pm"))
-// }
-
-func loadEnv() {
-	if gin.Mode() == "debug" {
-		err := godotenv.Load(".env.local")
-		if err != nil {
-			log.Fatal("Error loading .env file")
-		}
-	} else {
-		err := godotenv.Load(".env")
-		if err != nil {
-			log.Fatal("Error loading .env file")
-		}
-	}
 }
 
 func loadDatabase() {
-	database.Connect()
+	database.Connect_PGSQL()
 	database.Database.AutoMigrate(&schema.User{})
 	database.Database.AutoMigrate(&schema.Role{})
 	database.Database.AutoMigrate(&schema.Employee{})
@@ -83,7 +48,6 @@ func loadDatabase() {
 }
 
 func serveApplication() {
-	fmt.Println(os.Getenv("PORT"))
 	fmt.Println(os.Getenv("GIN_MODE"))
 	router := gin.New()
 	gin.DisableConsoleColor()

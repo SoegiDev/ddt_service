@@ -554,6 +554,13 @@ const docTemplateapi = `{
                         "required": true
                     },
                     {
+                        "type": "string",
+                        "description": "USER ID OR USER Code",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Employee Update ",
                         "name": "Register",
                         "in": "body",

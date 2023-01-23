@@ -122,7 +122,7 @@ func EmployeeAddNew(context *gin.Context) {
 		Picture:      input.Picture,
 		PhoneNumber:  input.PhoneNumber,
 		Address:      input.Address,
-		CompanyCode:  input.CompanyId,
+		CompanyCode:  &input.CompanyId,
 		Department:   input.Department,
 		OfficeNumber: input.OfficeNumber,
 		UserCode:     savedUser.Code}
@@ -139,6 +139,7 @@ func EmployeeAddNew(context *gin.Context) {
 // @Description Employee Update Field
 // @Accept  json
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param id   path string  true  "USER ID OR USER Code"
 // @Param Register body schema.JsonEmployeeCreate true "Employee Update "
 // @Produce  json
 // @Success 200 {object} schema.MsgResponse
@@ -234,7 +235,7 @@ func EmployeeUpdate(context *gin.Context) {
 		Picture:      input.Picture,
 		PhoneNumber:  input.PhoneNumber,
 		Address:      input.Address,
-		CompanyCode:  input.CompanyId,
+		CompanyCode:  &input.CompanyId,
 		Department:   input.Department,
 		OfficeNumber: input.OfficeNumber,
 		UserCode:     savedUser.Code}

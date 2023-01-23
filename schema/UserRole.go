@@ -1,7 +1,7 @@
 package schema
 
 type UserRole struct {
-	RoleId string `gorm:"primaryKey"`
+	RoleId uint   `gorm:"primaryKey"`
 	UserId string `gorm:"primaryKey"`
 }
 

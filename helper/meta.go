@@ -60,16 +60,23 @@ func Metauser(context *gin.Context, id string) {
 	}
 	meta_employees := []schema.MetaEmployee{}
 	for _, element := range dt.Employees {
-		map_comp := schema.MetaCompany{
-			Id:          element.Company.Id,
-			Code:        element.Company.Code,
-			Name:        element.Company.Name,
-			Description: element.Company.Description,
-			PhoneNumber: element.Company.PhoneNumber,
-			Fax:         element.Company.Fax,
-			Sector:      element.Company.Sector,
-			Domain:      element.Company.Domain,
-			Address:     element.Company.Address}
+		map_comp := schema.MetaCompany{}
+		if element.Company != nil {
+			map_comp = schema.MetaCompany{
+				Id:          element.Company.Id,
+				Code:        element.Company.Code,
+				Name:        element.Company.Name,
+				Description: element.Company.Description,
+				PhoneNumber: element.Company.PhoneNumber,
+				Fax:         element.Company.Fax,
+				Sector:      element.Company.Sector,
+				Domain:      element.Company.Domain,
+				Address:     element.Company.Address}
+		}
+		var companyCode string
+		if element.CompanyCode == nil {
+			companyCode = ""
+		}
 		meta_employees = append(meta_employees, schema.MetaEmployee{
 			Id:           element.Id,
 			Code:         element.Code,
@@ -81,7 +88,7 @@ func Metauser(context *gin.Context, id string) {
 			Picture:      element.Picture,
 			PhoneNumber:  element.PhoneNumber,
 			Address:      element.Address,
-			CompanyCode:  element.CompanyCode,
+			CompanyCode:  companyCode,
 			Department:   element.Department,
 			OfficeNumber: element.OfficeNumber,
 			Expired:      element.Expired,
