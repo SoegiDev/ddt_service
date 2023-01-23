@@ -12,12 +12,20 @@ import (
 var Database *gorm.DB
 
 func Connect() {
+	// errr := godotenv.Load(".env")
+	// if errr != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
 	var err error
-	host := os.Getenv("DB_HOST")
-	username := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
-	databaseName := os.Getenv("DB_NAME")
+	// host := os.Getenv("DB_HOST")
+	// username := os.Getenv("DB_USER")
+	// password := os.Getenv("DB_PASSWORD")
+	// databaseName := os.Getenv("DB_NAME")
 
+	host := "10.126.20.217"
+	username := "sapra"
+	password := "SAP123"
+	databaseName := "USER_AGRI"
 	//dsn: = "sqlserver://<user>:<password>@<server_host>?database=<database_name>"
 	dsn := fmt.Sprintf("sqlserver://%s:%s@%s?database=%s&encrypt=disable&connection+timeout=60", username, password, host, databaseName)
 	fmt.Println(dsn)
