@@ -85,7 +85,7 @@ func ApplicationUpdate(context *gin.Context) {
 // @Success 200 {object}  schema.ApplicationResponse
 // @Router /application/{id} [get]
 // @Tags (E) Application
-func ApplicationById(context *gin.Context) {
+func ApplicationMeta(context *gin.Context) {
 	id := context.Param("ID")
 	get, err := model.AppsFindById(id)
 	if err != nil {
@@ -102,7 +102,7 @@ func ApplicationById(context *gin.Context) {
 		AppPackageClass: get.AppPackageClass,
 		AssetApk:        get.AssetApk,
 		AssetIcon:       get.AssetIcon}
-	context.JSON(http.StatusOK, gin.H{"data": dtResponse})
+	context.JSON(http.StatusOK, dtResponse)
 }
 
 // @Summary Get All Application
@@ -132,5 +132,5 @@ func ApplicationByAll(context *gin.Context) {
 			AssetApk:        get.AssetApk,
 			AssetIcon:       get.AssetIcon})
 	}
-	context.JSON(http.StatusOK, gin.H{"data": allApplication})
+	context.JSON(http.StatusOK, allApplication)
 }

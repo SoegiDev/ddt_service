@@ -33,13 +33,19 @@ func (data *User) ValidatePassword(password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(data.Password), []byte(password))
 }
 
+func UserFindLogin(param string) (User, error) {
+	var data User
+	err := database.Database.Preload(clause.Associations).Preload("Divisions.Gangs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("username = ? AND is_deleted = ? AND is_active = ?", param, false, true).Or("id = ? AND is_deleted = ? AND is_active = ?", param, false, true).Or("code = ? AND is_deleted = ? AND is_active = ?", param, false, true).Or("email = ? AND is_deleted = ? AND is_active = ?", param, false, true).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
+	return data, err
+}
+
 func UserFindByUsername(username string) (User, error) {
 	var data User
 	err := database.Database.Preload(clause.Associations).Preload("Divisions.Gangs").Preload("Accounts.Application").Preload("Accounts.RoleApplications").Preload("Employees.Company").Where("username = ? AND is_deleted = ? AND is_active = ?", username, false, true).Preload("Employees", "is_active NOT IN (?)", false).First(&data).Error
 	return data, err
 }
 
-func UserFindAll(username string) ([]User, error) {
+func UserFindAll() ([]User, error) {
 	var data []User
 	err := database.Database.Where("is_deleted = ? AND is_active = ?", false, true).Find(&data).Error
 	return data, err
@@ -76,6 +82,12 @@ func (data *User) UserAssignDivision(id string, divisionUpdate []schema.Division
 func (data *User) UserGetCount() int64 {
 	var result int64
 	database.Database.Model(&data).Count(&result)
+	return result
+}
+
+func (data *User) UserCountWithConditions(params string) int64 {
+	var result int64
+	database.Database.Model(&data).Where("username = ?", params).Count(&result)
 	return result
 }
 

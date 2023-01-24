@@ -69,7 +69,7 @@ func DivisionUpdate(context *gin.Context) {
 		return
 	}
 	fmt.Println(updatedEntry)
-	context.JSON(http.StatusOK, schema.MsgResponse{Msg: "DIvision Update Completed"})
+	context.JSON(http.StatusOK, schema.MsgResponse{Msg: "DIvision Updated"})
 }
 
 // @Summary Get Division By ID
@@ -95,7 +95,7 @@ func DivisionById(context *gin.Context) {
 		Description: get.Description,
 		EstateCode:  get.EstateCode,
 		Gangs:       get.Gangs}
-	context.JSON(http.StatusOK, gin.H{"data": dtResponse})
+	context.JSON(http.StatusOK, dtResponse)
 }
 
 // @Summary Get All Division
@@ -122,5 +122,5 @@ func DivisionByAll(context *gin.Context) {
 			EstateCode:  get.EstateCode,
 			Gangs:       get.Gangs})
 	}
-	context.JSON(http.StatusOK, gin.H{"data": allDivision})
+	context.JSON(http.StatusOK, allDivision)
 }

@@ -90,7 +90,7 @@ func GangById(context *gin.Context) {
 		Code:         get.Code,
 		Name:         get.Name,
 		DivisionCode: get.DivisionCode}
-	context.JSON(http.StatusOK, gin.H{"data": dtResponse})
+	context.JSON(http.StatusOK, dtResponse)
 }
 
 // @Summary Get All Gang
@@ -115,5 +115,5 @@ func GangByAll(context *gin.Context) {
 			Name:         get.Name,
 			DivisionCode: get.DivisionCode})
 	}
-	context.JSON(http.StatusOK, gin.H{"data": allGang})
+	context.JSON(http.StatusOK, allGang)
 }

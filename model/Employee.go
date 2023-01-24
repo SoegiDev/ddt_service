@@ -3,6 +3,8 @@ package model
 import (
 	"ddtservice_agri/database"
 	"ddtservice_agri/schema"
+
+	"gorm.io/gorm/clause"
 )
 
 type Employee schema.Employee
@@ -18,15 +20,9 @@ func EmployeeFindAll() ([]Employee, error) {
 	return data, err
 }
 
-func EmployeeFindByUserId(user_id string) (Employee, error) {
-	var data Employee
-	err := database.Database.Where("user_id=?", user_id).Where("is_active=?", true).First(&data).Error
-	return data, err
-}
-
 func EmployeeFindById(id string) (Employee, error) {
 	var data Employee
-	err := database.Database.Where("id=?", id).Where("is_active=?", true).First(&data).Error
+	err := database.Database.Preload(clause.Associations).Where("id = ? AND is_active= ?", id, true).Or("code= ? AND is_active= ?", id, true).First(&data).Error
 	return data, err
 }
 

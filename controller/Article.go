@@ -43,7 +43,7 @@ func AllArticles(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"data": user.Articles})
+	context.JSON(http.StatusOK, user.Articles)
 }
 
 func ArticleFindById(context *gin.Context) { // Get model if exist
@@ -53,7 +53,7 @@ func ArticleFindById(context *gin.Context) { // Get model if exist
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"data": updatedEntry})
+	context.JSON(http.StatusOK, updatedEntry)
 }
 
 func ArticleUpdate(context *gin.Context) {
@@ -87,5 +87,5 @@ func ArticleUpdate(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"data": updatedEntry})
+	context.JSON(http.StatusOK, updatedEntry)
 }

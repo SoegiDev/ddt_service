@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,6 +20,9 @@ func AuthLDAP(context *gin.Context, input schema.SignInLDAPJsonSchema) (schema.L
 		return ldapLogin, err.Error()
 	}
 	url := "http://202.158.14.235:9393/auth/ldap"
+	if gin.Mode() == gin.DebugMode {
+		url = "http://172.20.3.35:9393/auth/ldap"
+	}
 	fmt.Println("URL:>", url)
 
 	var jsonStr = []byte(u)
@@ -38,13 +42,11 @@ func AuthLDAP(context *gin.Context, input schema.SignInLDAPJsonSchema) (schema.L
 	if err := json.Unmarshal(body, &result); err != nil { // Parse []byte to go struct pointer
 		fmt.Println("Can not unmarshal JSON")
 	}
-	fmt.Printf("response:%s", string(body))
-
-	ldapLogin.AccountName = result.Data.Samaccountname
+	ldapLogin.AccountName = strings.ToLower(result.Data.Samaccountname)
 	ldapLogin.Company = result.Data.Company
 	ldapLogin.Department = result.Data.Department
 	ldapLogin.Desc = result.Data.Desc
-	ldapLogin.Email = result.Data.Email
+	ldapLogin.Email = strings.ToLower(result.Data.Email)
 	ldapLogin.Fullname = result.Data.Fullname
 	ldapLogin.Surname = result.Data.Surname
 	ldapLogin.GivenName = result.Data.Givenname

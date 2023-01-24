@@ -27,6 +27,7 @@ func Protected(router *gin.Engine) {
 	//User
 	protectedRoutes.POST("/user_new", controller.UserAddNew)
 	protectedRoutes.GET("/user_profile/:ID", controller.User_Profile)
+	protectedRoutes.GET("/user_profile", controller.User_All)
 
 	//Employee
 	protectedRoutes.POST("/employee", controller.EmployeeAddNew)
@@ -66,6 +67,6 @@ func Protected(router *gin.Engine) {
 	// Application
 	protectedRoutes.POST("/application", controller.ApplicationAddNew)
 	protectedRoutes.PATCH("/application/:ID/edit", controller.ApplicationUpdate)
-	protectedRoutes.GET("/application/:ID", controller.ApplicationById)
+	protectedRoutes.GET("/application/:ID", controller.ApplicationMeta)
 	protectedRoutes.GET("/application", controller.ApplicationByAll)
 }

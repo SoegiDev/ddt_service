@@ -10,6 +10,43 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func MetaEmployee(context *gin.Context, id string) {
+	element, err := model.EmployeeFindById(id)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	meta_company := schema.MetaCompany{
+		Id:          element.Company.Id,
+		Code:        element.Company.Code,
+		Name:        element.Company.Name,
+		Description: element.Company.Description,
+		PhoneNumber: element.Company.PhoneNumber,
+		Fax:         element.Company.Fax,
+		Sector:      element.Company.Sector,
+		Domain:      element.Company.Domain,
+		Address:     element.Company.Address}
+	meta_employees := schema.MetaEmployee{
+		Id:           element.Id,
+		Code:         element.Code,
+		Email:        element.Email,
+		Username:     element.Username,
+		Nik:          element.Nik,
+		NickName:     element.NickName,
+		FullName:     element.FullName,
+		Picture:      element.Picture,
+		PhoneNumber:  element.PhoneNumber,
+		Address:      element.Address,
+		CompanyCode:  element.CompanyCode,
+		Department:   element.Department,
+		OfficeNumber: element.OfficeNumber,
+		Expired:      element.Expired,
+		UserCode:     element.UserCode,
+		Company:      meta_company}
+
+	context.JSON(http.StatusOK, meta_employees)
+
+}
 func Metauser(context *gin.Context, id string) {
 	dt, err := model.UserMetaFindById(id)
 	if err != nil {
@@ -73,10 +110,6 @@ func Metauser(context *gin.Context, id string) {
 				Domain:      element.Company.Domain,
 				Address:     element.Company.Address}
 		}
-		var companyCode string
-		if element.CompanyCode == nil {
-			companyCode = ""
-		}
 		meta_employees = append(meta_employees, schema.MetaEmployee{
 			Id:           element.Id,
 			Code:         element.Code,
@@ -88,7 +121,7 @@ func Metauser(context *gin.Context, id string) {
 			Picture:      element.Picture,
 			PhoneNumber:  element.PhoneNumber,
 			Address:      element.Address,
-			CompanyCode:  companyCode,
+			CompanyCode:  element.CompanyCode,
 			Department:   element.Department,
 			OfficeNumber: element.OfficeNumber,
 			Expired:      element.Expired,
@@ -168,5 +201,5 @@ func Metauser(context *gin.Context, id string) {
 		Accounts:     meta_accounts,
 		ActivityLogs: meta_activities,
 	}
-	context.JSON(http.StatusOK, gin.H{"data": user_meta})
+	context.JSON(http.StatusOK, user_meta)
 }

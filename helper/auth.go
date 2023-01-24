@@ -9,7 +9,6 @@ import (
 )
 
 func Auth(context *gin.Context, input schema.SignInLDAPJsonSchema, data_ldap schema.LDAPLOGIN) (schema.LoginResponse, string) {
-
 	user, err := model.UserFindByUsername(input.Username)
 	var result schema.LoginResponse
 	if err != nil {
@@ -52,7 +51,7 @@ func Auth(context *gin.Context, input schema.SignInLDAPJsonSchema, data_ldap sch
 				FullName:    data_ldap.Fullname,
 				PhoneNumber: data_ldap.Phone,
 				Department:  data_ldap.Department,
-				UserCode:    savedUser.Code}
+				UserCode:    &savedUser.Code}
 
 			savedProfile, err := emp.Save()
 			if err != nil {

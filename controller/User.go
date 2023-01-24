@@ -59,7 +59,7 @@ func UserAddNew(context *gin.Context) {
 		Id:       profileId,
 		Username: input.Username,
 		Email:    input.Email,
-		UserCode: savedUser.Code}
+		UserCode: &savedUser.Code}
 
 	savedProfile, err := emp.Save()
 	if err != nil {
@@ -71,14 +71,13 @@ func UserAddNew(context *gin.Context) {
 	context.JSON(http.StatusCreated, schema.MsgResponse{Msg: "Register Completed"})
 }
 
-//
-// @Summary User New
-// @Description User New
+// @Summary User Profile
+// @Description User Profile
 // @Accept  json
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Param id   path string  true  "USER ID OR USER Code"
 // @Produce  json
-// @Success 200 {object}  schema.User
+// @Success 200 {object}  schema.MetaUser
 // @Router /user_profile/{id} [get]
 // @Tags User Credential
 func User_Profile(context *gin.Context) { // Get model if exist
@@ -88,5 +87,22 @@ func User_Profile(context *gin.Context) { // Get model if exist
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"data": user})
+	helper.Metauser(context, user.Id)
+}
+
+// @Summary User Profile All
+// @Description User Profile All
+// @Accept  json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Produce  json
+// @Success 200 {array}  schema.User
+// @Router /user_profile [get]
+// @Tags User Credential
+func User_All(context *gin.Context) { // Get model if exist
+	user, err := model.UserFindAll()
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+	context.JSON(http.StatusOK, user)
 }

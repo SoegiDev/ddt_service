@@ -515,7 +515,7 @@ const docTemplateapi = `{
                     },
                     {
                         "type": "string",
-                        "description": "USER ID OR USER Code",
+                        "description": "EMPLOYEE ID OR EMPLOYEE Code",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -525,7 +525,7 @@ const docTemplateapi = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schema.MetaUser"
+                            "$ref": "#/definitions/schema.MetaEmployee"
                         }
                     }
                 }
@@ -555,7 +555,7 @@ const docTemplateapi = `{
                     },
                     {
                         "type": "string",
-                        "description": "USER ID OR USER Code",
+                        "description": "EMPLOYEE ID OR EMPLOYEE Code",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -566,7 +566,7 @@ const docTemplateapi = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schema.JsonEmployeeCreate"
+                            "$ref": "#/definitions/schema.JsonEmployeeUpdate"
                         }
                     }
                 ],
@@ -983,9 +983,9 @@ const docTemplateapi = `{
                 }
             }
         },
-        "/user_profile/{id}": {
+        "/user_profile": {
             "get": {
-                "description": "User New",
+                "description": "User Profile All",
                 "consumes": [
                     "application/json"
                 ],
@@ -995,7 +995,43 @@ const docTemplateapi = `{
                 "tags": [
                     "User Credential"
                 ],
-                "summary": "User New",
+                "summary": "User Profile All",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.User"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user_profile/{id}": {
+            "get": {
+                "description": "User Profile",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User Credential"
+                ],
+                "summary": "User Profile",
                 "parameters": [
                     {
                         "type": "string",
@@ -1017,7 +1053,7 @@ const docTemplateapi = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schema.User"
+                            "$ref": "#/definitions/schema.MetaUser"
                         }
                     }
                 }
@@ -1434,6 +1470,9 @@ const docTemplateapi = `{
                 "company_code": {
                     "type": "string"
                 },
+                "cost_center": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -1458,10 +1497,28 @@ const docTemplateapi = `{
                 "expired_time": {
                     "type": "integer"
                 },
+                "fiscal_period": {
+                    "type": "string"
+                },
+                "fiscal_year": {
+                    "type": "string"
+                },
                 "fullname": {
                     "type": "string"
                 },
+                "grade_rate": {
+                    "type": "string"
+                },
+                "harvester_code": {
+                    "type": "string"
+                },
                 "id": {
+                    "type": "string"
+                },
+                "job_pos": {
+                    "type": "string"
+                },
+                "mandt": {
                     "type": "string"
                 },
                 "nickname": {
@@ -1481,6 +1538,9 @@ const docTemplateapi = `{
                 },
                 "status": {
                     "type": "boolean"
+                },
+                "type": {
+                    "type": "string"
                 },
                 "updatedAt": {
                     "type": "string"
@@ -1621,22 +1681,9 @@ const docTemplateapi = `{
         "schema.JsonEmployeeCreate": {
             "type": "object",
             "required": [
-                "address",
-                "application",
                 "code",
-                "company_id",
-                "department",
-                "division",
                 "email",
-                "fullname",
-                "nickname",
-                "nik",
-                "office_number",
                 "password",
-                "phone_number",
-                "picture",
-                "role",
-                "role_application",
                 "username"
             ],
             "properties": {
@@ -1699,6 +1746,82 @@ const docTemplateapi = `{
                     "items": {
                         "type": "string"
                     }
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.JsonEmployeeUpdate": {
+            "type": "object",
+            "required": [
+                "code",
+                "email",
+                "username"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "application": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "code": {
+                    "type": "string"
+                },
+                "company_id": {
+                    "type": "string"
+                },
+                "department": {
+                    "type": "string"
+                },
+                "division": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "email": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "nik": {
+                    "type": "string"
+                },
+                "office_number": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "picture": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "role_application": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "user_id": {
+                    "type": "string"
                 },
                 "username": {
                     "type": "string"
@@ -1877,19 +2000,43 @@ const docTemplateapi = `{
                 "companyCode": {
                     "type": "string"
                 },
+                "costCenter": {
+                    "type": "string"
+                },
                 "department": {
                     "type": "string"
                 },
                 "email": {
                     "type": "string"
                 },
+                "employeeType": {
+                    "type": "string"
+                },
                 "expired": {
                     "type": "integer"
+                },
+                "fiscalPeriod": {
+                    "type": "string"
+                },
+                "fiscalYear": {
+                    "type": "string"
                 },
                 "fullName": {
                     "type": "string"
                 },
+                "gradeRate": {
+                    "type": "string"
+                },
+                "harvesterCode": {
+                    "type": "string"
+                },
                 "id": {
+                    "type": "string"
+                },
+                "jobPos": {
+                    "type": "string"
+                },
+                "mandt": {
                     "type": "string"
                 },
                 "nickName": {
@@ -1905,6 +2052,9 @@ const docTemplateapi = `{
                     "type": "string"
                 },
                 "picture": {
+                    "type": "string"
+                },
+                "userCode": {
                     "type": "string"
                 },
                 "username": {

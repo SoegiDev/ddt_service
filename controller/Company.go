@@ -102,7 +102,7 @@ func CompanyById(context *gin.Context) {
 		Sector:      get.Sector,
 		Domain:      get.Domain,
 		Address:     get.Address}
-	context.JSON(http.StatusOK, gin.H{"data": dtResponse})
+	context.JSON(http.StatusOK, dtResponse)
 }
 
 // @Summary Get All Company
@@ -132,5 +132,5 @@ func CompanyByAll(context *gin.Context) {
 			Domain:      get.Domain,
 			Address:     get.Address})
 	}
-	context.JSON(http.StatusOK, gin.H{"data": allCompany})
+	context.JSON(http.StatusOK, allCompany)
 }

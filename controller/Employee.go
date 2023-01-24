@@ -14,19 +14,19 @@ import (
 // @Description Get Meta User By ID or Code
 // @Accept  json
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
-// @Param id   path string  true  "USER ID OR USER Code"
+// @Param id   path string  true  "EMPLOYEE ID OR EMPLOYEE Code"
 // @Produce  json
-// @Success 200 {object} schema.MetaUser
+// @Success 200 {object} schema.MetaEmployee
 // @Router /employee/{id} [get]
 // @Tags Employee
 func EmployeeMeta(context *gin.Context) { // Get model if exist
 	id := context.Param("ID")
-	user, err := model.UserFindById(id)
+	emp, err := model.EmployeeFindById(id)
 	if err != nil {
-		context.JSON(http.StatusNotFound, gin.H{"error": "User Not Found"})
+		context.JSON(http.StatusNotFound, gin.H{"error": "Employee Not Found"})
 		return
 	}
-	helper.Metauser(context, user.Id)
+	helper.MetaEmployee(context, emp.Id)
 }
 
 // @Summary Employee Add New
@@ -125,7 +125,7 @@ func EmployeeAddNew(context *gin.Context) {
 		CompanyCode:  &input.CompanyId,
 		Department:   input.Department,
 		OfficeNumber: input.OfficeNumber,
-		UserCode:     savedUser.Code}
+		UserCode:     &savedUser.Code}
 
 	saveEmployee, err := emp.Save()
 	if err != nil {
@@ -139,8 +139,8 @@ func EmployeeAddNew(context *gin.Context) {
 // @Description Employee Update Field
 // @Accept  json
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
-// @Param id   path string  true  "USER ID OR USER Code"
-// @Param Register body schema.JsonEmployeeCreate true "Employee Update "
+// @Param id   path string  true  "EMPLOYEE ID OR EMPLOYEE Code"
+// @Param Register body schema.JsonEmployeeUpdate true "Employee Update "
 // @Produce  json
 // @Success 200 {object} schema.MsgResponse
 // @Router /employee/{id}/edit [patch]
@@ -152,12 +152,12 @@ func EmployeeUpdate(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	var input schema.JsonEmployeeCreate
+	var input schema.JsonEmployeeUpdate
+	var userCode string
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	userID := getData.Code
 	employeeId := getData.Id
 	data_roles, err := model.FindRoleMapById(input.Roles)
 	if err != nil {
@@ -179,51 +179,53 @@ func EmployeeUpdate(context *gin.Context) {
 	for _, element := range data_divisions {
 		divisionMap = append(divisionMap, schema.Division{Id: element.Id})
 	}
-	user := model.User{
-		Id:        userID,
-		Code:      input.Code,
-		Roles:     roleMap,
-		Email:     input.Email,
-		Divisions: divisionMap,
-		Username:  input.Username,
-		Password:  input.Password,
-	}
-	savedUser, err := user.Save()
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	data_apps, err := model.AppsFindMapById(input.Application)
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	for _, element := range data_apps {
-		accountId, _ := helper.GenerateAccountId(3)
-		divisionMap = append(divisionMap, schema.Division{Id: element.Id})
-		data_role_app, err := model.RoleAppMapByName(input.RoleApplication)
+	if input.UserId != "" {
+		user := model.User{
+			Id:        input.UserId,
+			Code:      input.Code,
+			Roles:     roleMap,
+			Email:     input.Email,
+			Divisions: divisionMap,
+			Username:  input.Username,
+			Password:  input.Password,
+		}
+		savedUser, err := user.Save()
+		userCode = savedUser.Code
 		if err != nil {
 			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		roleAppMap := []schema.RoleApplication{}
-		for _, element := range data_role_app {
-			roleAppMap = append(roleAppMap, schema.RoleApplication{Id: element.Id})
-		}
-		account := model.Account{
-			Id:               accountId,
-			UserCode:         savedUser.Code,
-			ApplicationId:    element.Id,
-			RoleApplications: roleAppMap,
-		}
-		savedAccount, err := account.Save()
-		fmt.Println(savedAccount)
+		data_apps, err := model.AppsFindMapById(input.Application)
 		if err != nil {
-			context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err.Error()})
+			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
+		for _, element := range data_apps {
+			accountId, _ := helper.GenerateAccountId(3)
+			divisionMap = append(divisionMap, schema.Division{Id: element.Id})
+			data_role_app, err := model.RoleAppMapByName(input.RoleApplication)
+			if err != nil {
+				context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
+			roleAppMap := []schema.RoleApplication{}
+			for _, element := range data_role_app {
+				roleAppMap = append(roleAppMap, schema.RoleApplication{Id: element.Id})
+			}
+			account := model.Account{
+				Id:               accountId,
+				UserCode:         savedUser.Code,
+				ApplicationId:    element.Id,
+				RoleApplications: roleAppMap,
+			}
+			savedAccount, err := account.Save()
+			fmt.Println(savedAccount)
+			if err != nil {
+				context.JSON(http.StatusBadRequest, schema.MsgResponse{Msg: err.Error()})
+				return
+			}
+		}
 	}
-
 	emp := model.Employee{
 		Id:           employeeId,
 		Code:         input.Code,
@@ -238,12 +240,12 @@ func EmployeeUpdate(context *gin.Context) {
 		CompanyCode:  &input.CompanyId,
 		Department:   input.Department,
 		OfficeNumber: input.OfficeNumber,
-		UserCode:     savedUser.Code}
+		UserCode:     &userCode}
 
 	saveEmployee, err := emp.Save()
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
 	fmt.Println(saveEmployee)
-	context.JSON(http.StatusCreated, schema.MsgResponse{Msg: "Employee Created"})
+	context.JSON(http.StatusCreated, schema.MsgResponse{Msg: "Employee Updated"})
 }

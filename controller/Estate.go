@@ -89,7 +89,7 @@ func EstateById(context *gin.Context) {
 		context.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}
-	estResponse := schema.EstateResponse{
+	estateResponse := schema.EstateResponse{
 		Id:          get.Id,
 		Code:        get.Code,
 		Name:        get.Name,
@@ -98,7 +98,7 @@ func EstateById(context *gin.Context) {
 		Divisions:   get.Divisions,
 		IsActive:    get.IsActive,
 		IsDeleted:   get.IsDeleted}
-	context.JSON(http.StatusOK, gin.H{"data": estResponse})
+	context.JSON(http.StatusOK, estateResponse)
 }
 
 // @Summary Get Estate
@@ -127,5 +127,5 @@ func EstateByAll(context *gin.Context) {
 			IsActive:    get.IsActive,
 			IsDeleted:   get.IsDeleted})
 	}
-	context.JSON(http.StatusOK, gin.H{"data": allEstate})
+	context.JSON(http.StatusOK, allEstate)
 }

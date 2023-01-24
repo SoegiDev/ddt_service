@@ -70,21 +70,30 @@ type MetaRoles struct {
 }
 
 type MetaEmployee struct {
-	Id           string
-	Code         string
-	Email        string
-	Username     string
-	Nik          string
-	NickName     string
-	FullName     string
-	Picture      string
-	PhoneNumber  string
-	Address      string
-	CompanyCode  string
-	Department   string
-	OfficeNumber string
-	Expired      int
-	Company      MetaCompany
+	Id            string
+	Code          string
+	Email         string
+	Username      string
+	Nik           string
+	NickName      string
+	FullName      string
+	Picture       string
+	PhoneNumber   string
+	Address       string
+	CompanyCode   *string
+	Department    string
+	OfficeNumber  string
+	Expired       int
+	FiscalYear    string
+	FiscalPeriod  string
+	JobPos        string
+	EmployeeType  string
+	CostCenter    string
+	Mandt         string
+	HarvesterCode string
+	GradeRate     string
+	UserCode      *string
+	Company       MetaCompany
 }
 
 type MetaCompany struct {

@@ -21,13 +21,13 @@ import (
 )
 
 func main() {
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
 	loadDatabase()
 	serveApplication()
 }
 
 func loadDatabase() {
-	database.Connect_PGSQL()
+	database.Connect()
 	database.Database.AutoMigrate(&schema.User{})
 	database.Database.AutoMigrate(&schema.Role{})
 	database.Database.AutoMigrate(&schema.Employee{})
@@ -48,7 +48,6 @@ func loadDatabase() {
 }
 
 func serveApplication() {
-	fmt.Println(os.Getenv("GIN_MODE"))
 	router := gin.New()
 	gin.DisableConsoleColor()
 	// Logging to a file.
