@@ -147,7 +147,7 @@ const docTemplateauth = `{
 // SwaggerInfoauth holds exported Swagger Info so clients can modify it
 var SwaggerInfoauth = &swag.Spec{
 	Version:          "1.0.0",
-	Host:             "localhost:8080",
+	Host:             "user-test2.azurewebsites.net",
 	BasePath:         "/auth",
 	Schemes:          []string{},
 	Title:            "Authentication User Service",

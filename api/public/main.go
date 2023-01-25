@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Host localhost:8080
+// @Host user-test2.azurewebsites.net
 // @title Authentication User Service
 // @version 1.0.0
 // @description User Service OPEN API.

@@ -11,7 +11,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "user-test2.azurewebsites.net",
     "basePath": "/api",
     "paths": {
         "/application": {
@@ -1545,6 +1545,9 @@
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                },
+                "valid_from": {
                     "type": "string"
                 }
             }

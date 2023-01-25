@@ -64,11 +64,12 @@ func serveApplication() {
 	protect.Protected(router)
 	router.GET("/swagger/api/*any", ginSwagger.WrapHandler(swaggerfiles.NewHandler(), ginSwagger.InstanceName("api")))
 
-	port := "8080"
-	if os.Getenv("ASPNETCORE_PORT") != "" { // get enviroment variable that set by ACNM
-		port = os.Getenv("ASPNETCORE_PORT")
+	var port string
+	if os.Getenv("PORT") != "" { // get enviroment variable that set by ACNM
+		port = os.Getenv("PORT")
+	}else{
+		port = "8080"
 	}
-	fmt.Println(os.Getenv("GIN_ENV"))
 	router.Run(fmt.Sprintf(":%v", port))
 	// _ = router.Run()
 }

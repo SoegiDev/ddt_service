@@ -1553,6 +1553,9 @@ const docTemplateapi = `{
                 },
                 "username": {
                     "type": "string"
+                },
+                "valid_from": {
+                    "type": "string"
                 }
             }
         },
@@ -2679,7 +2682,7 @@ const docTemplateapi = `{
 // SwaggerInfoapi holds exported Swagger Info so clients can modify it
 var SwaggerInfoapi = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "user-test2.azurewebsites.net",
 	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "Swagger User Service",

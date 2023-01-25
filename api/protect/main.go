@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Host localhost:8080
+// @Host user-test2.azurewebsites.net
 
 // @Title Swagger User Service
 // @Version 1.0

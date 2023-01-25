@@ -37,7 +37,7 @@ definitions:
     - role
     - username
     type: object
-host: localhost:8080
+host: user-test2.azurewebsites.net
 info:
   contact:
     email: support@swagger.io

@@ -15,7 +15,7 @@
         },
         "version": "1.0.0"
     },
-    "host": "localhost:8080",
+    "host": "user-test2.azurewebsites.net",
     "basePath": "/auth",
     "paths": {
         "/sign_in": {

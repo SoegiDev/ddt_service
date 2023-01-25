@@ -8,7 +8,7 @@ import (
 
 type Gang struct {
 	Id           uint   `json:"id" gorm:"primaryKey;AUTO_INCREMENT;not_null"`
-	Code         string `gorm:"size:20;" json:"code"`
+	Code         string `gorm:"size:20; unique" json:"code"`
 	Name         string `gorm:"size:50;" json:"name"`
 	DeletedAt    gorm.DeletedAt
 	IsDeleted    bool     `gorm:"type:bool;default:true" json:"delete"`

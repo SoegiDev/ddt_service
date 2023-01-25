@@ -18,19 +18,24 @@ func Connect() {
 	var err error
 	var host, username, password, databaseName string
 	if gin.Mode() == gin.DebugMode {
-		err := godotenv.Load()
-		if err != nil {
-			log.Fatal("Error loading .env file Debug")
-		}
+		os.Setenv("DB_HOST", "ppmssvr.database.windows.net")
+		os.Setenv("DB_USER", "ppms_app")
+		os.Setenv("DB_PASSWORD", "ps_12722")
+		os.Setenv("DB_NAME", "userdb")
+		os.Setenv("DB_PORT", "1433")
+		os.Setenv("GIN_ENV", "production")
+		os.Setenv("SERVICE_NAME", "user-service")
+		os.Setenv("TOKEN_TTL", "36000")
+		os.Setenv("JWT_PRIVATE_KEY", "useragri_2023")
 		host = os.Getenv("DB_HOST")
 		username = os.Getenv("DB_USER")
 		password = os.Getenv("DB_PASSWORD")
 		databaseName = os.Getenv("DB_NAME")
 	} else {
-		os.Setenv("DB_HOST", "10.126.20.217")
-		os.Setenv("DB_USER", "sapra")
-		os.Setenv("DB_PASSWORD", "SAP123")
-		os.Setenv("DB_NAME", "USER_AGRI")
+		os.Setenv("DB_HOST", "ppmssvr.database.windows.net")
+		os.Setenv("DB_USER", "ppms_app")
+		os.Setenv("DB_PASSWORD", "ps_12722")
+		os.Setenv("DB_NAME", "userdb")
 		os.Setenv("DB_PORT", "1433")
 		os.Setenv("GIN_ENV", "production")
 		os.Setenv("SERVICE_NAME", "user-service")
@@ -42,7 +47,7 @@ func Connect() {
 		databaseName = os.Getenv("DB_NAME")
 	}
 	//dsn: = "sqlserver://<user>:<password>@<server_host>?database=<database_name>"
-	dsn := fmt.Sprintf("sqlserver://%s:%s@%s?database=%s&encrypt=disable&connection+timeout=60", username, password, host, databaseName)
+	dsn := fmt.Sprintf("sqlserver://%s:%s@%s?database=%s&connection+timeout=60&Trusted_Connection=True&Encrypt=True", username, password, host, databaseName)
 	fmt.Println(dsn)
 	Database, err = gorm.Open(sqlserver.Open(dsn), &gorm.Config{})
 
